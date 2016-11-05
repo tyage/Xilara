@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>TODO app</title>
+</head>
+<body>
+  <h1>TODOs</h1>
+
+  <form action="/" method="POST">
+    <input type="text" name="todo" value="">
+    <input type="submit" value="Add">
+  </form>
+
+  <ul>
+    <% todos.forEach((todo) => { %>
+      <li><%- todo %></li>
+    <% }); %>
+  </ul>
+</body>
+</html>
