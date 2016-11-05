@@ -1,0 +1,22 @@
+{
+  "name": "xss-auditor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "collect.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tyage/xss-auditor.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tyage/xss-auditor/issues"
+  },
+  "homepage": "https://github.com/tyage/xss-auditor#readme",
+  "dependencies": {
+    "http-proxy": "^1.15.2"
+  }
+}
