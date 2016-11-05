@@ -9,10 +9,10 @@ const tableName = 'responses';
 const db = new sqlite3.Database('collector.db');
 
 
-db.serialize(function () {
+db.serialize(() => {
   db.get('select count(*) from sqlite_master where type="table" and name=$name', {
     $name: tableName
-  }, function (err, res) {
+  }, (err, res) => {
     if (0 == res['count(*)']) {
       db.exec(`
         create table ${tableName} (url text, url_hash string, html_hash string, created_at datetime);
@@ -22,6 +22,12 @@ db.serialize(function () {
     }
   });
 });
+
+const saveResponse = (url, html) => {
+  db.get(`select from ${tableName} where url_hash = ? and html_hash = ?`, [ url_hash, html_hash ], (err, res) => {
+    db.prepare(`insert into ${tableName} `)
+  });
+};
 
 http.createServer((req, res) => {
   console.log(`Receiving reverse proxy request for: ${req.url}`);
