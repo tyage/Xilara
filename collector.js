@@ -25,30 +25,31 @@ db.serialize(() => {
     }
 
     db.exec(`
-      create table ${tableName} (url text, url_hash string, html_hash string, created_at datetime);
-      create index url_index on ${tableName}(url_hash);
+      create table ${tableName} (request text, request_hash string, html_hash string, created_at datetime);
+      create index request_index on ${tableName}(request_hash);
       create index html_index on ${tableName}(html_hash);
     `);
   });
 });
 
-const saveResponse = (url, html) => {
-  const urlHash = sha256Hex(url);
+const saveResponse = (method, url, html) => {
+  const request = [method, url].join(' ');
+  const requestHash = sha256Hex(request);
   const htmlHash = sha256Hex(html);
 
   // save to db
-  db.get(`select count(*) from ${tableName} where url_hash = $url_hash and html_hash = $html_hash`, {
-    $url_hash: urlHash,
+  db.get(`select count(*) from ${tableName} where request_hash = $request_hash and html_hash = $html_hash`, {
+    $request_hash: requestHash,
     $html_hash: htmlHash
   }, (err, res) => {
     if (0 < res['count(*)']) {
       return;
     }
 
-    const stmt = db.prepare(`insert into ${tableName} (url, url_hash, html_hash, created_at) values ($url, $url_hash, $html_hash, now())`);
+    const stmt = db.prepare(`insert into ${tableName} (request, request_hash, html_hash, created_at) values ($request, $request_hash, $html_hash, datetime('now'))`);
     stmt.run({
-      $url: url,
-      $url_hash: urlHash,
+      $request: request,
+      $request_hash: requestHash,
       $html_hash: htmlHash
     });
   });
@@ -59,14 +60,14 @@ const saveResponse = (url, html) => {
 http.createServer((req, res) => {
   console.log(`Receiving reverse proxy request for: ${req.url}`);
 
-  let data = '';
-  proxy.on('proxyRes', (proxyRes) => {
+  res.on('pipe', (proxyRes) => {
+    let data = '';
     proxyRes.on('data', (chunk) => {
       data += chunk;
     });
-  });
-  proxy.on('end', () => {
-    saveResponse(req.url, data);
+    proxyRes.on('end', () => {
+      saveResponse(req.method, req.url, data);
+    });
   });
 
   proxy.web(req, res, { target: `${webServer}${req.url}` });
