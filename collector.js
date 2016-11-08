@@ -56,7 +56,7 @@ const saveResponse = (method, url, html) => {
   });
 
   // save to file
-  fs.writeFile(`${fileDir}/${requestHash}`, html, { flag: 'wx' }, err => {
+  fs.writeFile(`${fileDir}/${htmlHash}`, html, { flag: 'wx' }, err => {
     // file already exists if error happens
   });
 };
