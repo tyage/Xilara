@@ -9,6 +9,7 @@ const proxy = httpProxy.createServer();
 
 const tableName = 'responses';
 const db = new sqlite3.Database('collector.db');
+const fileDir = 'files'
 
 const sha256Hex = (data) => {
   const hash = crypto.createHash('sha256');
@@ -55,6 +56,9 @@ const saveResponse = (method, url, html) => {
   });
 
   // save to file
+  fs.writeFile(`${fileDir}/${requestHash}`, html, { flag: 'wx' }, err => {
+    // file already exists if error happens
+  });
 };
 
 http.createServer((req, res) => {
