@@ -70,6 +70,11 @@ http.createServer((req, res) => {
       data += chunk;
     });
     proxyRes.on('end', () => {
+      const contentType = proxyRes.headers['content-type'];
+      if (contentType === undefined || !(contentType.include('text/html'))) {
+        return;
+      }
+
       saveResponse(req.method, req.url, data);
     });
   });
