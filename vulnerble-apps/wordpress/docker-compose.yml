@@ -3,8 +3,7 @@ version: '2'
 services:
 
   wordpress:
-    build: ./
-    container_name: wordpress
+    image: wordpress
     ports:
       - 8080:80
     environment:
@@ -16,5 +15,7 @@ services:
 
   mysql:
     image: mariadb
+    volumes:
+      - "./wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
     environment:
       MYSQL_ROOT_PASSWORD: password
