@@ -3,7 +3,8 @@ version: '2'
 services:
 
   wordpress:
-    image: wordpress
+    build: ./
+    container_name: wordpress
     ports:
       - 8080:80
     environment:

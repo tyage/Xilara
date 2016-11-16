@@ -6,6 +6,4 @@ RUN set -x && \
     apt install -y mariadb-server && \
     touch /var/log/access.log
 
-EXPOSE 80
-
-CMD /usr/local/bin/docker-entrypoint.sh
+RUN /usr/local/bin/docker-entrypoint.sh
