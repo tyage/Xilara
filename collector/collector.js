@@ -4,7 +4,7 @@ const sqlite3 = require('sqlite3');
 const crypto = require('crypto');
 const fs = require('fs');
 
-const webServer = `http://localhost:3000`
+const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();
 
 const tableName = 'responses';
@@ -71,7 +71,7 @@ http.createServer((req, res) => {
     });
     proxyRes.on('end', () => {
       const contentType = proxyRes.headers['content-type'];
-      if (contentType === undefined || !(contentType.include('text/html'))) {
+      if (contentType === undefined || !(contentType.includes('text/html'))) {
         return;
       }
 
