@@ -3,6 +3,7 @@ const httpProxy = require('http-proxy');
 const sqlite3 = require('sqlite3');
 const crypto = require('crypto');
 const fs = require('fs');
+const zlib = require('zlib');
 
 const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();
@@ -65,14 +66,20 @@ http.createServer((req, res) => {
   console.log(`Receiving reverse proxy request for: ${req.url}`);
 
   res.on('pipe', (proxyRes) => {
-    let data = '';
+    console.log(proxyRes.headers)
+    const contentType = proxyRes.headers['content-type'];
+    if (contentType === undefined || !(contentType.includes('text/html'))) {
+      return;
+    }
+
+    let data = Buffer.alloc(0);
     proxyRes.on('data', (chunk) => {
-      data += chunk;
+      data = Buffer.concat([data, chunk]);
     });
     proxyRes.on('end', () => {
-      const contentType = proxyRes.headers['content-type'];
-      if (contentType === undefined || !(contentType.includes('text/html'))) {
-        return;
+      const isGzipped = /gzip/.test(proxyRes.headers['content-encoding']);
+      if (isGzipped) {
+        data = zlib.gunzipSync(data);
       }
 
       saveResponse(req.method, req.url, data);
