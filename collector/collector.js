@@ -79,5 +79,5 @@ http.createServer((req, res) => {
     });
   });
 
-  proxy.web(req, res, { target: `${webServer}${req.url}` });
+  proxy.web(req, res, { target: webServer });
 }).listen(8000);
