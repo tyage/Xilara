@@ -66,7 +66,6 @@ http.createServer((req, res) => {
   console.log(`Receiving reverse proxy request for: ${req.url}`);
 
   res.on('pipe', (proxyRes) => {
-    console.log(proxyRes.headers)
     const contentType = proxyRes.headers['content-type'];
     if (contentType === undefined || !(contentType.includes('text/html'))) {
       return;

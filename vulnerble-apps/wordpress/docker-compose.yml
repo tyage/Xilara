@@ -4,6 +4,8 @@ services:
 
   wordpress:
     image: wordpress
+    volumes:
+      - "./count-per-day:/var/www/html/wp-content/plugins/count-per-day"
     environment:
       WORDPRESS_DB_PASSWORD: password
       WORDPRESS_DB_HOST: mysql:3306
