@@ -1,17 +1,15 @@
 <?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
 /**
  * Time Slots Calculation
  */
 global $wpdb;
-$ServiceId =  intval( $_GET['service'] );
+$ServiceId =  $_GET['service'];
 $ServiceTableName = $wpdb->prefix."ap_services";
-$ServiceData = $wpdb->get_row($wpdb->prepare("SELECT `name`, `duration` FROM `$ServiceTableName` WHERE `id` = %s",$ServiceId), OBJECT);
+$FindService_sql = "SELECT `name`, `duration` FROM `$ServiceTableName` WHERE `id` = '$ServiceId'";
+$ServiceData = $wpdb->get_row($FindService_sql, OBJECT);
 $ServiceDuration = $ServiceData->duration;
 
-$AppointmentDate = date("Y-m-d", strtotime( sanitize_text_field( $_GET['bookdate'] ) ) ); //assign selected date by user
+$AppointmentDate = date("Y-m-d", strtotime($_GET['bookdate'])); //assign selected date by user
 $AllCalendarSettings = unserialize(get_option('apcal_calendar_settings'));
 $Biz_start_time = $AllCalendarSettings['day_start_time'];
 $Biz_end_time = $AllCalendarSettings['day_end_time'];
@@ -36,7 +34,9 @@ $TodaysAllDayEvent = 0;
 
 $TimeOffTableName = $wpdb->prefix."ap_events";
 //if today is any all-day time-off then show msg no time available today
-$TodaysAllDayEventData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `repeat`, `start_date`, `end_date` FROM `$TimeOffTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = %s",'1'), OBJECT);
+$TodaysAllDayFetchEvents_sql = "SELECT `start_time`, `end_time`, `repeat`, `start_date`, `end_date` FROM `$TimeOffTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '1'";
+
+$TodaysAllDayEventData = $wpdb->get_results($TodaysAllDayFetchEvents_sql, OBJECT);
 
 //check if appointment date in any recurring time-off date
 foreach($TodaysAllDayEventData as $SingleTimeOff) {
@@ -125,9 +125,9 @@ if($TodaysAllDayEvent) {
 
     //Fetch All today's appointments and calculate disable slots
     $AppointmentTableName = $wpdb->prefix."ap_appointments";
+    $AllAppointments_sql = "SELECT `start_time`, `end_time` FROM `$AppointmentTableName` WHERE `date`= '$AppointmentDate'";
 
-    $AllAppointmentsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time` FROM `$AppointmentTableName` WHERE `date`= %s",$AppointmentDate), OBJECT);
-	
+    $AllAppointmentsData = $wpdb->get_results($AllAppointments_sql, OBJECT);
     if($AllAppointmentsData) {
         foreach($AllAppointmentsData as $Appointment) {
 
@@ -181,8 +181,8 @@ if($TodaysAllDayEvent) {
 
         //Fetch All today's timeoff and calculate disable slots
         $EventTableName = $wpdb->prefix."ap_events";
-        $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` != 'W' AND `repeat` != 'BW' AND `repeat` != %s",'M'), OBJECT);
-		
+        $AllEventsSQL = "SELECT `start_time`, `end_time` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` != 'W' AND `repeat` != 'BW' AND `repeat` != 'M'";
+        $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
         if($AllEventsData) {
             foreach($AllEventsData as $Event) {
                 //calculate previous time (event start time to back service-duration-5)
@@ -209,9 +209,9 @@ if($TodaysAllDayEvent) {
 
 
         //Fetch All 'WEEKLY' time-off and calculate disable slots
-        $EventTableName = $wpdb->prefix . "ap_events";
-        $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'W'), OBJECT);
-		
+        $EventTableName = $wpdb->prefix."ap_events";
+        $AllEventsSQL = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'W'";
+        $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
         if($AllEventsData) {
             foreach($AllEventsData as $Event) {
                 //calculate all weekly dates between recurring_start_date - recurring_end_date
@@ -251,8 +251,8 @@ if($TodaysAllDayEvent) {
 
         //Fetch All 'BI-WEEKLY' time-off and calculate disable slots
         $EventTableName = $wpdb->prefix."ap_events";
-        $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'BW'), OBJECT);
-		
+        $AllEventsSQL = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'BW'";
+        $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
         if($AllEventsData) {
             foreach($AllEventsData as $Event) {
                 //calculate all weekly dates between recurring_start_date - recurring_end_date
@@ -292,8 +292,8 @@ if($TodaysAllDayEvent) {
 
         //Fetch All 'MONTHLY' time-off and calculate disable slots
         $EventTableName = $wpdb->prefix."ap_events";
-        $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'M'), OBJECT);
-		
+        $AllEventts_sql = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'M'";
+        $AllEventsData = $wpdb->get_results($AllEventts_sql, OBJECT);
         if($AllEventsData) {
             foreach($AllEventsData as $Event) {
                 //calculate all weekly dates between recurring_start_date - recurring_end_date

@@ -1,25 +1,17 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
 <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;"><h3><?php _e("Services", "appointzilla"); ?></h3></div>
 <!-- manage service form -->	
 <div class="bs-docs-example tooltip-demo">
     <?php global $wpdb;
     if(isset($_GET['sid'])) {
-        $sid = intval( $_GET['sid'] );
+        $sid = $_GET['sid'];
         $ServiceTable = $wpdb->prefix . "ap_services";
-        $ServiceDetails = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `id` =%s",$sid));
+        $ServiceDetails ="SELECT * FROM `$ServiceTable` WHERE `id` ='$sid'";
+        $ServiceDetails = $wpdb->get_row($ServiceDetails);
         $ServiceDetails->category_id;
     } else {
         $ServiceDetails = NULL;
     } ?>
     <form action="" method="post" name="manageservice">
-		<?php wp_nonce_field('appointment_create_service_nonce_check','appointment_create_service_nonce_check'); ?>
         <table width="100%" class="table" >
             <tr>
                 <th width="18%" scope="row"><?php _e("Name", "appointzilla"); ?></th>
@@ -72,7 +64,7 @@ if ( !current_user_can( 'manage_options' ) )  {
                         <option value="0"><?php _e("Select Category", "appointzilla"); ?></option>
                         <?php //get all category list
                             $table_name = $wpdb->prefix . "ap_service_category";
-                            $service_category = $wpdb->get_results($wpdb->prepare("select * from $table_name where id > %d",null));
+                            $service_category = $wpdb->get_results("select * from $table_name");
                             foreach($service_category as $gruopname) { ?>
                                 <option value="<?php echo $gruopname->id; ?>"
                                     <?php if($ServiceDetails) { if($ServiceDetails->category_id == $gruopname->id) echo "selected";  ?><?php if(isset($_GET['gid']) == $gruopname->id) echo "selected"; } ?> >
@@ -98,24 +90,18 @@ if ( !current_user_can( 'manage_options' ) )  {
     </form>
 </div>
 
-<?php 
-//inserting a service
+<?php //inserting a service
 if(isset($_POST['saveservice'])) {
-	
-	if( !wp_verify_nonce($_POST['appointment_create_service_nonce_check'],'appointment_create_service_nonce_check') ){
-			echo '<script>alert("Sorry, your nonce did not verify.");</script>';
-			return false;
-		}
-		
-    $servicename = sanitize_text_field( $_POST['name'] );
-    $desc = sanitize_text_field( $_POST['desc'] );
-    $Duration = intval( $_POST['Duration'] );
-    $durationunit = sanitize_text_field( $_POST['durationunit'] );
-    $cost = intval( $_POST['cost'] );
-    $availability = sanitize_text_field( $_POST['availability'] );
-    $category = intval( $_POST['category'] );
+    $servicename = $_POST['name'];
+    $desc = $_POST['desc'];
+    $Duration = $_POST['Duration'];
+    $durationunit = $_POST['durationunit'];
+    $cost = $_POST['cost'];
+    $availability = $_POST['availability'];
+    $category = $_POST['category'];
     $ServiceTable = $wpdb->prefix . "ap_services";
-    if($wpdb->query($wpdb->prepare("INSERT INTO `$ServiceTable` ( `name` , `desc` , `duration` , `unit` , `cost` , `availability`, `category_id` ) VALUES ('$servicename', '$desc', '$Duration', '$durationunit', '$cost', '$availability', %s);",$category))) {
+    $insert_service = "INSERT INTO `$ServiceTable` ( `name` , `desc` , `duration` , `unit` , `cost` , `availability`, `category_id` ) VALUES ('$servicename', '$desc', '$Duration', '$durationunit', '$cost', '$availability', '$category');";
+    if($wpdb->query($insert_service)) {
         echo "<script>alert('". __('New service successfully created.', 'appointzilla') ."');</script>";
     }
     echo "<script>location.href='?page=service';</script>";
@@ -123,22 +109,17 @@ if(isset($_POST['saveservice'])) {
 
 //update a service
 if(isset($_POST['updateservice'])) {
-	
-	if( !wp_verify_nonce($_POST['appointment_create_service_nonce_check'],'appointment_create_service_nonce_check') ){
-			echo '<script>alert("Sorry, your nonce did not verify.");</script>';
-			return false;
-		}
-		
-    $sid = intval( $_GET['sid'] );
-    $ServiceName = sanitize_text_field( $_POST['name'] );
-    $desc = sanitize_text_field( $_POST['desc'] );
-    $Duration = intval( $_POST['Duration'] );
-    $durationunit = sanitize_text_field( $_POST['durationunit'] );
-    $cost = intval( $_POST['cost'] );
-    $availability = sanitize_text_field( $_POST['availability'] );
-    $category = intval( $_POST['category'] );
+    $sid = $_GET['sid'];
+    $ServiceName = $_POST['name'];
+    $desc = $_POST['desc'];
+    $Duration = $_POST['Duration'];
+    $durationunit = $_POST['durationunit'];
+    $cost = $_POST['cost'];
+    $availability = $_POST['availability'];
+    $category = $_POST['category'];
     $ServiceTable = $wpdb->prefix . "ap_services";
-    $wpdb->query($wpdb->prepare("UPDATE `$ServiceTable` SET `name` = '$ServiceName', `desc` = '$desc', `duration` = '$Duration', `unit` = '$durationunit', `cost` = '$cost', `availability` = '$availability', `category_id` = '$category' WHERE `id` = %s;",$sid));
+    $update_service ="UPDATE `$ServiceTable` SET `name` = '$ServiceName', `desc` = '$desc', `duration` = '$Duration', `unit` = '$durationunit', `cost` = '$cost', `availability` = '$availability', `category_id` = '$category' WHERE `id` = '$sid';";
+    $wpdb->query($update_service);
     echo "<script>alert('". __('Service successfully updated.', 'appointzilla') ."');</script>";
     echo "<script>location.href='?page=service';</script>";
 } ?>
@@ -148,6 +129,8 @@ if(isset($_POST['updateservice'])) {
     input.inputheight { height:30px; }
 </style>
 
+<!--validation js lib-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
 <script type="text/javascript">
     jQuery(document).ready(function () {
         jQuery('#saveservice').click(function() {

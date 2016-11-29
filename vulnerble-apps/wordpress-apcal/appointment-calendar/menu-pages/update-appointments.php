@@ -1,12 +1,3 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
-
 <style type='text/css'>
 .error{ 
     color:#FF0000;
@@ -15,17 +6,14 @@ if ( !current_user_can( 'manage_options' ) )  {
 <?php 
 global $wpdb;
 if(isset($_GET['updateid'])) {
-    $AppointmentId = intval( $_GET['updateid'] );
+    $AppointmentId = $_GET['updateid'];
     $AppointmentTable = $wpdb->prefix . "ap_appointments";
-    $Appointment = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `id` =%s",$AppointmentId));
+    $Appointment = $wpdb->get_row("SELECT * FROM `$AppointmentTable` WHERE `id` ='$AppointmentId'");
 ?>
 <div class="bs-docs-example tooltip-demo" style="background-color: #FFFFFF;">
 <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;"><h3><?php _e("Update Appointment", "appointzilla"); ?></h3></div>
     <!---update appointment form--->
     <form action="" method="post" name="manageservice">
-		
-		<?php wp_nonce_field('appointment_update_nonce_check','appointment_update_nonce_check'); ?>
-		
         <input name="app_key" type="hidden" id="app_key"  value="<?php echo $Appointment->appointment_key; ?>" />
         <table width="100%" class="table" >
             <tr>
@@ -46,7 +34,7 @@ if(isset($_GET['updateid'])) {
                     <?php //get all service list
                         global $wpdb;
                         $ServiceTable = $wpdb->prefix . "ap_services";
-                        $service_list = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$ServiceTable` where id > %d",null));
+                        $service_list = $wpdb->get_results("SELECT * FROM `$ServiceTable`");
                         foreach($service_list as $service) { ?>
                         <option value="<?php echo $service->id; ?>" <?php if($Appointment->service_id == $service->id) echo "selected"; ?>><?php echo $service->name; ?></option>
                     <?php } ?>
@@ -117,6 +105,8 @@ if(isset($_GET['updateid'])) {
     </form>
 <?php } ?>
 
+<!--validation js lib-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
 <script type="text/javascript">
 jQuery(document).ready(function () {
 
@@ -217,32 +207,28 @@ jQuery(document).ready(function () {
 });
 </script>
 
+<!--time-picker js -->
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-1.7.2.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui-timepicker-addon.js', __FILE__); ?>" type="text/javascript"></script>
 <?php 
 
 if(isset($_POST['updateppointments'])) {
-	
-	if( !wp_verify_nonce($_POST['appointment_update_nonce_check'],'appointment_update_nonce_check') ){
-			echo '<script>alert("Sorry, your nonce did not verify.");</script>';
-			return false;
-		}
-		
     global $wpdb;
-    $UpdateAppId = intval( $_POST['updateppointments'] );
-    $ClientName = sanitize_text_field( $_POST['appname'] );
-    $ClientEmail = sanitize_email( $_POST['appemail'] );
-    $ClientPhone = intval( $_POST['appphone'] );
-    $ClientNote = sanitize_text_field( $_POST['app_desc'] );
-    $ServiceId = intval( $_POST['serviceid'] );
-    $StartTime = sanitize_text_field( $_POST['start_time'] );
-    $EndTime = sanitize_text_field( $_POST['end_time'] );
-    $AppointmentKey = sanitize_text_field( $_POST['app_key'] );
-    $AppointmentDate = date("Y-m-d", strtotime(sanitize_text_field( $_POST['start_date'] ) ) );
-    $Status =  sanitize_text_field( $_POST['app_status'] );
-    $AppointmentBy = sanitize_text_field( $_POST['app_appointment_by'] );
-	
+    $UpdateAppId = $_POST['updateppointments'];
+    $ClientName = $_POST['appname'];
+    $ClientEmail = $_POST['appemail'];
+    $ClientPhone = $_POST['appphone'];
+    $ClientNote = $_POST['app_desc'];
+    $ServiceId = $_POST['serviceid'];
+    $StartTime = $_POST['start_time'];
+    $EndTime = $_POST['end_time'];
+    $AppointmentKey = $_POST['app_key'];
+    $AppointmentDate = date("Y-m-d", strtotime($_POST['start_date']));
+    $Status =  $_POST['app_status'];
+    $AppointmentBy = $_POST['app_appointment_by'];
     $AppointmentsTable = $wpdb->prefix . "ap_appointments";
-
-    if($wpdb->query($wpdb->prepare("UPDATE `$AppointmentsTable` SET `name` = '$ClientName',
+    $UpdateAppointment ="UPDATE `$AppointmentsTable` SET `name` = '$ClientName',
         `email` = '$ClientEmail',
         `service_id` = '$ServiceId',
         `phone` = '$ClientPhone',
@@ -251,7 +237,9 @@ if(isset($_POST['updateppointments'])) {
         `date` = '$AppointmentDate',
         `note` = '$ClientNote',
         `status` = '$Status',
-        `appointment_by` = '$AppointmentBy' WHERE `id` =%s;",$UpdateAppId))) {
+        `appointment_by` = '$AppointmentBy' WHERE `id` ='$UpdateAppId';";
+
+    if($wpdb->query($UpdateAppointment)) {
         //send notification to client if appointment approved or cancelled
         if($Status == 'approved' || $Status == 'cancelled' ) {
             //$GetAppKey = $wpdb->get_row("SELECT * FROM `$AppointmentsTable` WHERE `id` = '$UpdateAppId' ", OBJECT);
@@ -260,7 +248,7 @@ if(isset($_POST['updateppointments'])) {
             $BlogName = get_bloginfo();
 
             $ServiceTable = $wpdb->prefix."ap_services";
-            $ServiceData = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `id` = %s",$ServiceId), OBJECT);
+            $ServiceData = $wpdb->get_row("SELECT * FROM `$ServiceTable` WHERE `id` = '$ServiceId'", OBJECT);
             $ServiceName = $ServiceData->name;
 
             //check notification is enabled & notification type
@@ -355,7 +343,7 @@ if(isset($_POST['updateppointments'])) {
 <?php if(isset($_GET['viewid'])) {
     $AppId = $_GET['viewid'];
     $AppointmentTable = $wpdb->prefix . "ap_appointments";
-    $Appointment = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `id` = %s",$AppId));
+    $Appointment = $wpdb->get_row("SELECT * FROM `$AppointmentTable` WHERE `id` = '$AppId'");
 ?>
 <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;"><h3><?php _e("View Appointment", "appointzilla"); ?>: <?php echo ucwords($Appointment->name); ?></h3></div>
     <table width="100%" class="table" >
@@ -376,7 +364,7 @@ if(isset($_POST['updateppointments'])) {
                 <em>
                 <?php
                 $ServiceTable = $wpdb->prefix . "ap_services";
-                $Service = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `id` =%s",$Appointment->service_id));
+                $Service = $wpdb->get_row("SELECT * FROM `$ServiceTable` WHERE `id` ='$Appointment->service_id'");
                 echo ucwords($Service->name);
                 ?>
                 </em>
@@ -429,3 +417,7 @@ if(isset($_POST['updateppointments'])) {
         </tr>
     </table>
 <?php }  ?>
+<!--time-picker js -->
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-1.7.2.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui-timepicker-addon.js', __FILE__); ?>" type="text/javascript"></script>

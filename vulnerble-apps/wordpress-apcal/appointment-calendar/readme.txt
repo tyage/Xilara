@@ -3,8 +3,8 @@ Contributors: a.ankit, farazfrank, harimaliya
 Donate Link: http://appointzilla.com/
 Tags: appointment, appointment calendar, appointment booking, booking calendar, scheduling, online scheduling, appointment scheduling, booking form, calendar, schedule, online booking calendar, appointment plugin, online reservation, Reservation, event, event calendar, availability, availability calendar
 Requires at least: 3.3+
-Tested up to: 4.6.1
-Stable tag: 2.7.6.2
+Tested up to: 4.0.1
+Stable tag: 2.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -94,23 +94,6 @@ Have doubts and queries:  [Appointment Calendar Plugin](http://appointzilla.com/
 
 
 == Changelog ==
-
-= 2.7.6.2 =
-1. frontend user can make appointments ( mozilla browsers compability ).
-
-= 2.7.6.1 =
-1. readme file updated.
-
-= 2.7.6 =
-1. safely uninstall security functionality 
-2. styles and scripts calls directly enqueue with wp_enqueue_scripts function
-3. sanitize all settings of forms
-4. adding $wpdb->prepare function for all queries.
-5. remove unuse js files containg plugin folders and call wordpress jqueries.
-
-
-= 2.7.5 =
-1. Added wp nonce filed in form in front end and back end.
 
 = 2.7.4 =
 1. Removed the character which appeared before every month

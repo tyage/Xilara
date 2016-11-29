@@ -1,11 +1,3 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
 <div class="bs-docs-example tooltip-demo" style="padding-right: 20px;">
     <br>
         <a href="http://www.appointzilla.com" target="_blank" class="btn btn-large btn-block btn-primary"><strong>Get Appointment Calendar Premium Plugin</strong></a>

@@ -1,12 +1,4 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-
-global $wpdb; ?>
+<?php global $wpdb; ?>
 <div class="bs-docs-example tooltip-demo" style="background-color: #FFFFFF;">
 <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;">
   <h3><?php _e("Manage Appointments", "appointzilla"); ?></h3>
@@ -31,15 +23,13 @@ global $wpdb; ?>
 </form>
 <?php
 require_once('ps_pagination.php');
-
 $conn = mysql_connect(DB_HOST,DB_USER,DB_PASSWORD);
 if(!$conn) die("Failed to connect to database!");
 $status = mysql_select_db(DB_NAME, $conn);
 if(!$status) die("Failed to select database!");
-
 $AppointmentsTable = $wpdb->prefix . "ap_appointments";
 if(isset($_POST['filter'])) {
-    $FilterData = sanitize_text_field( $_POST['filtername'] );
+    $FilterData = $_POST['filtername'];
     if($FilterData == 'today') {
         $FilterAppointments = date('Y-m-d');
         $sql = "SELECT * FROM `$AppointmentsTable` WHERE `date` = '$FilterAppointments'";
@@ -97,7 +87,7 @@ if(isset($_POST['filter'])) {
                     <?php
                     $AppId = $Appointment['service_id'];
                     $ServiceTable = $wpdb->prefix . "ap_services";
-                    $Service = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `id` = %s",$AppId));
+                    $Service = $wpdb->get_row("SELECT * FROM `$ServiceTable` WHERE `id` = '$AppId'");
                     if(count($Service)) {
                         echo ucfirst($Service->name);
                     }
@@ -145,6 +135,9 @@ if(isset($_POST['filter'])) {
 }
 </style>
 
+<!--validation js lib-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
+
 <script type="text/javascript">
 jQuery(document).ready(function (){
     jQuery('#checkbox').click(function(){
@@ -160,11 +153,11 @@ jQuery(document).ready(function (){
 <?php
 //delete appointment
 if(isset($_GET['delete'])) {
-    $DeleteId = intval( $_GET['delete'] );
+    $DeleteId = $_GET['delete'];
     if($DeleteId){
         $AppointmentTable = $wpdb->prefix . "ap_appointments";
-        $wpdb->query($wpdb->prepare("DELETE FROM `$AppointmentTable` WHERE `id` = %s;",$DeleteId));
-		
+        $DeleteAppointmentSQL = "DELETE FROM `$AppointmentTable` WHERE `id` = '$DeleteId';";
+        $wpdb->query($DeleteAppointmentSQL);
         echo "<script>alert('". __('Appointment deleted.', 'appointzilla') ."')</script>";
         echo "<script>location.href='?page=manage-appointments';</script>";
     }
@@ -175,8 +168,9 @@ if(isset($_POST['deleteall'])) {
     if(isset($_POST['checkbox'])) {
         $AppointmentTable = $wpdb->prefix . "ap_appointments";
         for($i=0; $i<=count($_POST['checkbox'])-1; $i++) {
-            $DeleteId = intval( $_POST['checkbox'][$i] );
-            $wpdb->query($wpdb->prepare("DELETE FROM `$AppointmentTable` WHERE `id` = %s;",$DeleteId));
+            $DeleteId = $_POST['checkbox'][$i];
+            $DeleteAppointmentSQL = "DELETE FROM `$AppointmentTable` WHERE `id` = '$DeleteId';";
+            $wpdb->query($DeleteAppointmentSQL);
         }
         echo "<script>alert('". __('Selected appointments successfully deleted.', 'appointzilla') ."')</script>";
         echo "<script>location.href='?page=manage-appointments';</script>";

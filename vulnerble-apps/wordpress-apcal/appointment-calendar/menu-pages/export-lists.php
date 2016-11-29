@@ -1,60 +1,49 @@
 <?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-
 if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate"]) && isset($_POST['FileName'])) {
-	
-    $Range = sanitize_text_field( $_POST['Range'] );
-    $StartDate = date("Y-m-d", strtotime( sanitize_text_field( $_POST['StartDate'] ) ) );
-    $EndDate = date("Y-m-d", strtotime( sanitize_text_field( $_POST['EndDate'] ) ) );
+    $Range = $_POST['Range'];
+    $StartDate = date("Y-m-d", strtotime($_POST['StartDate']));
+    $EndDate = date("Y-m-d", strtotime($_POST['EndDate']));
 
     global $wpdb;
     $AppointmentTable = $wpdb->prefix . "ap_appointments";
-	
     //today list
     if($Range == "T") {
         $TodayDate = date("Y-m-d");
-		$ListQuery = $wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `date` = %s",$TodayDate);
+        $ListQuery = "SELECT * FROM `$AppointmentTable` WHERE `date` = '$TodayDate'";
     }
 
     //this week list
     if($Range == "W") {
-		$ListQuery = $wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND %s",$EndDate);
+        $ListQuery = "SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND '$EndDate'";
     }
 
     //this month list
     if($Range == "M") {
-		$ListQuery = $wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND %s",$EndDate);
+        $ListQuery = "SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND '$EndDate'";
     }
 
     //custom range list
     if($Range == "CR") {
-		$ListQuery = $wpdb->prepare("SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND %s",$EndDate);
+        $ListQuery = "SELECT * FROM `$AppointmentTable` WHERE `date` BETWEEN '$StartDate' AND '$EndDate'";
     }
 
     //all appointment list
     if($Range == "A") {
-		$ListQuery = $wpdb->prepare("SELECT * FROM `$AppointmentTable` where id > %d", null);
+        $ListQuery = "SELECT * FROM `$AppointmentTable`";
     }
 
-    $FileName = sanitize_text_field( $_POST['FileName'] );
+    $FileName = $_POST['FileName'];
 
     $QueryResults = $wpdb->get_results($ListQuery);
-	
     if(count($QueryResults)) {
-		
         $DirName = "appointments-lists";
-        $DirPath = appointzilladir . $DirName;
+        $DirPath = "../wp-content/".$DirName;
 
         if(!file_exists($DirPath)) {
             mkdir($DirPath, 0777);
         }
 
-        $FileName =  $DirPath . "/" . $FileName;
+        $FileName =  $DirPath."/".$FileName;
         $df = fopen($FileName , "x+");
 
         //write data into file
@@ -78,15 +67,14 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
         fclose($df);
         
     } else {
-		
         $DirName = "appointments-lists";
-        $DirPath = appointzilladir . $DirName;
+        $DirPath = "../wp-content/".$DirName;
 
         if(!file_exists($DirPath)) {
             mkdir($DirPath, 0777);
         }
 
-        $FileName =  $DirPath . "/" . $FileName;
+        $FileName =  $DirPath."/".$FileName;
         $df = fopen($FileName , "x+");
 
         //write data into file
@@ -94,7 +82,6 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
         fwrite($df, $FirstRow);
         fwrite($df, "Sorry! No Appointment(s) Found");
         fclose($df);
-		
     }
 }
 ?>
@@ -147,7 +134,14 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
     <style type="text/css">
         .apcal_error{  color:#FF0000; }
     </style>
+    <!--validation js lib-->
+    <script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
 
+    <!--time-picker js -->
+    <script src="<?php echo plugins_url('/timepicker-assets/js/jquery-1.7.2.min.js', __FILE__); ?>" type="text/javascript"></script>
+    <script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui.min.js', __FILE__); ?>" type="text/javascript"></script>
+    <script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui-timepicker-addon.js', __FILE__); ?>" type="text/javascript"></script>
+    <script type="text/javascript" src="<?php echo plugins_url('js/date.js', __FILE__); ?>"></script>
     <script type="text/javascript">
         jQuery(document).ready(function () {
 
@@ -268,7 +262,7 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
         <tbody>
     <?php
         $DirName = "appointments-lists";
-        $DirPath = appointzilladir . $DirName;
+        $DirPath = "../wp-content/".$DirName;
         // check if appointment list dir exist and not empty
         $TotalFiles =count(glob("$DirPath/*"));
         if( file_exists($DirPath) &&  $TotalFiles > 0) {
@@ -282,7 +276,7 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
                 <td><?php echo $i."."; ?></td>
                 <td><?php echo ucfirst($File); ?></td>
                 <td><?php
-                    $FilePath = $DirPath . "/" . $File;
+                    $FilePath = $DirPath."/".$File;
                     if (file_exists($FilePath)) {
                         echo date ("d-m-Y", filemtime($FilePath));
                     } ?></td>
@@ -291,7 +285,7 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
                     } ?></td>
                 <td><?php echo round( ( filesize($FilePath)/1024 ), 2) . ' KB'; ?></td>
                 <td>
-                    <a class="btn btn-mini btn-success" href="<?php echo appointzillaexportlisturl . $File; ?>" target="_blank"><i class="icon-download-alt icon-white"></i> <strong><?php _e("Download", "appointzilla"); ?></strong></a>
+                    <a class="btn btn-mini btn-success" href="<?php echo $FilePath; ?>" target="_blank"><i class="icon-download-alt icon-white"></i> <strong><?php _e("Download", "appointzilla"); ?></strong></a>
                     <a class="btn btn-mini btn-danger" href="?page=apcal-export-lists&delete-file=<?php echo $File; ?>"><i class="icon-remove icon-white"></i> <strong><?php _e("Delete", "appointzilla"); ?></strong></a>
                 </td>
             </tr>
@@ -321,85 +315,36 @@ if(isset($_POST["Range"]) && isset($_POST["StartDate"]) && isset($_POST["EndDate
         </tbody>
     </table>
 </div>
-
-
-
 <?php
-
 // delete file
 if(isset($_GET["delete-file"])) {
-	
     $DirName = "appointments-lists";
-	
-    $DirPath = appointzilladir . $DirName;
-	
-    $File = sanitize_text_field( $_GET["delete-file"] );
+    $DirPath = "../wp-content/".$DirName;
+    $File = $_GET["delete-file"];
 
     if($File != 'all') {
-		
-        $FilePath = $DirPath . "/" . $File;
-		
+        $FilePath = $DirPath."/".$File;
         if( file_exists($FilePath) ) {
-			
             if(unlink($FilePath)) {
-                ?>
-				<script> 
-				
-				alert("<?php _e('List successfully deleted.', 'appointzilla'); ?>"); 
-				
-				location.href = '?page=apcal-export-lists'; 
-				
-				</script>
-				
-				<?php
+                ?><script> alert("<?php _e('List successfully deleted.', 'appointzilla'); ?>"); location.href = '?page=apcal-export-lists'; </script><?php
 
             } else {
-				
-                ?>
-				
-				<script> 
-				
-				alert("<?php _e('Unable to delete list or list file not exist.', 'appointzilla'); ?>"); 
-				
-				location.href = '?page=apcal-export-lists'; 
-				
-				</script>
-				
-				<?php
+                ?><script> alert("<?php _e('Unable to delete list or list file not exist.', 'appointzilla'); ?>"); location.href = '?page=apcal-export-lists'; </script><?php
             }
-			
         }
-		
     } else {
-		
         //delete all files from appointments-lists directory
         if( file_exists($DirPath) ) {
-			
             $AllFiles = scandir($DirPath, 1);
-			
             foreach($AllFiles as $File) {
-				
                 if ($File != "." && $File != "..") {
-                    $FilePath = $DirPath . "/" . $File;
+                    $FilePath = $DirPath."/".$File;
                     // delete all files
                     if( file_exists($FilePath) ) { unlink($FilePath); }
                 }
-				
             }
-			
-            ?>
-			<script> 
-			
-			alert("<?php _e('All list file(s) successfully deleted.', 'appointzilla'); ?>"); 
-			
-			location.href = '?page=apcal-export-lists'; 
-			
-			</script>
-			
-			<?php
+            ?><script> alert("<?php _e('All list file(s) successfully deleted.', 'appointzilla'); ?>"); location.href = '?page=apcal-export-lists'; </script><?php
         }
-		
     }
-	
 }
 ?>

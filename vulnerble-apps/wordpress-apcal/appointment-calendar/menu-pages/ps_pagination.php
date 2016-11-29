@@ -1,7 +1,4 @@
 <?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
 /**
  * PHPSense Pagination Class
  *
@@ -51,7 +48,7 @@ class PS_Pagination {
         $this->append = $append;
         $this->php_self = htmlspecialchars($_SERVER['PHP_SELF'] );
         if (isset($_GET['num'] )) {
-            $this->page = intval( $_GET['num'] );
+            $this->page = intval($_GET['num'] );
         }
     }
 

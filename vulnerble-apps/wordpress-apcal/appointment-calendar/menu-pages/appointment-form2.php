@@ -1,15 +1,6 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-
-?>
+<link rel='stylesheet' type='text/css' href='<?php echo plugins_url('/bootstrap-assets/css/bootstrap.css', __FILE__); ?>' />
 <div style="height:auto; width:auto;" id="myModalsecond">
     <form method="post" name="selecttimesloatappointment" id="selecttimesloatappointment">
-		<?php wp_nonce_field('appointment_register_nonce_check','appointment_register_nonce_check'); ?>
         <div class="modal-info">
             <div class="alert alert-info">
                 <a href="?page=appointment-calendar" style="float:right; margin-right:-22px; margin-top:8px;" id="close"><i class="icon-remove"></i></a>

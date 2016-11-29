@@ -1,10 +1,3 @@
-<?php // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
 <div class="bs-docs-example tooltip-demo">
     <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;"><h3><?php _e("Settings", "appointzilla"); ?></h3></div>
 
@@ -23,7 +16,6 @@ if ( !current_user_can( 'manage_options' ) )  {
                 <?php $AllCalendarSettings = unserialize(get_option('apcal_calendar_settings')); ?>
                 <fieldset>
                     <legend><?php _e("Manage Calendar Settings", "appointzilla"); ?></legend>
-					<?php wp_nonce_field('appointment_cal_nonce_check','appointment_cal_nonce_check'); ?>
                     <table width="100%" class="table">
                         <tr>
                             <th width="18%" align="right" scope="row"><?php _e("Calendar Slot Time", "appointzilla"); ?></th>
@@ -171,8 +163,8 @@ if ( !current_user_can( 'manage_options' ) )  {
                         <tr>
                             <th align="right" scope="row"><?php _e("Booking Instructions", "appointzilla")?></th>
                             <td align="center"><strong>:</strong></td>
-                            <td><b><?php _e("You can use only these HTML tags like:", "appointzilla"); ?></b><br><p></p>
-                                <textarea id="apcal_booking_instructions" name="apcal_booking_instructions" style="width: 500px; height: 150px;"><?php if($AllCalendarSettings['apcal_booking_instructions']) echo esc_textarea($AllCalendarSettings['apcal_booking_instructions']); ?></textarea>
+                            <td><b><?php _e("You can use only these HTML tags like:", "appointzilla"); ?></b><br>&lt;p&gt;&lt;/p&gt;, &lt;h1&gt;&lt;/h1&gt;, &lt;h2&gt&lt;/h2&gt;, &lt;h3&gt;&lt;/h3&gt;, &lt;h4&gt;&lt;/h4&gt;, <br>&lt;h5&gt;&lt;/h5&gt;, &lt;h6&gt;&lt;/h6&gt;, &lt;b&gt;&lt;/b&gt;, &lt;em&gt;&lt;/em&gt; &lt;br&gt;&lt;/br&gt;
+                                <textarea id="apcal_booking_instructions" name="apcal_booking_instructions" style="width: 500px; height: 150px;"><?php if($AllCalendarSettings['apcal_booking_instructions']) echo $AllCalendarSettings['apcal_booking_instructions']; ?></textarea>
                                 &nbsp;<a href="#" rel="tooltip" title="<?php _e("Booking instruction will be appears on client interface before boooking button.<br> You can use only these HTML tags like p, h1, h2, h3, h4, h5, h6, b, em to make more visualize instructions.", "appointzilla"); ?>" ><i class="icon-question-sign"></i></a>
                             </td>
                         </tr>
@@ -192,7 +184,6 @@ if ( !current_user_can( 'manage_options' ) )  {
             <div id="notification-settings" class="tab-pane fade">
                 <fieldset>
                     <legend><?php _e("Manage Notification Settings", "appointzilla"); ?></legend>
-					<?php wp_nonce_field('appointment_noti_nonce_check','appointment_noti_nonce_check'); ?>
                     <table width="100%" class="table">
                         <tr>
                             <th colspan="2" scope="row"><?php _e('Enable', 'appointzilla'); ?></th>
@@ -328,14 +319,13 @@ if ( !current_user_can( 'manage_options' ) )  {
             <div id="notification-message" class="tab-pane fade">
                 <fieldset>
                     <legend><?php _e("Manage Notification Message", "appointzilla"); ?></legend>
-						<?php wp_nonce_field('appointment_noti_msg_nonce_check','appointment_noti_msg_nonce_check'); ?>
 
                         <!--notify admin on new appointment-->
                         <p><strong><?php _e("Notify Admin On New Appointment", "appointzilla"); ?></strong></p>
                         <p><?php _e("Subject", "appointzilla"); ?></p>
                         <input type="text" id="new-appointment-admin-subject" name="new-appointment-admin-subject" value="<?php echo get_option("new_appointment_admin_subject"); ?>" style="width: 470px;">
                         <p><?php _e("Message Body", "appointzilla"); ?></p>
-                        <textarea id="new-appointment-admin-body" name="new-appointment-admin-body" style="width: 470px; height: 280px;"><?php echo esc_textarea(get_option("new_appointment_admin_body")); ?></textarea><br>
+                        <textarea id="new-appointment-admin-body" name="new-appointment-admin-body" style="width: 470px; height: 280px;"><?php echo get_option("new_appointment_admin_body"); ?></textarea><br>
                         <button name="save-message" class="btn btn-success" id="save-message" onclick="return SaveNotificationMessage('new-appointment-admin-message');"><i class="fa fa-save"></i> <?php _e('Save', 'appointzilla'); ?></button>
                         <div id="loading-img-new-appointment-admin-message" style="display: none;"><?php _e("Saving", "appointzilla"); ?>...<i class="fa fa-spinner fa-spin fa-2x"></i></div>
                         <hr>
@@ -345,7 +335,7 @@ if ( !current_user_can( 'manage_options' ) )  {
                         <p><?php _e("Subject", "appointzilla"); ?></p>
                         <input type="text" id="new-appointment-client-subject" name="new-appointment-client-subject" value="<?php echo get_option("new_appointment_client_subject"); ?>" style="width: 470px;">
                         <p><?php _e("Message Body", "appointzilla"); ?></p>
-                        <textarea id="new-appointment-client-body" name="new-appointment-client-body" style="width: 470px; height: 280px;"><?php echo esc_textarea(get_option("new_appointment_client_body")); ?></textarea><br>
+                        <textarea id="new-appointment-client-body" name="new-appointment-client-body" style="width: 470px; height: 280px;"><?php echo get_option("new_appointment_client_body"); ?></textarea><br>
                         <button name="save-message" class="btn btn-success" id="save-message" onclick="return SaveNotificationMessage('new-appointment-client-message');"><i class="fa fa-save"></i> <?php _e('Save', 'appointzilla'); ?></button>
                         <div id="loading-img-new-appointment-client-message" style="display: none;"><?php _e("Saving", "appointzilla"); ?>...<i class="fa fa-spinner fa-spin fa-2x"></i></div>
                         <hr>
@@ -356,7 +346,7 @@ if ( !current_user_can( 'manage_options' ) )  {
                         <p><?php _e("Subject", "appointzilla"); ?></p>
                         <input type="text" id="approve-appointment-client-subject" name="approve-appointment-client-subject" value="<?php echo get_option("approve_appointment_client_subject"); ?>" style="width: 470px;">
                         <p><?php _e("Message Body", "appointzilla"); ?></p>
-                        <textarea id="approve-appointment-client-body" name="approve-appointment-client-body" style="width: 470px; height: 280px;"><?php echo esc_textarea(get_option("approve_appointment_client_body")); ?></textarea><br>
+                        <textarea id="approve-appointment-client-body" name="approve-appointment-client-body" style="width: 470px; height: 280px;"><?php echo get_option("approve_appointment_client_body"); ?></textarea><br>
                         <button name="save-message" class="btn btn-success" id="save-message" onclick="return SaveNotificationMessage('approve-appointment-client-message');"><i class="fa fa-save"></i> <?php _e('Save', 'appointzilla'); ?></button>
                         <div id="loading-img-approve-appointment-client-message" style="display: none;"><?php _e("Saving", "appointzilla"); ?>...<i class="fa fa-spinner fa-spin fa-2x"></i></div>
                         <hr>
@@ -366,7 +356,7 @@ if ( !current_user_can( 'manage_options' ) )  {
                         <p><?php _e("Subject", "appointzilla"); ?></p>
                         <input type="text" id="cancel-appointment-client-subject" name="cancel-appointment-client-subject" value="<?php echo get_option("cancel_appointment_client_subject"); ?>" style="width: 470px;">
                         <p><?php _e("Message Body", "appointzilla"); ?></p>
-                        <textarea id="cancel-appointment-client-body" name="cancel-appointment-client-body" style="width: 470px; height: 280px;"><?php echo esc_textarea(get_option("cancel_appointment_client_body")); ?></textarea><br>
+                        <textarea id="cancel-appointment-client-body" name="cancel-appointment-client-body" style="width: 470px; height: 280px;"><?php echo get_option("cancel_appointment_client_body"); ?></textarea><br>
                         <button name="save-message" class="btn btn-success" id="save-message" onclick="return SaveNotificationMessage('cancel-appointment-client-message');"><i class="fa fa-save"></i> <?php _e('Save', 'appointzilla'); ?></button>
                         <div id="loading-img-cancel-appointment-client-message" style="display: none;"><?php _e("Saving", "appointzilla"); ?>...<i class="fa fa-spinner fa-spin fa-2x"></i></div>
                         <hr>
@@ -378,13 +368,23 @@ if ( !current_user_can( 'manage_options' ) )  {
     </div>
 </div>
 
+<!--tabs js lib-->
+<script src="<?php echo plugins_url('/bootstrap-assets/js/bootstrap.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/bootstrap-assets/js/bootstrap.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/bootstrap-assets/js/bootstrap-tab.js', __FILE__); ?>" type="text/javascript"></script>
+<!--validation js-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
+
 <style type="text/css">
     .error{  color:#FF0000; }
 </style>
 
+<!--validation js lib-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
+
 <script type="text/javascript">
     /**
-     * Calendar Settings Validation & Ajax PostData == appointment_cal_nonce_check
+     * Calendar Settings Validation & Ajax PostData
      */
     function SaveCalendarSettings(Action) {
         jQuery(".error").hide();
@@ -398,12 +398,10 @@ if ( !current_user_can( 'manage_options' ) )  {
         var ServiceCost = jQuery("#show_service_cost").val();
         var ServiceDuration = jQuery("#show_service_duration").val();
         var BookingInstructions = jQuery("#apcal_booking_instructions").val();
-		
-		var wp_nonce = jQuery("#appointment_cal_nonce_check").val();
 
         var PostData1 = "Action=" + Action + "&CalendarSlotTime=" + CalendarSlotTime + "&DayStartTime=" + DayStartTime + "&DayEndTime=" + DayEndTime;
         var PostData2 = "&CalendarView=" + CalendarView + "&CalendarStartDay=" + CalendarStartDay + "&BookingButtonText=" + BookingButtonText;
-        var PostData3 = "&BookingTimeSlot=" + BookingTimeSlot + "&ServiceCost=" + ServiceCost + "&ServiceDuration=" + ServiceDuration + "&BookingInstructions=" + BookingInstructions + '&wp_nonce=' + wp_nonce;
+        var PostData3 = "&BookingTimeSlot=" + BookingTimeSlot + "&ServiceCost=" + ServiceCost + "&ServiceDuration=" + ServiceDuration + "&BookingInstructions=" + BookingInstructions;
         var PostData = PostData1 + PostData2 + PostData3;
         jQuery("#loading-img-calendar-settings").show();
         jQuery.ajax({
@@ -621,9 +619,6 @@ if ( !current_user_can( 'manage_options' ) )  {
             }
             var PostData = "Action=" + Action + "&emailtype=" + emailtype + "&hostname=" + hostname + "&portno=" + portno + "&smtpemail=" + smtpemail + "&password=" + password + "&enable=" + enable;
         }
-		
-		var wp_nonce_noti = jQuery('#appointment_noti_nonce_check').val();
-		PostData += '&wp_nonce_noti=' + wp_nonce_noti;
 
         jQuery('#enable').is(':checked')
         jQuery("#loading-img-notification-settings").show();
@@ -673,9 +668,6 @@ if ( !current_user_can( 'manage_options' ) )  {
             var Body = jQuery("#cancel-appointment-client-body").val();
             var PostData = "Action=" + Action + "&Subject=" + Subject + "&Body=" + Body;
         }
-		
-		var wp_nonce_noti_msg = jQuery("#appointment_noti_msg_nonce_check").val();
-		PostData += '&wp_nonce_noti_msg=' + wp_nonce_noti_msg;
 
         jQuery("#loading-img-" + Action).show();
         jQuery.ajax({
@@ -696,28 +688,23 @@ if ( !current_user_can( 'manage_options' ) )  {
 <?php //Saving Settings
 if(isset($_POST['Action'])) {
     echo $Action = $_POST['Action'];
-    //print_r($_POST);
+    print_r($_POST);
 
     /**
      * Saving Calendar Settings
      */
     if($Action == "save-calendar-settings") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce'],'appointment_cal_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
         $CalendarSettingsArray = array(
-            'calendar_slot_time' => sanitize_text_field( $_POST['CalendarSlotTime'] ),
-            'day_start_time' => sanitize_text_field( $_POST['DayStartTime'] ),
-            'day_end_time' => sanitize_text_field( $_POST['DayEndTime'] ),
-            'calendar_view' => sanitize_text_field( $_POST['CalendarView'] ),
-            'calendar_start_day' => sanitize_text_field( $_POST['CalendarStartDay'] ),
-            'booking_button_text' => sanitize_text_field( $_POST['BookingButtonText'] ),
-            'booking_time_slot' => sanitize_text_field( $_POST['BookingTimeSlot'] ),
-            'show_service_cost' => sanitize_text_field( $_POST['ServiceCost'] ),
-            'show_service_duration' => sanitize_text_field( $_POST['ServiceDuration'] ),
-            'apcal_booking_instructions' => wp_kses_post( force_balance_tags( $_POST['BookingInstructions'] ) ),
+            'calendar_slot_time' => $_POST['CalendarSlotTime'],
+            'day_start_time' => $_POST['DayStartTime'],
+            'day_end_time' => $_POST['DayEndTime'],
+            'calendar_view' => $_POST['CalendarView'],
+            'calendar_start_day' => $_POST['CalendarStartDay'],
+            'booking_button_text' => $_POST['BookingButtonText'],
+            'booking_time_slot' => $_POST['BookingTimeSlot'],
+            'show_service_cost' => $_POST['ServiceCost'],
+            'show_service_duration' => $_POST['ServiceDuration'],
+            'apcal_booking_instructions' => $_POST['BookingInstructions'],
         );
         update_option('apcal_calendar_settings', serialize($CalendarSettingsArray));
     }
@@ -726,38 +713,33 @@ if(isset($_POST['Action'])) {
      * Saving Notification Settings
      */
     if($Action == "save-notification-settings") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce_noti'],'appointment_noti_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
         if(isset($_POST['enable']) == 'on') {
             //wp-mail
             if($_POST['emailtype'] == 'wpmail') {
-                update_option('emailstatus', sanitize_text_field( $_POST['enable'] ) );
-                update_option('emailtype', sanitize_text_field( $_POST['emailtype'] ) );
+                update_option('emailstatus', $_POST['enable']);
+                update_option('emailtype', $_POST['emailtype']);
 
-                $EmailDetails =  array ( 'wpemail' => sanitize_email( $_POST['wpemail'] ) );
+                $EmailDetails =  array ( 'wpemail' => $_POST['wpemail'] );
                 update_option( 'emaildetails', serialize($EmailDetails));
             }
 
             //php-mail
             if($_POST['emailtype'] == 'phpmail')
             {
-                update_option('emailstatus', sanitize_text_field( $_POST['enable'] ) );
-                update_option('emailtype', sanitize_text_field( $_POST['emailtype'] ) );
-                $EmailDetails =  array ( 'phpemail' => sanitize_email( $_POST['phpemail'] ) );
+                update_option('emailstatus', $_POST['enable']);
+                update_option('emailtype', $_POST['emailtype']);
+                $EmailDetails =  array ( 'phpemail' => $_POST['phpemail']);
                 update_option('emaildetails', serialize($EmailDetails));
             }
 
             //smtp mail
             if($_POST['emailtype'] == 'smtp') {
-                update_option('emailstatus', sanitize_text_field( $_POST['enable'] ) );
-                update_option('emailtype', sanitize_text_field( $_POST['emailtype'] ) );
-                $EmailDetails =  array ( 'hostname' => sanitize_text_field( $_POST['hostname'] ),
-                    'portno' => intval( $_POST['portno'] ),
-                    'smtpemail' => sanitize_email( $_POST['smtpemail'] ),
-                    'password' => sanitize_text_field( $_POST['password'] ),
+                update_option('emailstatus', $_POST['enable']);
+                update_option('emailtype', $_POST['emailtype']);
+                $EmailDetails =  array ( 'hostname' => $_POST['hostname'],
+                    'portno' => $_POST['portno'],
+                    'smtpemail' => $_POST['smtpemail'],
+                    'password' => $_POST['password'],
                 );
                 update_option('emaildetails', serialize($EmailDetails));
             }
@@ -772,49 +754,29 @@ if(isset($_POST['Action'])) {
      * Saving Notification Message
      */
     if($Action == "new-appointment-admin-message") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce_noti_msg'],'appointment_noti_msg_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
-        $Subject = sanitize_text_field( $_POST['Subject'] );
-        $Body = wp_kses_post( force_balance_tags( $_POST['Body'] ) );
+        $Subject = $_POST['Subject'];
+        $Body = $_POST['Body'];
         update_option("new_appointment_admin_subject", $Subject);
         update_option("new_appointment_admin_body", $Body);
     }
 
     if($Action == "new-appointment-client-message") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce_noti_msg'],'appointment_noti_msg_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
-        $Subject = sanitize_text_field( $_POST['Subject'] );
-        $Body = wp_kses_post( force_balance_tags( $_POST['Body'] ) );
+        $Subject = $_POST['Subject'];
+        $Body = $_POST['Body'];
         update_option("new_appointment_client_subject", $Subject);
         update_option("new_appointment_client_body", $Body);
     }
 
     if($Action == "approve-appointment-client-message") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce_noti_msg'],'appointment_noti_msg_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
-        $Subject = sanitize_text_field( $_POST['Subject'] );
-        $Body = wp_kses_post( force_balance_tags( $_POST['Body'] ) );
+        $Subject = $_POST['Subject'];
+        $Body = $_POST['Body'];
         update_option("approve_appointment_client_subject", $Subject);
         update_option("approve_appointment_client_body", $Body);
     }
 
     if($Action == "cancel-appointment-client-message") {
-		
-		if( !wp_verify_nonce($_POST['wp_nonce_noti_msg'],'appointment_noti_msg_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
-        $Subject = sanitize_text_field( $_POST['Subject'] );
-        $Body = wp_kses_post( force_balance_tags( $_POST['Body'] ) );
+        $Subject = $_POST['Subject'];
+        $Body = $_POST['Body'];
         update_option("cancel_appointment_client_subject", $Subject);
         update_option("cancel_appointment_client_body", $Body);
     }

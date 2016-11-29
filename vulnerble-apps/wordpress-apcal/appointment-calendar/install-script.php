@@ -1,7 +1,4 @@
 <?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
 /**
  * Default Calendar Settings
  */
@@ -115,123 +112,70 @@ add_option("cancel_appointment_client_body", $Body);
 global $wpdb;
 //create a ap_appointments table
 $AppointmentsTable = $wpdb->prefix . "ap_appointments";
-$wpdb->query( 
-			$wpdb->prepare(
-			"
-			CREATE TABLE `$AppointmentsTable` (
-			`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-			`name` VARCHAR( 30 ) NOT NULL ,
-			`email` VARCHAR( 256 ) NOT NULL ,
-			`service_id` INT( 11 ) NOT NULL ,
-			`phone` BIGINT( 21 ) NOT NULL ,
-			`start_time` VARCHAR( 10 ) NOT NULL ,
-			`end_time` VARCHAR( 10 ) NOT NULL ,
-			`date` DATE NOT NULL ,
-			`note` TEXT NOT NULL ,
-			`appointment_key` VARCHAR( 32 ) NOT NULL ,
-			`status` VARCHAR( 10 ) NOT NULL ,
-			`appointment_by` VARCHAR( %d ) NOT NULL
-			)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-			"
-			,
-			10
-			) 
-		);
+$AppointmentsTable_SQL = "CREATE TABLE `$AppointmentsTable` (
+`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` VARCHAR( 30 ) NOT NULL ,
+`email` VARCHAR( 256 ) NOT NULL ,
+`service_id` INT( 11 ) NOT NULL ,
+`phone` BIGINT( 21 ) NOT NULL ,
+`start_time` VARCHAR( 10 ) NOT NULL ,
+`end_time` VARCHAR( 10 ) NOT NULL ,
+`date` DATE NOT NULL ,
+`note` TEXT NOT NULL ,
+`appointment_key` VARCHAR( 32 ) NOT NULL ,
+`status` VARCHAR( 10 ) NOT NULL ,
+`appointment_by` VARCHAR( 10 ) NOT NULL
+)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+$wpdb->query($AppointmentsTable_SQL);
 
 
 // create ap_events table
 $TimeOffTable = $wpdb->prefix . "ap_events";
-$wpdb->query(
-	$wpdb->prepare(
-	"
-	CREATE TABLE `$TimeOffTable` (
-	`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR( 30 ) NOT NULL ,
-	`allday` VARCHAR( 10 ) NOT NULL ,
-	`start_time` VARCHAR( 10 ) NOT NULL ,
-	`end_time` VARCHAR( 10 ) NOT NULL ,
-	`repeat` VARCHAR( 10 ) NOT NULL ,
-	`start_date` DATE NOT NULL ,
-	`end_date` DATE NOT NULL ,
-	`note` TEXT NOT NULL ,
-	`status` VARCHAR( %d ) NOT NULL
-	)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-	"
-	,
-	10
-	)
-);
+$TimeOffTable_SQL = "CREATE TABLE `$TimeOffTable` (
+`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` VARCHAR( 30 ) NOT NULL ,
+`allday` VARCHAR( 10 ) NOT NULL ,
+`start_time` VARCHAR( 10 ) NOT NULL ,
+`end_time` VARCHAR( 10 ) NOT NULL ,
+`repeat` VARCHAR( 10 ) NOT NULL ,
+`start_date` DATE NOT NULL ,
+`end_date` DATE NOT NULL ,
+`note` TEXT NOT NULL ,
+`status` VARCHAR( 10 ) NOT NULL
+)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+$wpdb->query($TimeOffTable_SQL);
 
 
 // create ap_services table
 $ServicesTable = $wpdb->prefix . "ap_services";
-
-$wpdb->query(
-
-	$wpdb->prepare(
-	"
-	CREATE TABLE `$ServicesTable` (
-	`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	`name` VARCHAR( 50 ) NOT NULL ,
-	`desc` TEXT NOT NULL ,
-	`duration` INT( 11 ) NOT NULL ,
-	`unit` VARCHAR( 10 ) NOT NULL ,
-	`paddingtime` INT( 11 ) NOT NULL ,
-	`cost` FLOAT NOT NULL ,
-	`capacity` INT( 11 ) NOT NULL ,
-	`availability` VARCHAR( 10 ) NOT NULL ,
-	`business_id` INT( 11 ) NOT NULL ,
-	`category_id` INT( 11 ) NOT NULL ,
-	`staff_id` VARCHAR( %d ) NOT NULL
-	)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-	"
-	,
-	300
-	)
-
-);
+$ServicesTable_SQL = "CREATE TABLE `$ServicesTable` (
+`id` INT( 11 ) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+`name` VARCHAR( 50 ) NOT NULL ,
+`desc` TEXT NOT NULL ,
+`duration` INT( 11 ) NOT NULL ,
+`unit` VARCHAR( 10 ) NOT NULL ,
+`paddingtime` INT( 11 ) NOT NULL ,
+`cost` FLOAT NOT NULL ,
+`capacity` INT( 11 ) NOT NULL ,
+`availability` VARCHAR( 10 ) NOT NULL ,
+`business_id` INT( 11 ) NOT NULL ,
+`category_id` INT( 11 ) NOT NULL ,
+`staff_id` VARCHAR( 300 ) NOT NULL
+)DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+$wpdb->query($ServicesTable_SQL);
 
 
-// inserting service 'Default'
-$wpdb->query(
-	
-	$wpdb->prepare(
-	
-	"
-	INSERT INTO `$ServicesTable` ( `id` , `name` , `desc` , `duration` , `unit` , `paddingtime`, `cost` , `capacity`, `availability`, `business_id`, `category_id`, `staff_id` ) VALUES ('1', 'Default', 'This is default service. You can edit this service.', '30', 'minute', '10', '100', '10', 'yes', '1', '1', %s);
-	"
-	,
-	'1'
-	
-	)
-	
-);
+    // inserting service 'Default'
+    $InsertTestService_SQL = "INSERT INTO `$ServicesTable` ( `id` , `name` , `desc` , `duration` , `unit` , `paddingtime`, `cost` , `capacity`, `availability`, `business_id`, `category_id`, `staff_id` ) VALUES ('1', 'Default', 'This is default service. You can edit this service.', '30', 'minute', '10', '100', '10', 'yes', '1', '1', '1');";
+    $wpdb->query($InsertTestService_SQL);
 
 
 // create a service Category
 $ServiceCategoryTable = $wpdb->prefix . "ap_service_category";
-$wpdb->query(
-
-	$wpdb->prepare(
-	"
-	CREATE TABLE `$ServiceCategoryTable` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , `name` VARCHAR( %d ) NOT NULL )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
-	",
-	100
-	)
-
-);
+$ServiceCategoryTable_SQL = "CREATE TABLE `$ServiceCategoryTable` ( `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY , `name` VARCHAR( 100 ) NOT NULL )DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+$wpdb->query($ServiceCategoryTable_SQL);
 
 
-// inserting a 'Default' service category
-$wpdb->query(
-
-	$wpdb->prepare(
-	
-	"
-	INSERT INTO `$ServiceCategoryTable` ( `id` , `name` ) VALUES ( '1', %s );
-	"
-	,
-	'Default'
-	)
-
-);
+    // inserting a 'Default' service category
+    $InsertTestServiceCategory_SQL = "INSERT INTO `$ServiceCategoryTable` ( `id` , `name` ) VALUES ( '1', 'Default' );";
+    $wpdb->query($InsertTestServiceCategory_SQL);

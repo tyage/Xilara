@@ -1,13 +1,3 @@
-<?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-	
-?>
-
 <!---render full-calendar----->
 <script type='text/javascript' xmlns="http://www.w3.org/1999/html">
 jQuery(document).ready(function() {
@@ -42,13 +32,11 @@ jQuery(document).ready(function() {
                         jQuery('#AppFirstModal').show();
             },
         events: [
-            <?php 
-			//Loading Appointments On Calendar Start
+            <?php //Loading Appointments On Calendar Start
             global $wpdb;
-            $AppointmentTableName = $wpdb->prefix . "ap_appointments";
-            $AllAppointments = $wpdb->get_results($wpdb->prepare("select `id`, `name`, `start_time`, `end_time`, `date` FROM `$AppointmentTableName` where id > %d",null), OBJECT);
-			
-			
+            $AppointmentTableName = $wpdb->prefix."ap_appointments";
+            $FetchAllApps_sql = "select `id`, `name`, `start_time`, `end_time`, `date` FROM `$AppointmentTableName`";
+            $AllAppointments = $wpdb->get_results($FetchAllApps_sql, OBJECT);
             if($AllAppointments) {
                 foreach($AllAppointments as $single) {
                     $title = $single->name;
@@ -75,8 +63,9 @@ jQuery(document).ready(function() {
 
             //Loading Events On Calendar Start
             global $wpdb;
-            $EventTableName = $wpdb->prefix . "ap_events";
-            $AllEvents = $wpdb->get_results($wpdb->prepare("select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` = %s",'N'), OBJECT);
+            $EventTableName = $wpdb->prefix."ap_events";
+            $FetchAllEvent_sql = "select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` = 'N'";
+            $AllEvents = $wpdb->get_results($FetchAllEvent_sql, OBJECT);
             if($AllEvents) {
                 foreach($AllEvents as $Event) {
                     //convert time foramt H:i:s
@@ -116,8 +105,8 @@ jQuery(document).ready(function() {
             }
 
             //Loading Recurring Events On Calendar Start
-            $AllREvents = $wpdb->get_results($wpdb->prepare("select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` != %s",'N'), OBJECT);
-			
+            $FetchAllREvent_sql = "select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` != 'N'";
+            $AllREvents = $wpdb->get_results($FetchAllREvent_sql, OBJECT);
             //dont show event on filtering
             if($AllREvents) {
                 foreach($AllREvents as $Event) {
@@ -310,9 +299,7 @@ function checkvalidation() {
             return false;
         }
     }
-	
-	var wp_nonce = jQuery("#appointment_register_nonce_check").val();
-	
+
     var start_time = jQuery('input[name=start_time]:radio:checked').val();
     var name = jQuery("#name").val();
     var email = jQuery("#email").val();
@@ -325,7 +312,7 @@ function checkvalidation() {
     jQuery('#booknowapp').hide();   // hide book now button
     jQuery('#back').hide();         // hide back button after click on book button
 
-    var PostData = 'bookdate='+ bookdate + '&serviceid=' + serviceid + '&name='+ name +'&email=' + email +'&phone='  + phone + '&desc=' +desc+ '&start_time=' + start_time + '&serviceduration=' + serviceduration + '&wp_nonce=' + wp_nonce;
+    var PostData = 'bookdate='+ bookdate + '&serviceid=' + serviceid + '&name='+ name +'&email=' + email +'&phone='  + phone + '&desc=' +desc+ '&start_time=' + start_time + '&serviceduration=' + serviceduration;
     var url = "?page=data-save";
     jQuery.ajax({
         dataType : 'html',
@@ -390,9 +377,9 @@ function checkvalidation() {
                         <p><strong><?php echo _e("Your Appointment Date", "appointzilla"); ?>:</strong></p>
                         <input name="appdate" id="appdate" type="text" disabled="disabled" />
                             <?php global $wpdb;
-                            $ServiceTable = $wpdb->prefix . "ap_services";
-                            $AllService = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `availability` = %s",'yes'), OBJECT); ?>
-							
+                            $ServiceTable = $wpdb->prefix."ap_services";
+                            $findservice_sql = "SELECT * FROM `$ServiceTable` WHERE `availability` = 'yes'";
+                            $AllService = $wpdb->get_results($findservice_sql, OBJECT); ?>
                         <p><strong><?php _e("Select Service", "appointzilla"); ?>:</strong></p>
                         <select name="service" id="service">
                             <option value="0"><?php _e("Select any service", "appointzilla"); ?></option>
@@ -414,3 +401,5 @@ function checkvalidation() {
 <!---AppSecondModal For Schedule New Appointment--->
 <div id="AppSecondModal" style="display:none;">
 </div>
+<!--date-picker js -->
+<script src="<?php echo plugins_url('/datepicker-assets/js/jquery.ui.datepicker.js', __FILE__); ?>" type="text/javascript"></script>

@@ -1,28 +1,14 @@
-<?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-
-?>
 <div id="saving-appointment-div">
     <?php
         global $wpdb;
-		
-		if( !wp_verify_nonce($_GET['wp_nonce'],'appointment_register_nonce_check') ){
-			print 'Sorry, your nonce did not verify.';	exit;
-		}
-		
-        $AppointmentDate = date("Y-m-d", strtotime( sanitize_text_field( $_GET['bookdate'] ) ) );
-        $ServiceId = intval( $_GET['serviceid'] );
-        $ServiceDuration = sanitize_text_field( $_GET['serviceduration'] );
-        $ClientName = sanitize_text_field( $_GET['name'] );
-        $ClientEmail = sanitize_email( $_GET['email'] );
-        $ClientPhone = intval( $_GET['phone'] );
-        $ClientNote = sanitize_text_field( $_GET['desc'] );
-        $StartTime = sanitize_text_field( $_GET['start_time'] );
+        $AppointmentDate = date("Y-m-d", strtotime($_GET['bookdate']));
+        $ServiceId = $_GET['serviceid'];
+        $ServiceDuration = $_GET['serviceduration'];
+        $ClientName = $_GET['name'];
+        $ClientEmail = $_GET['email'];
+        $ClientPhone = $_GET['phone'];
+        $ClientNote = $_GET['desc'];
+        $StartTime = $_GET['start_time'];
         //calculate end time according to service duration
         $EndTime =  date('h:i A', strtotime("+$ServiceDuration minutes", strtotime($StartTime)));
         $AppointmentKey = md5(date("F j, Y, g:i a"));
@@ -30,12 +16,15 @@ if ( !current_user_can( 'manage_options' ) )  {
         $AppointmentBy = "admin";
 
         $AppointmentTable = $wpdb->prefix . "ap_appointments";
-        if($wpdb->query( $wpdb->prepare( "INSERT INTO `$AppointmentTable` (  `id` , `name` , `email` , `service_id` , `phone` , `start_time` , `end_time` , `date` , `note` , `appointment_key` , `status` , `appointment_by` ) VALUES (NULL , '$ClientName', '$ClientEmail', '$ServiceId', '$ClientPhone', '$StartTime', '$EndTime', '$AppointmentDate', '$ClientNote', '$AppointmentKey', '$Status', %s);" , $AppointmentBy ) )) {
+        $NewAppointmentSQL = "INSERT INTO `$AppointmentTable` (  `id` , `name` , `email` , `service_id` , `phone` , `start_time` , `end_time` , `date` , `note` , `appointment_key` , `status` , `appointment_by` ) VALUES (NULL , '$ClientName', '$ClientEmail', '$ServiceId', '$ClientPhone', '$StartTime', '$EndTime', '$AppointmentDate', '$ClientNote', '$AppointmentKey', '$Status', '$AppointmentBy');";
+        if($wpdb->query($NewAppointmentSQL)) {
 
+            //$MangeAppointmentUrl = site_url().'/wp-admin/admin.php?page=manage-appointments';
+            //$BlogUrl = site_url().'/wp-admin';
             $BlogName = get_bloginfo();
 
             $ServiceTable = $wpdb->prefix."ap_services";
-            $Service = $wpdb->get_row($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `id` = %s",$ServiceId), OBJECT);
+            $Service = $wpdb->get_row("SELECT * FROM `$ServiceTable` WHERE `id` = '$ServiceId'", OBJECT);
             $ServiceName = $Service->name;
 
             //check notification is enabled

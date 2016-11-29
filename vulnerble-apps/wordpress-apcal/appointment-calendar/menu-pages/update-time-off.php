@@ -1,11 +1,5 @@
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
+<!--date-picker css -->
+<link rel='stylesheet' type='text/css' href='<?php echo plugins_url('/datepicker-assets/css/jquery-ui-1.8.23.custom.css', __FILE__); ?>' />
 <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;">
   <h3><?php _e('Update Time Off','appointzilla'); ?></h3> 
 </div>
@@ -13,13 +7,13 @@ if ( !current_user_can( 'manage_options' ) )  {
 <!--load time-off modal for update -->
 <?php 
     if(isset($_GET['update-timeoff'])) {
-        $update_id = intval( $_GET['update-timeoff'] );
+        $update_id = $_GET['update-timeoff'];
         global $wpdb;
-        $EventTable = $wpdb->prefix . "ap_events";
-        $TimeOff = $wpdb->get_row($wpdb->prepare("select * from `$EventTable` where `id` = %s",$update_id), OBJECT);
+        $EventTable = $wpdb->prefix."ap_events";
+        $TimeOffSQL = "select * from `$EventTable` where `id` = '$update_id'";
+        $TimeOff = $wpdb->get_row($TimeOffSQL, OBJECT);
         ?>
         <form action="" method="post" name="AddNewTimeOff-From" id="AddNewTimeOff-From">
-			<?php wp_nonce_field('appointment_update_timeoff_nonce_check','appointment_update_timeoff_nonce_check'); ?>
             <input name="update_id" id="update_id" type="hidden" value="<?php echo $update_id; ?>" />
             <input name="fromback" id="fromback" type="hidden" value="<?php if(isset($_GET['from'])) { echo $_GET['from']; } ?>" />
             <table width="100%" class="table">
@@ -142,14 +136,8 @@ if ( !current_user_can( 'manage_options' ) )  {
 <!---Insert/update Time-off in db--->
 <?php 
     if(isset($_POST['create'])) {
-		
-		if( !wp_verify_nonce($_POST['appointment_update_timeoff_nonce_check'],'appointment_update_timeoff_nonce_check') ){
-			echo '<script>alert("Sorry, your nonce did not verify.");</script>';
-			return false;
-		}
-		
-        $update_id = intval( $_POST['update_id'] );
-        $FromBack = sanitize_text_field( $_POST['fromback'] );
+        $update_id = $_POST['update_id'];
+        $FromBack = $_POST['fromback'];
 
         // all day event
         if(isset($_POST['allday']))  {
@@ -158,13 +146,13 @@ if ( !current_user_can( 'manage_options' ) )  {
             $end_time = '11:59 PM';
         } else {
             $allday = 0;
-            $start_time = sanitize_text_field( $_POST['start_time'] );
-            $end_time = sanitize_text_field( $_POST['end_time'] );
+            $start_time = $_POST['start_time'];
+            $end_time = $_POST['end_time'];
         }
 
-        $name = sanitize_text_field( $_POST['name'] );
-        $repeat = intval( $_POST['repeat'] );
-        $start_date = sanitize_text_field( $_POST['event_date'] );
+        $name = $_POST['name'];
+        $repeat = $_POST['repeat'];
+        $start_date = $_POST['event_date'];
         $start_date = date("Y-m-d", strtotime($start_date)); //convert format
 
         //not repeat
@@ -174,15 +162,15 @@ if ( !current_user_can( 'manage_options' ) )  {
 
         //particular day
         if($repeat == 'PD') {
-            $start_date = sanitize_text_field( $_POST['start_date'] );
+            $start_date = $_POST['start_date'];
             $start_date = date("Y-m-d", strtotime($start_date)); //convert format
-            $end_date = sanitize_text_field( $_POST['end_date'] );
+            $end_date = $_POST['end_date'];
             $end_date =  date("Y-m-d", strtotime($end_date)); //convert format
         }
 
         //daily event will be  90 days
         if($repeat == 'D') {
-            $repeat_days = intval( $_POST['re_days'] );
+            $repeat_days = $_POST['re_days'];
             $repeat_days = $repeat_days - 1;
             $end_date = strtotime($start_date);
             $end_date = date("Y-m-d", strtotime("+$repeat_days days", $end_date));      //add 3 month
@@ -190,30 +178,31 @@ if ( !current_user_can( 'manage_options' ) )  {
 
         //weekly event add 1 week
         if($repeat == 'W') {
-            $repeat_weeks = intval( $_POST['re_weeks'] );
+            $repeat_weeks = $_POST['re_weeks'];
             $end_date = strtotime($start_date);
             $end_date = date("Y-m-d", strtotime("+$repeat_weeks week", $end_date));     //add 1 week
         }
 
         //bi-weekly event multiply 2
         if($repeat == 'BW') {
-            $repeat_weeks = intval( $_POST['re_biweeks'] );
+            $repeat_weeks = $_POST['re_biweeks'];
             $end_date = strtotime($start_date);
             $repeat_weeks = $repeat_weeks * 2;
             $end_date = date("Y-m-d", strtotime("+$repeat_weeks week", $end_date));     //add 1 week
         }
         //monthly event add 1 month
         if($repeat == 'M') {
-            $repeat_months = intval( $_POST['re_months'] + 1 );
+            $repeat_months = $_POST['re_months'] + 1;
             $end_date = strtotime($start_date);
             $end_date = date("Y-m-d", strtotime("+$repeat_months months", $end_date)); //add 1 month
         }
-        $note = sanitize_text_field( $_POST['note'] );
+        $note = $_POST['note'];
         $status = "Up-Coming";
 
         global $wpdb;
-        $EventTable = $wpdb->prefix . "ap_events";
-        if($wpdb->query($wpdb->prepare("UPDATE `$EventTable` SET `name` = '$name', `allday` = '$allday', `start_time` = '$start_time', `end_time` = '$end_time', `repeat` = '$repeat', `start_date` = '$start_date', `end_date` = '$end_date', `note` = '$note', `status`= '$status' WHERE `id` =%s;",$update_id))) {
+        $EventTable = $wpdb->prefix."ap_events";
+        $EventUpdateSQL = "UPDATE `$EventTable` SET `name` = '$name', `allday` = '$allday', `start_time` = '$start_time', `end_time` = '$end_time', `repeat` = '$repeat', `start_date` = '$start_date', `end_date` = '$end_date', `note` = '$note', `status`= '$status' WHERE `id` ='$update_id';";
+        if($wpdb->query($EventUpdateSQL)) {
         }
 
         if($FromBack) {
@@ -234,7 +223,8 @@ if ( !current_user_can( 'manage_options' ) )  {
         global $wpdb;
         $EventTable = $wpdb->prefix."ap_events";
         $DelId = $_GET['delete-timeoff'];
-        if($wpdb->query($wpdb->prepare("delete from `$EventTable` where `id` = %s",$DelId))) {
+        $TimeOffDeleteSQL = "delete from `$EventTable` where `id` = '$DelId'";
+        if($wpdb->query($TimeOffDeleteSQL)) {
             echo "<script>alert('".__('Time Off deleted successfully.','appointzilla')."')</script>";
             echo "<script>location.href='?page=timeoff';</script>";
         } else {
@@ -242,6 +232,9 @@ if ( !current_user_can( 'manage_options' ) )  {
         }
     }
 ?>
+
+<!--validation js lib-->
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
 jQuery(document).ready(function () {
@@ -562,3 +555,8 @@ function showDaily() {
     jQuery('#event_date_tr').show();
 }
 </script>
+
+<!--time-picker js -->
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-1.7.2.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui.min.js', __FILE__); ?>" type="text/javascript"></script>
+<script src="<?php echo plugins_url('/timepicker-assets/js/jquery-ui-timepicker-addon.js', __FILE__); ?>" type="text/javascript"></script>

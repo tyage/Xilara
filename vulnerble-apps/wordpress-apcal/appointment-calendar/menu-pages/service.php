@@ -1,19 +1,11 @@
-
-<?php 
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-if ( !current_user_can( 'manage_options' ) )  {
-		wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
-}
-?>
+<script src="<?php echo plugins_url('/js/jquery.min.js', __FILE__); ?>" type="text/javascript"></script>
 <div class="bs-docs-example tooltip-demo" style="background-color: #FFFFFF;">
     <div style="background:#C3D9FF; margin-bottom:10px; padding-left:10px;"><h3><?php _e("Services", "appointzilla"); ?></h3></div>
     <?php
     global $wpdb;
     //get all category list
     $ServiceCategoryTable = $wpdb->prefix . "ap_service_category";
-    $ServiceCategory = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$ServiceCategoryTable` where id > %d",null));
+    $ServiceCategory = $wpdb->get_results("SELECT * FROM `$ServiceCategoryTable`");
     foreach($ServiceCategory as $GroupName) { ?>
         <table class="table">
             <thead>
@@ -52,7 +44,7 @@ if ( !current_user_can( 'manage_options' ) )  {
                 <?php
                 // get service list group wise
                 $ServiceTable = $wpdb->prefix . "ap_services";
-                $ServiceDetails = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `category_id` = %s ",$GroupName->id));
+                $ServiceDetails = $wpdb->get_results("SELECT * FROM `$ServiceTable` WHERE `category_id` = '$GroupName->id' ");
                 foreach($ServiceDetails as $Service) { ?>
                 <tr class="odd" style="border-bottom:1px;">
                     <td><em><?php echo ucwords($Service->name); ?></em></td>
@@ -83,7 +75,6 @@ if ( !current_user_can( 'manage_options' ) )  {
 
     <div style="display:none;" id="gruopnamebox">
         <form method="post">
-			<?php wp_nonce_field('appointment_add_cat_nonce_check','appointment_add_cat_nonce_check'); ?>
             <?php _e("Service Category name ", "appointzilla"); ?>: <input type="text" id="gruopname" name="gruopname" class="inputheight" />
             <button style="margin-bottom:10px;" id="CreateGruop" type="submit" class="btn btn-small btn-success" name="CreateGruop"><i class="icon-ok icon-white"></i> <?php _e("Create Category", "appointzilla"); ?></button>
             <button style="margin-bottom:10px;" id="CancelGruop" type="button" class="btn btn-small btn-danger" name="CancelGruop" onclick="cancelgrup();"><i class="icon-remove icon-white"></i> <?php _e("Cancel", "appointzilla"); ?></button>
@@ -96,27 +87,23 @@ if ( !current_user_can( 'manage_options' ) )  {
     $ServiceCategoryTable = $wpdb->prefix . "ap_service_category";
     $ServiceTable = $wpdb->prefix . "ap_services";
     if(isset($_POST['CreateGruop'])) {
-		
-		if( !wp_verify_nonce($_POST['appointment_add_cat_nonce_check'],'appointment_add_cat_nonce_check') ){
-			echo '<script>alert("Sorry, your nonce did not verify.");</script>';
-			return false;
-		}
-		
         global $wpdb;
-        $groupename = sanitize_text_field( $_POST['gruopname'] );
-        $wpdb->query($wpdb->prepare("INSERT INTO `$ServiceCategoryTable` ( `name` ) VALUES (%s);",$groupename));
+        $groupename = $_POST['gruopname'];
+        $ServiceCategory = "INSERT INTO `$ServiceCategoryTable` ( `name` ) VALUES ('$groupename');";
+        $wpdb->query($ServiceCategory);
         echo "<script>alert('" . __('Service category successfully created.', 'appointzilla') ."')</script>";
         echo "<script>location.href='?page=service';</script>";
     }
 
     // update service category
     if(isset($_POST['editgruop'])) {
-        $update_id = intval( $_POST['editgruop'] );
-        $update_name = sanitize_text_field( $_POST['editgruopname'] );
+        $update_id = $_POST['editgruop'];
+        $update_name = $_POST['editgruopname'];
         $tt = !is_numeric($update_name);
         if($update_name) {
             if(!is_numeric($update_name)) {
-                $wpdb->query($wpdb->prepare("UPDATE `$ServiceCategoryTable` SET `name` = '$update_name' WHERE `id` =%s;",$update_id));
+                $update_app_query = "UPDATE `$ServiceCategoryTable` SET `name` = '$update_name' WHERE `id` ='$update_id';";
+                $wpdb->query($update_app_query);
                 echo "<script>location.href='?page=service';</script>";
             } else {
             echo "<script>alert('". __("Invalid category name.", "appointzilla") ."');</script>";
@@ -128,8 +115,9 @@ if ( !current_user_can( 'manage_options' ) )  {
 
     // Delete service category
     if(isset($_GET['gid'])) {
-        $DeleteId = intval( $_GET['gid'] );
-        $wpdb->query($wpdb->prepare("DELETE FROM `$ServiceCategoryTable` WHERE `id` = %s;",$DeleteId));
+        $DeleteId = $_GET['gid'];
+        $DeleteServiceCategorySQl = "DELETE FROM `$ServiceCategoryTable` WHERE `id` = '$DeleteId';";
+        $wpdb->query($DeleteServiceCategorySQl);
 
         //update all service category id
         $UpdateServiceSQL = "UPDATE `$ServiceTable` SET `category_id` = '1' WHERE `category_id` ='$DeleteId';";
@@ -140,8 +128,9 @@ if ( !current_user_can( 'manage_options' ) )  {
 
     // Delete service
     if(isset($_GET['sid'])) {
-        $DeleteId = intval( $_GET['sid'] );
-        $wpdb->query($wpdb->prepare("DELETE FROM `$ServiceTable` WHERE `id` = %s;",$DeleteId));
+        $DeleteId = $_GET['sid'];
+        $DeleteServiceSQL = "DELETE FROM `$ServiceTable` WHERE `id` = '$DeleteId';";
+        $wpdb->query($DeleteServiceSQL);
         echo "<script>alert('" . __('Service successfully delete.', 'appointzilla') ."')</script>";
         echo "<script>location.href='?page=service';</script>";
     }

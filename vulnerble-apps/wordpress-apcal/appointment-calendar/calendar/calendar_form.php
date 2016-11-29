@@ -1,37 +1,34 @@
-<?php 
-
-//Request selected language - by Ciprian
-$hl = ( isset( $_REQUEST["hl"] ) ) ? $_REQUEST["hl"] : false;
-if( $hl && $hl != "en_US" && $hl != "L_LANG" ) $language = $hl;
+<?php //Request selected language - by Ciprian
+$hl = (isset($_REQUEST["hl"])) ? $_REQUEST["hl"] : false;
+if($hl && $hl != "en_US" && $hl != "L_LANG") $language = $hl;
 elseif(defined("L_LANG") && L_LANG != "en_US" && L_LANG != "L_LANG") $language = L_LANG;
 if(isset($language)){ include_once("lang/calendar.".$language.".php"); }
 require_once('tc_calendar.php');
-
 $thispage = $_SERVER['PHP_SELF'];
-$sld = ( isset( $_REQUEST["selected_day"] ) ) ? $_REQUEST["selected_day"] : 0;
-$slm = ( isset( $_REQUEST["selected_month"] ) ) ? (int) $_REQUEST["selected_month"] : 0;
-$sly = ( isset( $_REQUEST["selected_year"] ) ) ? (int) $_REQUEST["selected_year"] : 0;
-$year_start = ( isset( $_REQUEST["year_start"] ) ) ? $_REQUEST["year_start"] : 0;
-$year_end = (isset( $_REQUEST["year_end"] ) ) ? $_REQUEST["year_end"] : 0;
-$startDate = (isset( $_REQUEST["str"] ) ) ? $_REQUEST["str"] : 0;
-$time_allow1 = (isset( $_REQUEST["da1"] ) ) ? $_REQUEST["da1"] : "";
-$time_allow2 = (isset( $_REQUEST["da2"] ) ) ? $_REQUEST["da2"] : "";
+$sld = (isset($_REQUEST["selected_day"])) ? $_REQUEST["selected_day"] : 0;
+$slm = (isset($_REQUEST["selected_month"])) ? (int)$_REQUEST["selected_month"] : 0;
+$sly = (isset($_REQUEST["selected_year"])) ? (int)$_REQUEST["selected_year"] : 0;
+$year_start = (isset($_REQUEST["year_start"])) ? $_REQUEST["year_start"] : 0;
+$year_end = (isset($_REQUEST["year_end"])) ? $_REQUEST["year_end"] : 0;
+$startDate = (isset($_REQUEST["str"])) ? $_REQUEST["str"] : 0;
+$time_allow1 = (isset($_REQUEST["da1"])) ? $_REQUEST["da1"] : "";
+$time_allow2 = (isset($_REQUEST["da2"])) ? $_REQUEST["da2"] : "";
 $ta1_set = is_numeric($time_allow1);
 $ta2_set = is_numeric($time_allow2);
-$show_not_allow = (isset( $_REQUEST["sna"] ) ) ? $_REQUEST["sna"] : true;
-$auto_submit = (isset( $_REQUEST["aut"] ) ) ? $_REQUEST["aut"] : false;
-$form_name = (isset( $_REQUEST["frm"] ) ) ? $_REQUEST["frm"] : "";
-$target_url = (isset( $_REQUEST["tar"] ) ) ? $_REQUEST["tar"] : "";
-$show_input = (isset( $_REQUEST["inp"] ) ) ? $_REQUEST["inp"] : true;
-$date_format = (isset( $_REQUEST["fmt"] ) ) ? $_REQUEST["fmt"] : DATE_FORMAT; //format of date shown in panel if $show_input is false
-$dsb_txt = (isset( $_REQUEST["dis"] ) ) ? $_REQUEST["dis"] : "";
-$date_pair1 = (isset( $_REQUEST["pr1"] ) ) ? $_REQUEST["pr1"] : "";
-$date_pair2 = (isset( $_REQUEST["pr2"] ) ) ? $_REQUEST["pr2"] : "";
-$date_pair_value = (isset( $_REQUEST["prv"] ) ) ? $_REQUEST["prv"] : "";
-$path = (isset( $_REQUEST["pth"] ) ) ? $_REQUEST["pth"] : "";
-$sp_dates = (isset( $_REQUEST["spd"] ) ) ? @tc_calendar::check_json_decode( $_REQUEST["spd"] ) : array(array(), array(), array());
-$sp_type = (isset( $_REQUEST["spt"] ) ) ? $_REQUEST["spt"] : 0;
-$tc_onchanged = (isset( $_REQUEST["och"] ) ) ? $_REQUEST["och"] : "";
+$show_not_allow = (isset($_REQUEST["sna"])) ? $_REQUEST["sna"] : true;
+$auto_submit = (isset($_REQUEST["aut"])) ? $_REQUEST["aut"] : false;
+$form_name = (isset($_REQUEST["frm"])) ? $_REQUEST["frm"] : "";
+$target_url = (isset($_REQUEST["tar"])) ? $_REQUEST["tar"] : "";
+$show_input = (isset($_REQUEST["inp"])) ? $_REQUEST["inp"] : true;
+$date_format = (isset($_REQUEST["fmt"])) ? $_REQUEST["fmt"] : DATE_FORMAT; //format of date shown in panel if $show_input is false
+$dsb_txt = (isset($_REQUEST["dis"])) ? $_REQUEST["dis"] : "";
+$date_pair1 = (isset($_REQUEST["pr1"])) ? $_REQUEST["pr1"] : "";
+$date_pair2 = (isset($_REQUEST["pr2"])) ? $_REQUEST["pr2"] : "";
+$date_pair_value = (isset($_REQUEST["prv"])) ? $_REQUEST["prv"] : "";
+$path = (isset($_REQUEST["pth"])) ? $_REQUEST["pth"] : "";
+$sp_dates = (isset($_REQUEST["spd"])) ? @tc_calendar::check_json_decode($_REQUEST["spd"]) : array(array(), array(), array());
+$sp_type = (isset($_REQUEST["spt"])) ? $_REQUEST["spt"] : 0;
+$tc_onchanged = (isset($_REQUEST["och"])) ? $_REQUEST["och"] : "";
 $rtl = (isset($_REQUEST["rtl"])) ? $_REQUEST["rtl"] : RTL;
 $show_weeks = (isset($_REQUEST["wks"])) ? $_REQUEST["wks"] : false;
 $interval = (isset($_REQUEST["int"])) ? $_REQUEST["int"] : 1;
@@ -369,7 +366,7 @@ if($cobj->hl){
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=7; IE=8" />
-<title></title>
+<title>r</title>
 <link href="calendar.css" rel="stylesheet" type="text/css" />
 <script language="javascript">
 <!--

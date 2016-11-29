@@ -1,105 +1,39 @@
-<?php
-// Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) exit;
-
-//short code file with appointment booking button and big calendar(full-calendar)
-
+<?php //short code file with appointment booking button and big calendar(full-calendar)
 add_shortcode( 'APCAL', 'appointment_calendar_shortcode' );
-
 function appointment_calendar_shortcode() {
-	
-    if( get_locale() ) {
-		
+    if(get_locale()) {
         $language = get_locale();
-		
         if($language) { define('L_LANG',$language); }
-		
     }
-	
+
     //save appointment and email admin & client/customer
     if( isset($_POST['Client_Name']) && isset($_POST['Client_Email']) ) {
-		
         global $wpdb;
-		
-		if( !wp_verify_nonce($_POST['wp_nonce'],'appointment_register_nonce_check') ){
-			
-			print 'Sorry, your nonce did not verify.';	exit;
-			
-		}
-		
-        $ClientName      =   sanitize_text_field( $_POST['Client_Name']  );
-		
-        $ClientEmail     =   sanitize_email(      $_POST['Client_Email'] );
-		
-        $ClientPhone     =   intval(              $_POST['Client_Phone'] );
-		
-        $ClientNote      =   sanitize_text_field( $_POST['Client_Note']  );
-		
-        $AppointmentDate =   date("Y-m-d", strtotime( sanitize_text_field( $_POST['AppDate'] )  ) );
-		
-        $ServiceId       =   intval(              $_POST['ServiceId'] );
-		
-        $ServiceDuration =   sanitize_text_field( $_POST['Service_Duration'] );
-		
-        $StartTime       =   sanitize_text_field( $_POST['StartTime'] );
-		
-		
-		
+        $ClientName = $_POST['Client_Name'];
+        $ClientEmail = $_POST['Client_Email'];
+        $ClientPhone = $_POST['Client_Phone'];
+        $ClientNote = $_POST['Client_Note'];
+        $AppointmentDate = date("Y-m-d", strtotime($_POST['AppDate']));
+        $ServiceId = $_POST['ServiceId'];
+        $ServiceDuration = $_POST['Service_Duration'];
+        $StartTime = $_POST['StartTime'];
         //calculate end time according to service duration
-        $EndTime           =  date( 'h:i A' , strtotime( "+$ServiceDuration minutes" , strtotime( $StartTime ) ) );
-		
-        $AppointmentKey    =  md5( date( "F j, Y, g:i a" ) );
-		
-        $Status            =  __( "pending" , "appointzilla" );
-		
-        $AppointmentBy     =  __( "user" , "appointzilla" );
-		
-        $AppointmentsTable =  $wpdb->prefix . "ap_appointments";
-		
-		$query = $wpdb->query( 
-			
-			$wpdb->prepare(
-			
-			"
-			INSERT INTO $AppointmentsTable 
-		
-			( id , name , email , service_id , phone , start_time , end_time , date , note , appointment_key , status , appointment_by )
-		
-			VALUES ( %d , %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-			
-			",
-				array(
-					null,
-					$ClientName,
-					$ClientEmail,
-					$ServiceId,
-					$ClientPhone,
-					$StartTime,
-					$EndTime,
-					$AppointmentDate,
-					$ClientNote,
-					$AppointmentKey,
-					$Status,
-					$AppointmentBy
-				)
-			)
-
-
-		);
-		
-        if( $query ) {
-			
-			
+        $EndTime =  date('h:i A', strtotime("+$ServiceDuration minutes", strtotime($StartTime)) );
+        $AppointmentKey = md5(date("F j, Y, g:i a"));
+        $Status = __("pending", "appointzilla");
+        $AppointmentBy = __("user", "appointzilla");
+        $AppointmentsTable = $wpdb->prefix . "ap_appointments";
+        $AddAppointment_SQL ="INSERT INTO `$AppointmentsTable` ( `id` , `name` , `email` , `service_id` , `phone` , `start_time` , `end_time` , `date` , `note` , `appointment_key` , `status` , `appointment_by` ) VALUES (NULL , '$ClientName', '$ClientEmail', '$ServiceId', '$ClientPhone', '$StartTime', '$EndTime', '$AppointmentDate', '$ClientNote', '$AppointmentKey', '$Status', '$AppointmentBy');";
+        if($wpdb->query($AddAppointment_SQL)) {
+            //$MangeAppointmentUrl = site_url().'/wp-admin/admin.php?page=manage-appointments';
+            //$BlogUrl = site_url().'/wp-admin';
             $BlogName = get_bloginfo();
-			
+
             //get service details
-            $ServiceTable = $wpdb->prefix . "ap_services";
-			
-            $ServiceData = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $ServiceTable WHERE id = %d" , $ServiceId ) , OBJECT);
-			
+            $ServiceTable = $wpdb->prefix."ap_services";
+            $ServiceData = $wpdb->get_row("SELECT * FROM `$ServiceTable` WHERE `id` = '$ServiceId'", OBJECT);
             $ServiceName = $ServiceData->name;
-			
-			
+
             //check notification is enabled
             $NotificationStatus = get_option('emailstatus');
             if($NotificationStatus == "on") {
@@ -241,12 +175,11 @@ function appointment_calendar_shortcode() {
                 },
 
             events: [
-                <?php 
-				//Loading Appointments On Calendar Start
+                <?php //Loading Appointments On Calendar Start
                 global $wpdb;
-                $AppointmentTableName = $wpdb->prefix . "ap_appointments";
-				$AllAppointments = $wpdb->get_results( $wpdb->prepare("select name, start_time, end_time, date FROM $AppointmentTableName where id > %d",null), OBJECT);
-				
+                $AppointmentTableName = $wpdb->prefix."ap_appointments";
+                $FetchAllApps_sql = "select `name`, `start_time`, `end_time`, `date` FROM `$AppointmentTableName`";
+                $AllAppointments = $wpdb->get_results($FetchAllApps_sql, OBJECT);
                 if($AllAppointments) {
                     foreach($AllAppointments as $single) {
                         $title = $single->name;
@@ -271,18 +204,17 @@ function appointment_calendar_shortcode() {
                     }
                 }
 
-                
-				// Loading Events On Calendar Start
-				global $wpdb;
-				$EventTableName = $wpdb->prefix . "ap_events";
-				$AllEvents = $wpdb->get_results( $wpdb->prepare("select `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` = %s",'N') , OBJECT );
-				
+                //Loading Events On Calendar Start
+                global $wpdb;
+                $EventTableName = $wpdb->prefix."ap_events";
+                $FetchAllEvent_sql = "select `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` = 'N'";
+                $AllEvents = $wpdb->get_results($FetchAllEvent_sql, OBJECT);
                 if($AllEvents) {
                     foreach($AllEvents as $Event) {
-                        // convert time foramt H:i:s
+                        //convert time foramt H:i:s
                         $starttime = date("H:i", strtotime($Event->start_time));
                         $endtime = date("H:i", strtotime($Event->end_time));
-                        // change time format according to calendar
+                        //change time format according to calendar
                         $starttime = str_replace(":",", ", $starttime);
                         $endtime = str_replace(":", ", ", $endtime);
 
@@ -313,10 +245,10 @@ function appointment_calendar_shortcode() {
                 }
 
                 //Loading Recurring Events On Calendar Start
-                $AllREvents = $wpdb->get_results($wpdb->prepare("select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` != %s",'N'), OBJECT);
-				
+                $FetchAllREvent_sql = "select `id`, `name`, `start_time`, `end_time`, `start_date`, `end_date`, `repeat` FROM `$EventTableName` where `repeat` != 'N'";
+                $AllREvents = $wpdb->get_results($FetchAllREvent_sql, OBJECT);
                 //dont show event on filtering
-                if(isset($AllREvents)) {
+                if($AllREvents) {
                     foreach($AllREvents as $Event) {
                         //convert time foramt H:i:s
                         $starttime = date("H:i", strtotime($Event->start_time));
@@ -509,7 +441,7 @@ function appointment_calendar_shortcode() {
         jQuery('#next1').show();
     }
 
-    //validation on second modal form submissions == appointment_register_nonce_field
+    //validation on second modal form submissions
     function CheckValidation() {
         jQuery(".apcal-error").hide();
         var start_time = jQuery('input[name=start_time]:radio:checked').val();
@@ -544,9 +476,7 @@ function appointment_calendar_shortcode() {
             jQuery("#clientphone").after("<span class='apcal-error'><br><strong><?php _e("Invalid phone number.", "appointzilla"); ?></strong></span>");
             return false;
         }
-		
-		var wp_nonce = jQuery('#appointment_register_nonce_field').val();
-		 
+
         var ServiceId = jQuery('#serviceid').val();
         var AppDate = jQuery('#appointmentdate').val();
         var  ServiceDuration =  jQuery('#serviceduration').val();
@@ -556,7 +486,7 @@ function appointment_calendar_shortcode() {
         var Client_Phone =  jQuery('#clientphone').val();
         var Client_Note =  jQuery('#clientnote').val();
         var currenturl = jQuery(location).attr('href');
-        var SecondData = "ServiceId=" + ServiceId + "&AppDate=" + AppDate + "&StartTime=" + StartTime + '&Client_Name=' + Client_Name +'&Client_Email=' + Client_Email +'&Client_Phone=' + Client_Phone +'&Client_Note=' + Client_Note+'&Service_Duration=' + ServiceDuration + '&wp_nonce=' + wp_nonce;
+        var SecondData = "ServiceId=" + ServiceId + "&AppDate=" + AppDate + "&StartTime=" + StartTime + '&Client_Name=' + Client_Name +'&Client_Email=' + Client_Email +'&Client_Phone=' + Client_Phone +'&Client_Note=' + Client_Note+'&Service_Duration=' + ServiceDuration;
         var currenturl = jQuery(location).attr('href');
         var url = currenturl;
         jQuery('#loading2').show();     // loading button onclick next1 at first modal
@@ -631,23 +561,18 @@ function appointment_calendar_shortcode() {
 
                          <!--PHP Date-picker -->
                          <form id="form1" name="form1" method="post" action="">
-						 
-                         <?php 
-							require_once('calendar/tc_calendar.php');
-							
+                         <?php require_once('calendar/tc_calendar.php');
                             $curr_date = date("Y-m-d", time());
                             $datepicker2=plugins_url('calendar/', __FILE__);
-                            $myCalendar = new tc_calendar( "date1" );
-                            $myCalendar->setIcon( $datepicker2 . "images/iconCalendar.gif" );
-                            $myCalendar->setDate( date("d") , date("m") , date("Y") );
+                            $myCalendar = new tc_calendar("date1");
+                            $myCalendar->setIcon($datepicker2."images/iconCalendar.gif");
+                            $myCalendar->setDate(date("d"), date("m"), date("Y"));
                             $myCalendar->setPath($datepicker2);
                             $myCalendar->setYearInterval(2035,date('Y'));
                             $startCalendarFrom = date("Y-m-d", strtotime("-1 day", strtotime($curr_date)));
                             $myCalendar->dateAllow($startCalendarFrom, "2035-01-01", false);
-                            $myCalendar->setOnChange( "myChanged()" );
-                            $myCalendar->writeScript();	
-							?>
-							
+                            $myCalendar->setOnChange("myChanged()");
+                            $myCalendar->writeScript();	?>
                         </form>
 
                         <script language="javascript">
@@ -662,13 +587,10 @@ function appointment_calendar_shortcode() {
                     <div id="secdiv" style="float:right;">
                         <strong><?php _e("Your Appointment Date", "appointzilla"); ?>:</strong><br>
                         <input name="appdate" id="appdate" type="text" readonly="" height="30px;" style="height:30px;" />
-                        
-						<?php 
-						global $wpdb;
-                        $ServiceTable = $wpdb->prefix . "ap_services";
-                        $AllService = $wpdb->get_results($wpdb->prepare("SELECT * FROM `$ServiceTable` WHERE `availability` = %s",'yes'), OBJECT);	?>
-						
-						<br /><br />
+                        <?php global $wpdb;
+                        $ServiceTable = $wpdb->prefix."ap_services";
+                        $findservice_sql = "SELECT * FROM `$ServiceTable` WHERE `availability` = 'yes'";
+                        $AllService = $wpdb->get_results($findservice_sql, OBJECT);	?><br /><br />
                         <strong><?php _e("Select Service", "appointzilla"); ?>:</strong><br />
                         <select name="service" id="service">
                             <option value="0"><?php _e("Select Service", "appointzilla"); ?></option>
@@ -693,12 +615,14 @@ function appointment_calendar_shortcode() {
           </div>
     </div>
     <!---AppSecondModal For Schedule New Appointment--->
-	
-    <?php if( isset($_GET["ServiceId"]) && isset($_GET["AppDate"])) {  ?>
+
+    <!--date-picker js -->
+    <script src="<?php echo plugins_url('/menu-pages/datepicker-assets/js/jquery.ui.datepicker.js', __FILE__); ?>" type="text/javascript"></script>
+
+    <?php if( isset($_GET["ServiceId"]) && isset($_GET["AppDate"])) { ?>
         <div id="AppSecondModal">
             <div class="apcal_modal" id="myModal" style="z-index:99999;">
-                <form method="post" name="appointment-form2" id="appointment-form2" action="" onsubmit="return CheckValidation()">
-					<?php wp_nonce_field('appointment_register_nonce_check','appointment_register_nonce_field'); ?>
+                <form method="post" name="appointment-form2" id="appointment-form2" action="" onsubmit="CheckValidation()">
                     <div class="apcal_modal-info">
                       <div class="apcal_alert apcal_alert-info">
                             <a href="" style="float:right; margin-right:-4px;" id="close"><i class="icon-remove"></i></a>
@@ -713,10 +637,10 @@ function appointment_calendar_shortcode() {
                             <?php
                             // time-slots calculation
                             global $wpdb;
-                            $ServiceId =  intval( $_GET["ServiceId"] );
-                            $ServiceTableName = $wpdb->prefix . "ap_services";
-                            $ServiceData = $wpdb->get_row($wpdb->prepare("SELECT `name`, `duration` FROM `$ServiceTableName` WHERE `id` = %d",$ServiceId), OBJECT);
-							
+                            $ServiceId =  $_GET["ServiceId"];
+                            $ServiceTableName = $wpdb->prefix."ap_services";
+                            $FindService_sql = "SELECT `name`, `duration` FROM `$ServiceTableName` WHERE `id` = '$ServiceId'";
+                            $ServiceData = $wpdb->get_row($FindService_sql, OBJECT);
                             $ServiceDuration = $ServiceData->duration;
 
                             $AppointmentDate = date("Y-m-d", strtotime($_GET['AppDate'])); //assign selected date by user
@@ -739,12 +663,11 @@ function appointment_calendar_shortcode() {
                             $BusinessEndCheck =array();
                             $AllSlotTimesList_User = array();
                             $TodaysAllDayEvent = 0;
-							
-                            $TimeOffTableName = $wpdb->prefix ."ap_events";
+                            $TimeOffTableName = $wpdb->prefix."ap_events";
 
                             //if today is any all-day time-off then show msg no time available today
-                            $TodaysAllDayEventData = $wpdb->get_results( $wpdb->prepare("SELECT `start_time`, `end_time`, `repeat`, `start_date`, `end_date` FROM `$TimeOffTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = %s",'1'), OBJECT);
-							
+                            $TodaysAllDayFetchEvents_sql = "SELECT `start_time`, `end_time`, `repeat`, `start_date`, `end_date` FROM `$TimeOffTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '1'";
+                            $TodaysAllDayEventData = $wpdb->get_results($TodaysAllDayFetchEvents_sql, OBJECT);
                             //check if appointment date in any recurring time-off date
                             foreach($TodaysAllDayEventData as $SingleTimeOff) {
                                 // none check
@@ -828,9 +751,9 @@ function appointment_calendar_shortcode() {
                                 }
 
                                 //Fetch All today's appointments and calculate disable slots
-                                $AppointmentTableName = $wpdb->prefix . "ap_appointments";
-                                $AllAppointmentsData = $wpdb->get_results( $wpdb->prepare("SELECT `start_time`, `end_time` FROM `$AppointmentTableName` WHERE `date`= %s",$AppointmentDate) , OBJECT);
-								
+                                $AppointmentTableName = $wpdb->prefix."ap_appointments";
+                                $AllAppointments_sql = "SELECT `start_time`, `end_time` FROM `$AppointmentTableName` WHERE `date`= '$AppointmentDate'";
+                                $AllAppointmentsData = $wpdb->get_results($AllAppointments_sql, OBJECT);
                                 if($AllAppointmentsData) {
                                     foreach($AllAppointmentsData as $Appointment) {
                                         $AppStartTimes[] = date('h:i A', strtotime( $Appointment->start_time ) );
@@ -880,8 +803,8 @@ function appointment_calendar_shortcode() {
 
                                 //Fetch All today's time-off and calculate disable slots
                                 $EventTableName = $wpdb->prefix."ap_events";
-                                $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` != 'W' AND `repeat` != 'BW' AND `repeat` != %s",'M'), OBJECT);
-								
+                                $AllEventsSQL = "SELECT `start_time`, `end_time` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` != 'W' AND `repeat` != 'BW' AND `repeat` != 'M'";
+                                $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
                                 if($AllEventsData)
                                 {
                                     foreach($AllEventsData as $Event)
@@ -908,9 +831,9 @@ function appointment_calendar_shortcode() {
                                 }
 
                                 //Fetch All 'WEEKLY' tim-eoff and calculate disable slots
-                                $EventTableName = $wpdb->prefix . "ap_events";
-                                $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'W'), OBJECT);
-								
+                                $EventTableName = $wpdb->prefix."ap_events";
+                                $AllEventsSQL = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'W'";
+                                $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
                                 if($AllEventsData) {
                                     foreach($AllEventsData as $Event) {
                                         //calculate all weekly dates between recurring_start_date - recurring_end_date
@@ -942,14 +865,13 @@ function appointment_calendar_shortcode() {
                                                 $EventBetweenTimes[] = date('h:i A', $i);
                                             }
                                         }
-										unset($AllEventWeelylyDates);
                                     }
                                 }
 
                                 //Fetch All 'BI-WEEKLY' time-off and calculate disable slots
                                 $EventTableName = $wpdb->prefix."ap_events";
-                                $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'BW'), OBJECT);
-								
+                                $AllEventsSQL = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'BW'";
+                                $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
                                 if($AllEventsData) {
                                     foreach($AllEventsData as $Event) {
                                         //calculate all weekly dates between recurring_start_date - recurring_end_date
@@ -987,8 +909,8 @@ function appointment_calendar_shortcode() {
 
                                 //Fetch All 'MONTHLY' timeoff and calculate disable slots
                                 $EventTableName = $wpdb->prefix."ap_events";
-                                $AllEventsData = $wpdb->get_results($wpdb->prepare("SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = %s",'M'), OBJECT);
-								
+                                $AllEventsSQL = "SELECT `start_time`, `end_time`, `start_date`, `end_date` FROM `$EventTableName` WHERE date('$AppointmentDate') between `start_date` AND `end_date` AND `allday` = '0' AND `repeat` = 'M'";
+                                $AllEventsData = $wpdb->get_results($AllEventsSQL, OBJECT);
                                 if($AllEventsData) {
                                     foreach($AllEventsData as $Event) {
                                         //calculate all weekly dates between recurring_start_date - recurring_end_date
