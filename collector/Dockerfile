@@ -9,6 +9,7 @@ RUN set -x && \
 	cd ${SRCDIR} && \
 	npm i
 
+EXPOSE 8000
+
 WORKDIR ${SRCDIR}
 CMD node collector.js
-
