@@ -1,7 +1,7 @@
 # create new post with [APCAL]
 
 # https://wpvulndb.com/vulnerabilities/8633
-# works for apcal ?
+# works for apcal 2.7.4
 
 PAGE=$1
 
