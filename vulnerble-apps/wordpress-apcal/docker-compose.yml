@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+
+  wordpress:
+    image: wordpress
+    volumes:
+      - "./appointment-calendar:/var/www/html/wp-content/plugins/appointment-calendar"
+    environment:
+      WORDPRESS_DB_PASSWORD: password
+      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_NAME: wordpress
+    links:
+      - mysql
+
+  mysql:
+    image: mariadb
+    volumes:
+      - "../wordpress/wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+
+  collector:
+    build: ../../collector
+    ports:
+      - 8000:8000
+    links:
+      - wordpress
+    environment:
+      APP_URL: "http://wordpress"

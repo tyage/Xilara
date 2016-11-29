@@ -1,0 +1,112 @@
+
+Total of 17 version released.
+
+== Changelog ==
+= 2.7 =
+1. Improvement: Service cost & duration hide and show settings
+2. Improvement: Booking instructions message box before booking button
+3. Bug Fixed: Date format fixed to dd-mm-yyyy at all booking form and notification message
+
+
+= 2.6.5 =
+1. New Feature: Export Appointments List as CSV file
+2. Improvement: Iconic button interface
+
+
+= 2.6.4 =
+1. Improvement: Typos fixed
+2. Improvement: Small Calendar auto detect language
+
+
+= 2.6.3 =
+1. New Feature: Multilingual
+2. Bug Fixed: Date picker window cut off fixed
+3. Bug Fixed: Scattered time-slots problem with few themes
+4. Bug Fixed: Client from error position
+5. Improvement: Calendar start-end time slot time now in 15 min intervals
+
+
+= 2.6.2 =
+1. New Feature: Multilingual
+2. Bug Fixed: Date picker window cut off fixed
+3. Bug Fixed: Scattered time-slots problem with few themes
+4. Bug Fixed: Client from error position
+5. Improvement: Calendar start-end time in 15 minutes intervals
+6. Improvement: Calendar axis time format added
+
+
+= 2.6.1 =
+1. Bug Fixed: Date selection
+2. Bug Fixed: Css issue 
+3. Improvement: Tested with Debug-Mode ON
+4. Improvement: Compatible with most of wap device and web browsers
+
+= 2.6 =
+1. New Feature: Mobile shortcode for Mobile device
+2. Bug Fixed: Booking time overlapping
+3. Plugin now uses PHP Date Picker instead of Jquery Datepicker
+4. Small fixes to avoid js conflict issues with the themes.
+5. Admin can now setup booking time slots from the settings panel.
+
+
+= 2.5 =
+1. New Feature: Recurring bi-weekly timeoff
+2. Bug Fixed: Time comparison on create/update timeoff/appointment
+3. Improvement: Help & support page added
+
+
+= 2.4 =
+1. Recurring timeoff bug fixed
+2. Monthly recurring rendering timeoff fixed
+3. Default Calendar Settings initialize at first time
+4. Repeating selection chrome issue fixed
+
+
+= 2.3 =
+1. Customizable Booking Button Text
+2. Calendar now uses pastel colors which is pleasing to the eyes 
+3. Appointment Booking Modal Form now submits via AJAX
+4. Loading Icon in Booking Flow
+5. Fixed memory exhausted error when Service Duration set to 0 
+
+
+= 2.2 =
+1. J-Query conflict fixed
+2. Plugin remove page added
+3. Time-off logic revamped
+4. Added some inline css on booking form for better usability
+
+
+= 2.1 =
+1. Fixed Phone Number Bug
+2. Fixed Service Availability Bug
+3. Fixed some Typos
+
+
+= 2.0 =
+1. Completely Revamped UI
+2. Better Appointment Management Dashboard
+3. Email notification now use SMTP and Inbuilt WP Mail function
+
+
+= 1.1 =
+1. Fixed The Memory Exhausted Erorr
+2. Added Mutiple service 
+
+
+= 1.0 =
+1. Removed Client Name from Public Calendar
+2. Improved / More Intutive Booking Form
+3. Email Notification to Admin on Booking
+4. Email Notification to client on Booking Cancellation
+
+
+= 0.85 =
+Bug Fixes
+1. Fixed Calendar Date Format Bug
+2. DateTime Bug Fixed - Plugin now compatible with PHP 5.2
+3. Fixed Installation problems
+
+
+= 0.8 =
+This version provides basic functionality to take and managemen appointments on wordpress blog.
