@@ -16,7 +16,7 @@ services:
   mysql:
     image: mariadb
     volumes:
-      - "./wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
+      - "../wordpress/wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
     environment:
       MYSQL_ROOT_PASSWORD: password
 
