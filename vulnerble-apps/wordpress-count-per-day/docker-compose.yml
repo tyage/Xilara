@@ -20,8 +20,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: password
 
-  collector:
-    build: ../../collector
+  filter:
+    build: ../../filter
     ports:
       - 8000:8000
     links:

@@ -1,7 +1,7 @@
 FROM node
 MAINTAINER tyage <namatyage@gmail.com>
 
-ARG SRCDIR="/usr/local/collector"
+ARG SRCDIR="/usr/local/filter"
 
 ADD ./ ${SRCDIR}
 
@@ -12,4 +12,4 @@ RUN set -x && \
 EXPOSE 8000
 
 WORKDIR ${SRCDIR}
-CMD node collector.js
+CMD node app.js
