@@ -1,17 +1,35 @@
+const htmlparser = require('htmlparser2');
 const http = require('http');
 const httpProxy = require('http-proxy');
+
+const { initDB, saveResponse, getHTMLs } = require('./collector');
+const { createModel } = require('./normalize.js');
+
 const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();
 
-const { initDB, saveResponse, getHTMLs } = require('./collector');
-
 initDB();
+
+const parseHTML = (html) => {
+  return new Promise((resolve, reject) => {
+    const handler = new htmlparser.DomHandler((error, dom) => resolve(dom));
+    const parser = new htmlparser.Parser(handler);
+    parser.write(html);
+    parser.done();
+  });
+};
 
 const filterData = (req, data) => {
   saveResponse(req.method, req.url, data).then(() => {
     return getHTMLs(req.method, req.url);
   }).then(htmls => {
-    // html parse
+    return Promise.all(htmls.map(html => parseHTML(html)));
+  }).then(parsedHTMLs => {
+    return createModel(parsedHTMLs);
+  }).then(model => {
+    console.log(model);
+  }).catch(error => {
+    console.log(error);
   });
 };
 

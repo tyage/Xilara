@@ -57,9 +57,12 @@ const saveResponse = (method, url, html) => {
       });
     });
   }).then(() => {
-    // save to file
-    fs.writeFile(`${fileDir}/${htmlHash}`, html, { flag: 'wx' }, err => {
-      // file already exists if error happens
+    return new Promise((resolve, reject) => {
+      // save to file
+      fs.writeFile(`${fileDir}/${htmlHash}`, html, { flag: 'wx' }, err => {
+        // file already exists if error happens
+        resolve();
+      });
     });
   });
 };
@@ -80,4 +83,4 @@ const getHTMLs = (method, url) => {
   });
 };
 
-module.exports = { initDB, saveResponse, getHTMLs }
+module.exports = { initDB, saveResponse, getHTMLs };
