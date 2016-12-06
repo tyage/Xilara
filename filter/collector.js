@@ -36,27 +36,48 @@ const saveResponse = (method, url, html) => {
   const requestHash = sha256Hex(request);
   const htmlHash = sha256Hex(html);
 
-  // save to db
-  db.get(`select count(*) from ${tableName} where request_hash = $request_hash and html_hash = $html_hash`, {
-    $request_hash: requestHash,
-    $html_hash: htmlHash
-  }, (err, res) => {
-    if (0 < res['count(*)']) {
-      return;
-    }
-
-    const stmt = db.prepare(`insert into ${tableName} (request, request_hash, html_hash, created_at) values ($request, $request_hash, $html_hash, datetime('now'))`);
-    stmt.run({
-      $request: request,
+  return new Promise((resolve, reject) => {
+    // save to db
+    db.get(`select count(*) from ${tableName} where request_hash = $request_hash and html_hash = $html_hash`, {
       $request_hash: requestHash,
       $html_hash: htmlHash
-    });
-  });
+    }, (err, res) => {
+      if (0 < res['count(*)']) {
+        resolve();
+        return;
+      }
 
-  // save to file
-  fs.writeFile(`${fileDir}/${htmlHash}`, html, { flag: 'wx' }, err => {
-    // file already exists if error happens
+      const stmt = db.prepare(`insert into ${tableName} (request, request_hash, html_hash, created_at) values ($request, $request_hash, $html_hash, datetime('now'))`);
+      stmt.run({
+        $request: request,
+        $request_hash: requestHash,
+        $html_hash: htmlHash
+      }, () => {
+        resolve();
+      });
+    });
+  }).then(() => {
+    // save to file
+    fs.writeFile(`${fileDir}/${htmlHash}`, html, { flag: 'wx' }, err => {
+      // file already exists if error happens
+    });
   });
 };
 
-module.expose = { initDB, saveResponse }
+const getHTMLs = (method, url) => {
+  const request = [method, url].join(' ');
+  const requestHash = sha256Hex(request);
+
+  return new Promise((resolve, reject) => {
+    db.all(`select html_hash from ${tableName} where request_hash = $request_hash`, {
+      $request_hash: requestHash
+    }, (err, rows) => {
+      const htmlHashes = rows.map(res => res.html_hash);
+      const uniqueHTMLHashes = [...new Set(htmlHashes)];
+      const htmls = uniqueHTMLHashes.map(hash => fs.readFileSync(`${fileDir}/${hash}`));
+      resolve(htmls);
+    });
+  });
+};
+
+module.exports = { initDB, saveResponse, getHTMLs }

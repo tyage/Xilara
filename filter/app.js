@@ -3,9 +3,17 @@ const httpProxy = require('http-proxy');
 const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();
 
-const { initDB, saveResponse } = require('./collector');
+const { initDB, saveResponse, getHTMLs } = require('./collector');
 
 initDB();
+
+const filterData = (req, data) => {
+  saveResponse(req.method, req.url, data).then(() => {
+    return getHTMLs(req.method, req.url);
+  }).then(htmls => {
+    // html parse
+  });
+};
 
 http.createServer((req, res) => {
   console.log(`Receiving reverse proxy request for: ${req.url}`);
@@ -26,7 +34,7 @@ http.createServer((req, res) => {
         data = zlib.gunzipSync(data);
       }
 
-      saveResponse(req.method, req.url, data);
+      filterData(req, data);
     });
   });
 
