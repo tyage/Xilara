@@ -1,7 +1,8 @@
+// Create a model only with tag name
+
 const { Node } = require('../lib/model');
 const { isAllSame } = require('../lib/helper');
 
-// Create a model only with tag name
 const createModel = (htmls) => {
   let model = [];
 
