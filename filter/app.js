@@ -4,7 +4,7 @@ const httpProxy = require('http-proxy');
 
 const { initDB, saveResponse, getHTMLs } = require('./collector');
 const { truncateGarbage } = require('./lib/html');
-const { createModel } = require('./factory/simple');
+const { createModel } = require('./factory/one-loop');
 
 const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();

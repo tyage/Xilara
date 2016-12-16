@@ -37,7 +37,9 @@ const deleteLoop = (html, model) => {
   const htmlLength = html.length;
   const modelLength = model.length;
 
-  for (let matchLength = 0; matchLength < htmlLength; ++matchLength) {
+  let matchLength = 0;
+  for (; matchLength < htmlLength; ++matchLength) {
+    const node = html[matchLength];
     const modelNode = model[matchLength % modelLength];
     if (!areNodesSame(node, modelNode)) {
       break;
@@ -68,7 +70,7 @@ const areNodesSame = (...nodes) => {
 
   for (let i = 0; i < childrenLength[0]; ++i) {
     const childrenList = nodes.map(node => node.children[i]);
-    if (!areNodesSame(childrenList)) {
+    if (!areNodesSame(...childrenList)) {
       return false;
     }
   }
@@ -86,6 +88,7 @@ const createModel = (htmls) => {
 
   // check head to tail sequentially
   let model = [];
+  const lengths = htmls.map(html => html.length);
   const minLength = Math.min(...lengths);
   for (let index = 0; index < minLength; ++index) {
     const nodes = htmls.map(html => html[index]);
@@ -100,9 +103,10 @@ const createModel = (htmls) => {
       // create model with tails
       const matches = htmls.map(html => deleteLoop(html.slice(index), loopNodes));
       const tails = matches.map(({ count, tail }) => tail);
+      let tailModel = [];
       try {
-        const tailModel = createModel(tails);
-      } catch {
+        tailModel = createModel(tails);
+      } catch(e) {
         continue;
       }
 
@@ -115,7 +119,7 @@ const createModel = (htmls) => {
   }
 
   // if there are still existing nodes
-  if (isAllSame(lengths)) {
+  if (!isAllSame(lengths)) {
     throw new Error(`htmls are differ! ${htmls}`);
   }
 
