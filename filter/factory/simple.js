@@ -1,62 +1,9 @@
-const ElementType = require('domelementtype');
+const { Node } = require('../lib/model');
+const { isAllSame } = require('../lib/helper');
 
-/*
-<ul>
-  <li>1
-  <li>2
-</ul>
-=>
-- ul
-  - [loop]
-    - li
-    - text
-*/
-
-class Node {
-  constructor() {
-    this.name = '';
-    this.children = [];
-    this.attributes = [];
-  }
-}
-
-class Loop {
-}
-
-const isAllSame = (elements) => {
-  return (new Set(elements)).size === 1;
-};
-
-const truncateGarbage = (html) => {
-  const newHTML = [];
-
-  html.forEach(e => {
-    if (!ElementType.isTag(e)) {
-      return;
-    }
-
-    const node = new Node();
-    node.name = e.name;
-    node.children = truncateGarbage(e.children);
-    node.attributes = e.attribs;
-    newHTML.push(node);
-  });
-  return newHTML;
-};
-
+// Create a model only with tag name
 const createModel = (htmls) => {
-  const model = [];
-
-  htmls = htmls.map(html => truncateGarbage(html));
-  if (htmls.length === 0) {
-    return model;
-  }
-
-  return createChildModel(htmls);
-};
-
-const createChildModel = (htmls) => {
-  const model = [];
+  let model = [];
 
   if (htmls.length === 0) {
     return model;
@@ -77,11 +24,9 @@ const createChildModel = (htmls) => {
         throw new Error(`tags are differ! ${nodes}`);
       }
 
-      // TODO: check attributes?
-
       // create child model
       const childrenList = nodes.map(node => node.children);
-      const childrenModel = createChildModel(childrenList);
+      const childrenModel = createModel(childrenList);
 
       // add node
       const node = new Node();

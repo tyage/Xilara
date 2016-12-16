@@ -3,7 +3,8 @@ const http = require('http');
 const httpProxy = require('http-proxy');
 
 const { initDB, saveResponse, getHTMLs } = require('./collector');
-const { createModel } = require('./normalize.js');
+const { truncateGarbage } = require('./lib/html');
+const { createModel } = require('./factory/simple');
 
 const webServer = process.env.APP_URL;
 const proxy = httpProxy.createServer();
@@ -25,7 +26,8 @@ const filterData = (req, data) => {
   }).then(htmls => {
     return Promise.all(htmls.map(html => parseHTML(html)));
   }).then(parsedHTMLs => {
-    return createModel(parsedHTMLs);
+    const htmls = parsedHTMLs.map(p => truncateGarbage(p));
+    return createModel(htmls);
   }).then(model => {
     console.log(model);
   }).catch(error => {
