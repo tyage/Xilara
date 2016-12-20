@@ -58,6 +58,13 @@ const areNodesSame = (...nodes) => {
     throw new Error(`nodes should have at least one node!`);
   }
 
+  // XXX: if loop nodes are included, it is difficult to check same node!!!
+  nodes = nodes.map(node => {
+    if (node instanceof Loop) {
+      return node.children[0];
+    }
+    return node;
+  });
   const names = nodes.map(node => node.name);
   if (!isAllSame(names)) {
     return false;
@@ -120,7 +127,7 @@ const createModel = (htmls) => {
 
   // if there are still existing nodes
   if (!isAllSame(lengths)) {
-    throw new Error(`htmls are differ! ${htmls}`);
+    throw new Error(`htmls are differ! ${JSON.stringify(htmls)}`);
   }
 
   return model;

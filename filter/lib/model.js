@@ -8,7 +8,8 @@ class Node {
 
 class Loop {
   constructor(loopNodes) {
-    this.loopNodes = loopNodes;
+    this.name = 'Loop';
+    this.children = loopNodes;
   }
 }
 
