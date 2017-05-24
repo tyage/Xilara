@@ -1,0 +1,3 @@
+[submodule "vulnerble-apps/webmin/webmin"]
+	path = vulnerble-apps/webmin/webmin
+	url = https://github.com/webmin/webmin.git
