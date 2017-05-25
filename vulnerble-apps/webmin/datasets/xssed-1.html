@@ -12,6 +12,9 @@ table.formsection, table.ui_table, table.loginform { border-collapse: collapse; 
 var rowsel = new Array();
 </script>
 <script type='text/javascript' src='/unauthenticated/sorttable.js'></script>
+<style type="text/css">
+textarea,pre { font-size:120%; }
+</style>
 <meta http-equiv="Content-Type" content="text/html; Charset=iso-8859-1">
 <title>Action Details</title>
 <script type='text/javascript'>
@@ -25,7 +28,7 @@ window.defaultStatus="admin logged into Webmin 1.678 on 063dc28141ec (Generic Li
 <td id='headln2c' align=center width=70%><font size=+2>Action Details</font></td>
 <td id='headln2r' width=15% valign=top align=right></td></tr></table>
 <p><form class='ui_form' action='rollback.cgi' method='get'>
-<input class='ui_hidden' type='hidden' name="id" value="1495700059.929.0">
+<input class='ui_hidden' type='hidden' name="id" value="1495700630.1031.0">
 <input class='ui_hidden' type='hidden' name="search" value="e&quot;><script>alert(document.cookie);</script>">
 <style>
 .opener_shown {display:inline}
@@ -91,7 +94,7 @@ return false;
 <table class='shrinkwrapper' width=100%>
 <tr><td>
 <table class='ui_table' width=100%>
-<thead><tr><td><a href="javascript:hidden_opener('hiddendiv_main', 'hiddenopener_main')" id='hiddenopener_main'><img border=0 src='/images/open.gif'></a> <a href="javascript:hidden_opener('hiddendiv_main', 'hiddenopener_main')" class='ui-hidden-table-title'><b>Details of logged action 1495700059.929.0</b></a></td></tr> </thead>
+<thead><tr><td><a href="javascript:hidden_opener('hiddendiv_main', 'hiddenopener_main')" id='hiddenopener_main'><img border=0 src='/images/open.gif'></a> <a href="javascript:hidden_opener('hiddendiv_main', 'hiddenopener_main')" class='ui-hidden-table-title'><b>Details of logged action 1495700630.1031.0</b></a></td></tr> </thead>
 <tbody><tr> <td colspan=1><div class='opener_shown' id='hiddendiv_main'><table width=100%>
 <tr class='ui_form_pair'>
 <td class='ui_form_label' ><b>Description</b></td>
@@ -113,7 +116,7 @@ return false;
 <td class='ui_form_label' ><b>Session ID</b></td>
 <td class='ui_form_value' colspan=1 ><a class='ui_link' href='search.cgi?sid=426065e85e44ae43908a027a0062ab33&uall=1&mall=1&tall=1&fall=1&return=&returndesc='>426065e85e44ae43908a027a0062ab33</a></td>
 <td class='ui_form_label' ><b>Date and time</b></td>
-<td class='ui_form_value' colspan=1 >25/May/2017 08:14</td>
+<td class='ui_form_value' colspan=1 >25/May/2017 08:23</td>
 </tr>
 </table></div></td></tr></tbody></table>
 </td></tr></table>
@@ -154,12 +157,36 @@ return false;
 <td ><b>Parameter value</b></td>
 </tr></thead> <tbody>
 <tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% ><b>module</b></td>
-<td >webmin</td>
+<td width=20% ><b>object</b></td>
+<td >-</td>
 </tr>
 <tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% ><b>ip</b></td>
+<td >172.17.0.1</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% ><b>script</b></td>
+<td >change_log.cgi</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% ><b>action</b></td>
+<td >log</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% ><b>time</b></td>
+<td >1495700630</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% ><b>sid</b></td>
+<td >426065e85e44ae43908a027a0062ab33</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
 <td width=20% ><b>type</b></td>
 <td >-</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% ><b>module</b></td>
+<td >webmin</td>
 </tr>
 <tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
 <td width=20% ><b>user</b></td>
@@ -167,83 +194,63 @@ return false;
 </tr>
 <tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
 <td width=20% ><b>id</b></td>
-<td >1495700059.929.0</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% ><b>script</b></td>
-<td >change_log.cgi</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% ><b>ip</b></td>
-<td >172.17.0.1</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% ><b>object</b></td>
-<td >-</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% ><b>sid</b></td>
-<td >426065e85e44ae43908a027a0062ab33</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% ><b>time</b></td>
-<td >1495700059</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% ><b>action</b></td>
-<td >log</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% >perms_def</td>
-<td >1</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >logclear</td>
-<td >0</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% >mall</td>
-<td >1</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >logfiles</td>
-<td >0</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% >login</td>
-<td >0</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >logtime</td>
-<td >168</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% >log</td>
-<td >1</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >loghost</td>
-<td >0</td>
-</tr>
-<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
-<td width=20% >save</td>
-<td >Save</td>
-</tr>
-<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >logfullfiles</td>
-<td >0</td>
+<td >1495700630.1031.0</td>
 </tr>
 <tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
 <td width=20% >uall</td>
 <td >1</td>
 </tr>
 <tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
-<td width=20% >logsyslog</td>
+<td width=20% >save</td>
+<td >Save</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% >logfullfiles</td>
+<td >0</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >loghost</td>
 <td >0</td>
 </tr>
 <tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
 <td width=20% >logclf</td>
 <td >0</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >logsyslog</td>
+<td >1</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% >modules</td>
+<td >cluster-copy</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >mall</td>
+<td >1</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% >logclear</td>
+<td >1</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >perms_def</td>
+<td >1</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% >log</td>
+<td >1</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >login</td>
+<td >0</td>
+</tr>
+<tr class='ui_columns_row row1' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row1'">
+<td width=20% >logtime</td>
+<td >168</td>
+</tr>
+<tr class='ui_columns_row row0' onMouseOver="this.className='mainhigh'" onMouseOut="this.className='mainbody row0'">
+<td width=20% >logfiles</td>
+<td >1</td>
 </tr>
 </tbody> </table>
 </td> </tr> </table>

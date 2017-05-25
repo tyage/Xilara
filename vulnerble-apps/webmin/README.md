@@ -30,4 +30,4 @@ $ docker run -d -it --rm --name webmin -p 8080:80 webmin
 ### Unsafe
 
 - <./datasets/xss-1.html>
-  - `http://localhost:8080/webminlog/view.cgi?id=1495700059.929.0&search=e%22%3E%3Cscript%3Ealert(document.cookie);%3C/script%3E`
+  - `http://localhost:8080/webminlog/view.cgi?id=1495700630.1031.0&return=&returndesc=&search=e%22%3E%3Cscript%3Ealert(document.cookie);%3C/script%3E`
