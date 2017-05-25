@@ -2,7 +2,7 @@ FROM alpine
 MAINTAINER tyage <namatyage@gmail.com>
 
 ARG REPOSITORY="https://github.com/webmin/webmin.git"
-ARG BRANCH="1.830"
+ARG BRANCH="1623486fae6f38a5e7d2654ca48a3daa7dc36b05"
 ARG SRCDIR="/webmin"
 
 RUN set -x && \
