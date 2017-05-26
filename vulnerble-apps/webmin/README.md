@@ -1,4 +1,4 @@
-# SOY CMS
+# webmin
 
 ## Building information
 
