@@ -1,0 +1,581 @@
+<?xml version='1.0' encoding="ISO-8859-1"?>
+<wrapper name="webmin">
+<preferences name="Wrapper Configuration for Lexical Analysis">
+  <freetext value="false"/>
+  <freetextTags value="a,font,b,i,span,sup"/>
+  <skipTags value=""/>
+  <keepTags value="false"/>
+  <attributeValues value="id,class"/>
+  <skipTrees value="script,style"/>
+  <variantTags value="a,font,b,i,span,sup"/>
+  <skipAttributes value="selected,bgcolor"/>
+</preferences>
+<expression>
+  <and>
+    <tag element="html" depth="0" attrs=""/>
+    <tag element="head" depth="1" attrs=""/>
+    <tag element="link" depth="2" attrs="rel,href,type"/>
+    <tag element="/link" depth="2" attrs="rel,href,type"/>
+    <tag element="link" depth="2" attrs="rel,href,type"/>
+    <tag element="/link" depth="2" attrs="rel,href,type"/>
+    <tag element="meta" depth="2" attrs="http-equiv,content"/>
+    <tag element="/meta" depth="2" attrs="http-equiv,content"/>
+    <tag element="title" depth="2" attrs=""/>
+    <pcdata depth="3"><![CDATA[Action Details]]></pcdata>
+    <tag element="/title" depth="2" attrs=""/>
+    <tag element="/head" depth="1" attrs=""/>
+    <tag element="body" depth="1" attrs="vlink,link,text"/>
+    <tag element="table" depth="2" attrs="width,class:header"/>
+    <tag element="tr" depth="3" attrs=""/>
+    <tag element="td" depth="4" attrs="width,valign,id:headln2l,align"/>
+    <tag element="a" depth="5" attrs="href"/>
+    <pcdata depth="6"><![CDATA[Module Index]]></pcdata>
+    <tag element="/a" depth="5" attrs="href"/>
+    <tag element="br" depth="5" attrs=""/>
+    <tag element="/br" depth="5" attrs=""/>
+    <tag element="/td" depth="4" attrs="width,valign,id:headln2l,align"/>
+    <tag element="td" depth="4" attrs="width,id:headln2c,align"/>
+    <tag element="font" depth="5" attrs="size"/>
+    <pcdata depth="6"><![CDATA[Action Details]]></pcdata>
+    <tag element="/font" depth="5" attrs="size"/>
+    <tag element="/td" depth="4" attrs="width,id:headln2c,align"/>
+    <tag element="td" depth="4" attrs="width,valign,id:headln2r,align"/>
+    <tag element="/td" depth="4" attrs="width,valign,id:headln2r,align"/>
+    <tag element="/tr" depth="3" attrs=""/>
+    <tag element="/table" depth="2" attrs="width,class:header"/>
+    <tag element="p" depth="2" attrs=""/>
+    <tag element="form" depth="3" attrs="method,action,class:ui_form"/>
+    <tag element="input" depth="4" attrs="name,type,class:ui_hidden,value"/>
+    <tag element="/input" depth="4" attrs="name,type,class:ui_hidden,value"/>
+    <tag element="input" depth="4" attrs="name,type,class:ui_hidden,value"/>
+    <tag element="/input" depth="4" attrs="name,type,class:ui_hidden,value"/>
+    <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="tr" depth="5" attrs=""/>
+    <tag element="td" depth="6" attrs=""/>
+    <tag element="table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="thead" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs=""/>
+    <tag element="a" depth="11" attrs="href,id:hiddenopener_main"/>
+    <tag element="img" depth="12" attrs="border,src"/>
+    <tag element="/img" depth="12" attrs="border,src"/>
+    <tag element="/a" depth="11" attrs="href,id:hiddenopener_main"/>
+    <tag element="a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="b" depth="12" attrs=""/>
+    <variant label="_A_"><pcdata depth="13"><![CDATA[Details of logged action 1495700059.929.0]]></pcdata></variant>
+    <tag element="/b" depth="12" attrs=""/>
+    <tag element="/a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="/td" depth="10" attrs=""/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/thead" depth="8" attrs=""/>
+    <tag element="tbody" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs="colspan"/>
+    <tag element="div" depth="11" attrs="id:hiddendiv_main,class:opener_shown"/>
+    <tag element="table" depth="12" attrs="width"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Description]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <pcdata depth="15"><![CDATA[Changed logging options]]></pcdata>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Webmin module]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <pcdata depth="15"><![CDATA[Webmin Configuration]]></pcdata>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Generated by script]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="tt" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[webmin/change_log.cgi]]></pcdata>
+    <tag element="/tt" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Webmin user]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <pcdata depth="15"><![CDATA[admin]]></pcdata>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Client IP or hostname]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <pcdata depth="15"><![CDATA[172.17.0.1]]></pcdata>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Session ID]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="a" depth="15" attrs="href,class:ui_link"/>
+    <pcdata depth="16"><![CDATA[426065e85e44ae43908a027a0062ab33]]></pcdata>
+    <tag element="/a" depth="15" attrs="href,class:ui_link"/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[Date and time]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="class:ui_form_label"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <variant label="_B_"><pcdata depth="15"><![CDATA[25/May/2017 08:14]]></pcdata></variant>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="/table" depth="12" attrs="width"/>
+    <tag element="/div" depth="11" attrs="id:hiddendiv_main,class:opener_shown"/>
+    <tag element="/td" depth="10" attrs="colspan"/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/tbody" depth="8" attrs=""/>
+    <tag element="/table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="/td" depth="6" attrs=""/>
+    <tag element="/tr" depth="5" attrs=""/>
+    <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="tr" depth="5" attrs=""/>
+    <tag element="td" depth="6" attrs=""/>
+    <tag element="table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="thead" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs=""/>
+    <tag element="a" depth="11" attrs="href,id:hiddenopener_anno"/>
+    <tag element="img" depth="12" attrs="border,src"/>
+    <tag element="/img" depth="12" attrs="border,src"/>
+    <tag element="/a" depth="11" attrs="href,id:hiddenopener_anno"/>
+    <tag element="a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="b" depth="12" attrs=""/>
+    <pcdata depth="13"><![CDATA[Log entry annotation]]></pcdata>
+    <tag element="/b" depth="12" attrs=""/>
+    <tag element="/a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="/td" depth="10" attrs=""/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/thead" depth="8" attrs=""/>
+    <tag element="tbody" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs="colspan"/>
+    <tag element="div" depth="11" attrs="id:hiddendiv_anno,class:opener_hidden"/>
+    <tag element="table" depth="12" attrs="width"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="textarea" depth="15" attrs="name,style,rows,class:ui_textarea,cols,wrap"/>
+    <tag element="/textarea" depth="15" attrs="name,style,rows,class:ui_textarea,cols,wrap"/>
+    <tag element="br" depth="15" attrs=""/>
+    <tag element="/br" depth="15" attrs=""/>
+    <tag element="input" depth="15" attrs="name,type,class:ui_submit,value"/>
+    <tag element="/input" depth="15" attrs="name,type,class:ui_submit,value"/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="/table" depth="12" attrs="width"/>
+    <tag element="/div" depth="11" attrs="id:hiddendiv_anno,class:opener_hidden"/>
+    <tag element="/td" depth="10" attrs="colspan"/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/tbody" depth="8" attrs=""/>
+    <tag element="/table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="/td" depth="6" attrs=""/>
+    <tag element="/tr" depth="5" attrs=""/>
+    <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="tr" depth="5" attrs=""/>
+    <tag element="td" depth="6" attrs=""/>
+    <tag element="table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="thead" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs=""/>
+    <tag element="a" depth="11" attrs="href,id:hiddenopener_output"/>
+    <tag element="img" depth="12" attrs="border,src"/>
+    <tag element="/img" depth="12" attrs="border,src"/>
+    <tag element="/a" depth="11" attrs="href,id:hiddenopener_output"/>
+    <tag element="a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="b" depth="12" attrs=""/>
+    <pcdata depth="13"><![CDATA[Webmin page contents]]></pcdata>
+    <tag element="/b" depth="12" attrs=""/>
+    <tag element="/a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="/td" depth="10" attrs=""/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/thead" depth="8" attrs=""/>
+    <tag element="tbody" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs="colspan"/>
+    <tag element="div" depth="11" attrs="id:hiddendiv_output,class:opener_hidden"/>
+    <tag element="table" depth="12" attrs="width"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="p" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[The Webmin server process is now restarting - please wait for a few seconds before continuing.]]></pcdata>
+    <tag element="/p" depth="15" attrs=""/>
+    <tag element="p" depth="15" attrs=""/>
+    <tag element="/p" depth="15" attrs=""/>
+    <tag element="p" depth="15" attrs=""/>
+    <tag element="/p" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="/table" depth="12" attrs="width"/>
+    <tag element="/div" depth="11" attrs="id:hiddendiv_output,class:opener_hidden"/>
+    <tag element="/td" depth="10" attrs="colspan"/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/tbody" depth="8" attrs=""/>
+    <tag element="/table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="/td" depth="6" attrs=""/>
+    <tag element="/tr" depth="5" attrs=""/>
+    <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="tr" depth="5" attrs=""/>
+    <tag element="td" depth="6" attrs=""/>
+    <tag element="table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="thead" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs=""/>
+    <tag element="a" depth="11" attrs="href,id:hiddenopener_raw"/>
+    <tag element="img" depth="12" attrs="border,src"/>
+    <tag element="/img" depth="12" attrs="border,src"/>
+    <tag element="/a" depth="11" attrs="href,id:hiddenopener_raw"/>
+    <tag element="a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="b" depth="12" attrs=""/>
+    <pcdata depth="13"><![CDATA[Raw log data]]></pcdata>
+    <tag element="/b" depth="12" attrs=""/>
+    <tag element="/a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="/td" depth="10" attrs=""/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/thead" depth="8" attrs=""/>
+    <tag element="tbody" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs="colspan"/>
+    <tag element="div" depth="11" attrs="id:hiddendiv_raw,class:opener_hidden"/>
+    <tag element="table" depth="12" attrs="width"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="table" depth="15" attrs="width,class:wrapper"/>
+    <tag element="tr" depth="16" attrs=""/>
+    <tag element="td" depth="17" attrs=""/>
+    <tag element="table" depth="18" attrs="width,class:ui_table sortable ui_columns"/>
+    <tag element="thead" depth="19" attrs=""/>
+    <tag element="tr" depth="20" attrs="class:ui_columns_heads"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <pcdata depth="23"><![CDATA[Parameter name]]></pcdata>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <tag element="b" depth="22" attrs=""/>
+    <pcdata depth="23"><![CDATA[Parameter value]]></pcdata>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="class:ui_columns_heads"/>
+    <tag element="/thead" depth="19" attrs=""/>
+    <tag element="tbody" depth="19" attrs=""/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_C_"><pcdata depth="23"><![CDATA[time]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_D_"><pcdata depth="22"><![CDATA[1495700059]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_E_"><pcdata depth="23"><![CDATA[user]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_F_"><pcdata depth="22"><![CDATA[admin]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_G_"><pcdata depth="23"><![CDATA[id]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_H_"><pcdata depth="22"><![CDATA[1495700059.929.0]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_I_"><pcdata depth="23"><![CDATA[object]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_J_"><pcdata depth="22"><![CDATA[-]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_K_"><pcdata depth="23"><![CDATA[action]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_L_"><pcdata depth="22"><![CDATA[log]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_M_"><pcdata depth="23"><![CDATA[type]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_N_"><pcdata depth="22"><![CDATA[-]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_O_"><pcdata depth="23"><![CDATA[script]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_P_"><pcdata depth="22"><![CDATA[change_log.cgi]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_Q_"><pcdata depth="23"><![CDATA[ip]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_R_"><pcdata depth="22"><![CDATA[172.17.0.1]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_S_"><pcdata depth="23"><![CDATA[sid]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_T_"><pcdata depth="22"><![CDATA[426065e85e44ae43908a027a0062ab33]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <tag element="b" depth="22" attrs=""/>
+    <variant label="_U_"><pcdata depth="23"><![CDATA[module]]></pcdata></variant>
+    <tag element="/b" depth="22" attrs=""/>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_V_"><pcdata depth="22"><![CDATA[webmin]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_W_"><pcdata depth="22"><![CDATA[logsyslog]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_X_"><pcdata depth="22"><![CDATA[0]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_Y_"><pcdata depth="22"><![CDATA[logclear]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_Z_"><pcdata depth="22"><![CDATA[0]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_A1_"><pcdata depth="22"><![CDATA[logfullfiles]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_B1_"><pcdata depth="22"><![CDATA[0]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_C1_"><pcdata depth="22"><![CDATA[login]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <pcdata depth="22"><![CDATA[0]]></pcdata>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_D1_"><pcdata depth="22"><![CDATA[logtime]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_E1_"><pcdata depth="22"><![CDATA[168]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_F1_"><pcdata depth="22"><![CDATA[log]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_G1_"><pcdata depth="22"><![CDATA[1]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_H1_"><pcdata depth="22"><![CDATA[uall]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <pcdata depth="22"><![CDATA[1]]></pcdata>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_I1_"><pcdata depth="22"><![CDATA[logfiles]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <pcdata depth="22"><![CDATA[0]]></pcdata>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_J1_"><pcdata depth="22"><![CDATA[perms_def]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_K1_"><pcdata depth="22"><![CDATA[1]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_L1_"><pcdata depth="22"><![CDATA[logclf]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_M1_"><pcdata depth="22"><![CDATA[0]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_N1_"><pcdata depth="22"><![CDATA[mall]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_O1_"><pcdata depth="22"><![CDATA[1]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_P1_"><pcdata depth="22"><![CDATA[loghost]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <pcdata depth="22"><![CDATA[0]]></pcdata>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+    <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <tag element="td" depth="21" attrs="width"/>
+    <variant label="_Q1_"><pcdata depth="22"><![CDATA[save]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs="width"/>
+    <tag element="td" depth="21" attrs=""/>
+    <variant label="_R1_"><pcdata depth="22"><![CDATA[Save]]></pcdata></variant>
+    <tag element="/td" depth="21" attrs=""/>
+    <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
+    <hook>
+      <and>
+        <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+        <tag element="td" depth="21" attrs="width"/>
+        <pcdata depth="22"><![CDATA[loghost]]></pcdata>
+        <tag element="/td" depth="21" attrs="width"/>
+        <tag element="td" depth="21" attrs=""/>
+        <pcdata depth="22"><![CDATA[0]]></pcdata>
+        <tag element="/td" depth="21" attrs=""/>
+        <tag element="/tr" depth="20" attrs="onmouseout,class:ui_columns_row row0,onmouseover"/>
+      </and>
+    </hook>
+    <tag element="/tbody" depth="19" attrs=""/>
+    <tag element="/table" depth="18" attrs="width,class:ui_table sortable ui_columns"/>
+    <tag element="/td" depth="17" attrs=""/>
+    <tag element="/tr" depth="16" attrs=""/>
+    <tag element="/table" depth="15" attrs="width,class:wrapper"/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="/table" depth="12" attrs="width"/>
+    <tag element="/div" depth="11" attrs="id:hiddendiv_raw,class:opener_hidden"/>
+    <tag element="/td" depth="10" attrs="colspan"/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/tbody" depth="8" attrs=""/>
+    <tag element="/table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="/td" depth="6" attrs=""/>
+    <tag element="/tr" depth="5" attrs=""/>
+    <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="tr" depth="5" attrs=""/>
+    <tag element="td" depth="6" attrs=""/>
+    <tag element="table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="thead" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs=""/>
+    <tag element="a" depth="11" attrs="href,id:hiddenopener_files"/>
+    <tag element="img" depth="12" attrs="border,src"/>
+    <tag element="/img" depth="12" attrs="border,src"/>
+    <tag element="/a" depth="11" attrs="href,id:hiddenopener_files"/>
+    <tag element="a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="b" depth="12" attrs=""/>
+    <pcdata depth="13"><![CDATA[Files changed and commands run]]></pcdata>
+    <tag element="/b" depth="12" attrs=""/>
+    <tag element="/a" depth="11" attrs="href,class:ui-hidden-table-title"/>
+    <tag element="/td" depth="10" attrs=""/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/thead" depth="8" attrs=""/>
+    <tag element="tbody" depth="8" attrs=""/>
+    <tag element="tr" depth="9" attrs=""/>
+    <tag element="td" depth="10" attrs="colspan"/>
+    <tag element="div" depth="11" attrs="id:hiddendiv_files,class:opener_shown"/>
+    <tag element="table" depth="12" attrs="width"/>
+    <tag element="tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="b" depth="15" attrs=""/>
+    <pcdata depth="16"><![CDATA[No config file changes were logged for this action]]></pcdata>
+    <tag element="/b" depth="15" attrs=""/>
+    <tag element="p" depth="15" attrs=""/>
+    <tag element="/p" depth="15" attrs=""/>
+    <tag element="/td" depth="14" attrs="colspan,class:ui_form_value"/>
+    <tag element="/tr" depth="13" attrs="class:ui_form_pair"/>
+    <tag element="/table" depth="12" attrs="width"/>
+    <tag element="/div" depth="11" attrs="id:hiddendiv_files,class:opener_shown"/>
+    <tag element="/td" depth="10" attrs="colspan"/>
+    <tag element="/tr" depth="9" attrs=""/>
+    <tag element="/tbody" depth="8" attrs=""/>
+    <tag element="/table" depth="7" attrs="width,class:ui_table"/>
+    <tag element="/td" depth="6" attrs=""/>
+    <tag element="/tr" depth="5" attrs=""/>
+    <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
+    <tag element="/form" depth="3" attrs="method,action,class:ui_form"/>
+    <tag element="/p" depth="2" attrs=""/>
+    <tag element="p" depth="2" attrs=""/>
+    <variant label="_S1_"><tag element="a" depth="3" attrs="href"/></variant>
+    <tag element="img" depth="4" attrs="src,alt,align"/>
+    <tag element="/img" depth="4" attrs="src,alt,align"/>
+    <tag element="/a" depth="3" attrs="href"/>
+    <variant label="_T1_"><tag element="a" depth="3" attrs="href"/></variant>
+    <pcdata depth="4"><![CDATA[Return to search results]]></pcdata>
+    <tag element="/a" depth="3" attrs="href"/>
+    <pcdata depth="3"><![CDATA[ |
+ ]]></pcdata>
+    <tag element="a" depth="3" attrs="href"/>
+    <pcdata depth="4"><![CDATA[Return to search form]]></pcdata>
+    <tag element="/a" depth="3" attrs="href"/>
+    <tag element="br" depth="3" attrs=""/>
+    <tag element="/br" depth="3" attrs=""/>
+    <tag element="/p" depth="2" attrs=""/>
+    <tag element="/body" depth="1" attrs="vlink,link,text"/>
+    <tag element="/html" depth="0" attrs=""/>
+  </and>
+</expression>
+</wrapper>
