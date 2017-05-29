@@ -5,6 +5,6 @@ export default class Variant extends Node {
     super()
   }
   toString() {
-    return "<variant>"
+    return "<Variant>"
   }
 }
