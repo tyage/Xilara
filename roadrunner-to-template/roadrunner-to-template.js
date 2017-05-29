@@ -1,4 +1,4 @@
-import { Node, And, Tag, Text, Variant, Optional } from './template-node'
+import { Node, Set, Tag, Text, Variant, Optional } from './template-node'
 
 export const roadRunnerToTemplate = (expression) => {
   return expression.map(elem => {
@@ -19,7 +19,7 @@ export const roadRunnerToTemplate = (expression) => {
         node = new Text(elem._)
         break
       case 'and':
-        node = new And(elem)
+        node = new Set()
         break
       case 'tag':
         const { element, depth, attrs } = elem.$

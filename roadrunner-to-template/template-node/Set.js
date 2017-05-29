@@ -1,12 +1,12 @@
 import Node from './node'
 
-export default class And extends Node {
+export default class Set extends Node {
   constructor(elem) {
     super()
 
     this.elem = elem
   }
   toString() {
-    return JSON.stringify(this.elem)
+    return '<Set>'
   }
 }
