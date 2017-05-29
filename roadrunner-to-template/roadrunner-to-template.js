@@ -1,10 +1,13 @@
-import { Node, And, Tag } from './template-node'
+import { Node, And, Tag, Text } from './template-node'
 
 export const roadRunnerToTemplate = (expression) => {
   return expression.map(elem => {
     const name = elem['#name']
     let node = new Node()
     switch (name) {
+      case 'pcdata':
+        node = new Text(elem._)
+        break
       case 'and':
         node = new And(elem)
         break

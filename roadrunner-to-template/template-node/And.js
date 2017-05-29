@@ -1,6 +1,6 @@
 import Node from './node'
 
-class And extends Node {
+export default class And extends Node {
   constructor(elem) {
     super()
 
@@ -10,5 +10,3 @@ class And extends Node {
     return JSON.stringify(this.elem)
   }
 }
-
-export default And

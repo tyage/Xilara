@@ -1,7 +1,5 @@
-class Node {
+export default class Node {
   constructor() {
     this.children = []
   }
 }
-
-export default Node

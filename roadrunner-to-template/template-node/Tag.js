@@ -1,6 +1,6 @@
 import Node from './node'
 
-class Tag extends Node {
+export default class Tag extends Node {
   constructor(element, attrs, closing = false) {
     super()
 
@@ -24,5 +24,3 @@ class Tag extends Node {
     }
   }
 }
-
-export default Tag
