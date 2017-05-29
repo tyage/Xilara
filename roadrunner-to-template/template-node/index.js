@@ -1,11 +1,5 @@
-import Node from './Node'
-import And from './And'
-import Tag from './Tag'
-import Text from './Text'
-
-export {
-  Node,
-  And,
-  Tag,
-  Text
-}
+export { default as Node } from './Node'
+export { default as And } from './And'
+export { default as Tag } from './Tag'
+export { default as Text } from './Text'
+export { default as Variant } from './Variant'
