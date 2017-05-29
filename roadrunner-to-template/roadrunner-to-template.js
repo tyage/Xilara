@@ -1,12 +1,19 @@
-import { Node, And, Tag, Text, Variant } from './template-node'
+import { Node, And, Tag, Text, Variant, Optional } from './template-node'
 
 export const roadRunnerToTemplate = (expression) => {
   return expression.map(elem => {
     const name = elem['#name']
     let node = new Node()
     switch (name) {
+      case 'hook':
+        node = new Optional()
+        break
+      case 'plus':
+        node = new Loop()
+        break
       case 'variant':
-        node = new Variant(elem)
+        // 不要説ある
+        node = new Variant()
         break
       case 'pcdata':
         node = new Text(elem._)

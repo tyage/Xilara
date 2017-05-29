@@ -1,12 +1,10 @@
 import Node from './node'
 
 export default class Variant extends Node {
-  constructor(elem) {
+  constructor() {
     super()
-
-    this.elem = elem
   }
   toString() {
-    return JSON.stringify(this.elem)
+    return "<variant>"
   }
 }
