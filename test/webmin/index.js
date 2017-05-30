@@ -1,9 +1,7 @@
 import fs from 'fs'
-import { should } from 'chai'
+import assert from 'assert'
 import { roadrunnerFileToTemplate } from '../../template/roadrunner-to-template'
 import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../template'
-
-should()
 
 const safeHTMLs = [
   'vulnerable-apps/webmin/datasets/safe-1.html',
@@ -15,15 +13,27 @@ const xssedHTMLs = [
 ]
 
 const roadrunnerXMLFile = 'vulnerable-apps/webmin/roadrunner/webmin00.xml'
-roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-  safeHTMLs.forEach(htmlFile => {
-    const html = fs.readFileSync(htmlFile)
-    isHTMLMatchWithTemplate(html, template).should.equal(true)
+
+describe('Webmin', () => {
+  describe('safe HTML', () => {
+    it('should match with template', () => {
+      return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
+        safeHTMLs.forEach(htmlFile => {
+          const html = fs.readFileSync(htmlFile)
+          assert.equal(isHTMLMatchWithTemplate(html, template), true)
+        })
+      })
+    })
   })
-  xssedHTMLs.forEach(htmlFile => {
-    const html = fs.readFileSync(htmlFile)
-    isHTMLMatchWithTemplate(html, template).should.equal(false)
+
+  describe('xssed HTML', () => {
+    it('should not match with template', () => {
+      return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
+        xssedHTMLs.forEach(htmlFile => {
+          const html = fs.readFileSync(htmlFile)
+          assert.equal(isHTMLMatchWithTemplate(html, template), false)
+        })
+      })
+    })
   })
-}).catch((err) => {
-  console.log(err)
 })

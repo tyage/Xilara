@@ -63,7 +63,7 @@ export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
       }
 
       const template = roadrunnerToTemplate(result.wrapper.expression[0].$$)
-      resolve(template)
+      resolve(template[0])
     })
   })
 }
