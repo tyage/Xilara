@@ -23,4 +23,7 @@ export default class Tag extends Node {
       return `<${this.element} ${attrs}>`
     }
   }
+  matchWith(html) {
+    return html['#name'].toLowerCase() === this.element.toLowerCase()
+  }
 }

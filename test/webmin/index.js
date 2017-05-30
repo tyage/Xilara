@@ -18,9 +18,14 @@ describe('Webmin', () => {
   describe('safe HTML', () => {
     it('should match with template', () => {
       return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-        safeHTMLs.forEach(htmlFile => {
+        const matches = safeHTMLs.map(htmlFile => {
           const html = fs.readFileSync(htmlFile)
-          assert.equal(isHTMLMatchWithTemplate(html, template), true)
+          return isHTMLMatchWithTemplate(html, template)
+        })
+        return Promise.all(matches)
+      }).then((matches) => {
+        matches.forEach(match => {
+          assert.equal(match, true)
         })
       })
     })
@@ -29,9 +34,14 @@ describe('Webmin', () => {
   describe('xssed HTML', () => {
     it('should not match with template', () => {
       return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-        xssedHTMLs.forEach(htmlFile => {
+        const matches = xssedHTMLs.map(htmlFile => {
           const html = fs.readFileSync(htmlFile)
-          assert.equal(isHTMLMatchWithTemplate(html, template), false)
+          return isHTMLMatchWithTemplate(html, template)
+        })
+        return Promise.all(matches)
+      }).then((matches) => {
+        matches.forEach(match => {
+          assert.equal(match, false)
         })
       })
     })

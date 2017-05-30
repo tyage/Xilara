@@ -1,3 +1,6 @@
+import { Set } from './nodes'
+import { parseString } from 'xml2js'
+
 export const stringifyTemplate = (template, indent = 0) => {
   const elem = '  '.repeat(indent) + '- ' + template + '\n'
 
@@ -10,5 +13,13 @@ export const stringifyTemplate = (template, indent = 0) => {
 }
 
 export const isHTMLMatchWithTemplate = (html, template) => {
-  return true
+  return new Promise((resolve, reject) => {
+    parseString(html, {
+      explicitChildren: true,
+      preserveChildrenOrder: true,
+      strict: false
+    }, (err, result) => {
+      resolve(template.matchWith([ result.HTML ]))
+    })
+  })
 }
