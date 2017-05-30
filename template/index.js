@@ -8,3 +8,7 @@ export const stringifyTemplate = (template, indent = 0) => {
 
   return elem + children
 }
+
+export const isHTMLMatchWithTemplate = (html, template) => {
+  return true
+}

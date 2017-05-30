@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { parseString } from 'xml2js'
-import { Node, Set, Tag, Text, Variant, Optional } from '../template/nodes'
+import { Node, Set, Tag, Text, Variant, Optional } from './nodes'
 
 export const roadrunnerToTemplate = (expression) => {
   return expression.map(elem => {
@@ -63,7 +63,7 @@ export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
       }
 
       const template = roadrunnerToTemplate(result.wrapper.expression[0].$$)
-      resolve(resolve)
+      resolve(template)
     })
   })
 }
