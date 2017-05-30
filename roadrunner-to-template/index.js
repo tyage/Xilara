@@ -1,24 +1,69 @@
 import fs from 'fs'
 import { parseString } from 'xml2js'
-import { roadRunnerToTemplate } from './roadrunner-to-template'
+import { Node, Set, Tag, Text, Variant, Optional } from '../template/nodes'
 
-const stringifyTemplate = (template, indent = 0) => {
-  const elem = '  '.repeat(indent) + '- ' + template + '\n'
+export const roadrunnerToTemplate = (expression) => {
+  return expression.map(elem => {
+    const name = elem['#name']
+    let node = new Node()
+    switch (name) {
+      case 'hook':
+        node = new Optional()
+        break
+      case 'plus':
+        node = new Loop()
+        break
+      case 'variant':
+        // 不要説ある
+        node = new Variant()
+        break
+      case 'pcdata':
+        node = new Text(elem._)
+        break
+      case 'and':
+        node = new Set()
+        break
+      case 'tag':
+        const { element, depth, attrs } = elem.$
 
-  let children = ''
-  if (template.children.length > 0) {
-    children = template.children.map(e => stringifyTemplate(e, indent + 1)).join('')
-  }
+        let elementName = element
 
-  return elem + children
+        const attrMap = new Map
+        attrs.split(',').forEach(attr => {
+          const [key, value]  = attr.split(':')
+          attrMap.set(key, value)
+        })
+
+        const closing = element[0] === '/'
+        if (closing) {
+          elementName = elementName.slice(1)
+        }
+
+        node = new Tag(elementName, attrMap, closing)
+        break
+    }
+
+    if (elem.$$) {
+      node.children = roadrunnerToTemplate(elem.$$)
+    }
+
+    return node
+  })
 }
 
-const [roadrunnerXMLFile] = process.argv.slice(2)
-const buf = fs.readFileSync(roadrunnerXMLFile)
-parseString(buf.toString(), {
-  explicitChildren: true,
-  preserveChildrenOrder: true
-}, (err, result) => {
-  const template = roadRunnerToTemplate(result.wrapper.expression[0].$$)
-  console.log(template.map(t => stringifyTemplate(t)).join(''))
-})
+export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
+  return new Promise((resolve, reject) => {
+    const buf = fs.readFileSync(roadrunnerXMLFile)
+    parseString(buf.toString(), {
+      explicitChildren: true,
+      preserveChildrenOrder: true
+    }, (err, result) => {
+      if (err) {
+        reject(err)
+      }
+
+      const template = roadrunnerToTemplate(result.wrapper.expression[0].$$)
+      resolve(resolve)
+    })
+  })
+}
