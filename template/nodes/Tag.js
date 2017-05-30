@@ -1,16 +1,16 @@
 import Node from './node'
 
 export default class Tag extends Node {
-  constructor(element, attrs, closing = false) {
+  constructor(name, attrs, closing = false) {
     super()
 
-    this.element = element
+    this.name = name
     this.attrs = attrs
     this.closing = closing
   }
   toString() {
     if (this.closing) {
-      return `</${this.element}>`
+      return `</${this.name}>`
     } else {
       const attrs = Array.from(this.attrs.entries()).map(([k, v]) => {
         if (v) {
@@ -20,10 +20,32 @@ export default class Tag extends Node {
         }
       }).join(' ')
 
-      return `<${this.element} ${attrs}>`
+      return `<${this.name} ${attrs}>`
     }
   }
   matchWith(html) {
-    return html['#name'].toLowerCase() === this.element.toLowerCase()
+    const nameMatch = html['#name'].toLowerCase() === this.name.toLowerCase()
+    if (!nameMatch) {
+      return false
+    }
+
+    // make attribute name lower case
+    const originalHTMLAttrs = html.$ || {}
+    const htmlAttrs = {}
+    Object.keys(originalHTMLAttrs).forEach(k => {
+      htmlAttrs[k.toLowerCase()] = originalHTMLAttrs[k]
+    })
+    const notMatchedHTMLAttrs = Object.keys(htmlAttrs)
+
+    for (const [k, v] of this.attrs.entries()) {
+      const name = k.toLowerCase()
+      if (htmlAttrs[name] !== v) {
+        return false
+      }
+
+      const index = notMatchedHTMLAttrs.indexOf(name)
+      notMatchedHTMLAttrs.splice(index, 1)
+    }
+    return notMatchedHTMLAttrs.length === 0
   }
 }
