@@ -2,53 +2,63 @@ import fs from 'fs'
 import { parseString } from 'xml2js'
 import { Node, Set, Tag, Text, Variant, Optional } from './nodes'
 
-export const roadrunnerToTemplate = (expression) => {
-  return expression.map(elem => {
-    const name = elem['#name']
-    let node = new Node()
-    switch (name) {
-      case 'hook':
-        node = new Optional()
-        break
-      case 'plus':
-        node = new Loop()
-        break
-      case 'variant':
-        // 不要説ある
-        node = new Variant()
-        break
-      case 'pcdata':
-        node = new Text(elem._)
-        break
-      case 'and':
-        node = new Set()
-        break
-      case 'tag':
-        const { element, depth, attrs } = elem.$
-
-        let elementName = element
-
-        const attrMap = new Map
-        attrs.split(',').forEach(attr => {
-          const [key, value]  = attr.split(':')
-          attrMap.set(key, value)
-        })
-
-        const closing = element[0] === '/'
-        if (closing) {
-          elementName = elementName.slice(1)
+export const roadrunnerToTemplate = (elem) => {
+  const name = elem['#name']
+  let node = new Node()
+  switch (name) {
+    case 'hook':
+      node = new Optional()
+      break
+    case 'plus':
+      node = new Loop()
+      break
+    case 'variant':
+      // 不要説ある
+      node = new Variant()
+      break
+    case 'pcdata':
+      node = new Text(elem._)
+      break
+    case 'and':
+      const childElements = elem.$$
+      node = new Set()
+      let currentNode = node
+      for (let i = 0; i < childElements.length; ++i) {
+        const childElement = childElements[i]
+        const childNode = roadrunnerToTemplate(childElement)
+        if (childNode instanceof Tag) {
+          if (childNode.name[0] === '/') {
+            currentNode = currentNode.parent || node
+          } else {
+            currentNode.addChild(childNode)
+            currentNode = childNode
+          }
+        } else {
+          currentNode.addChild(childNode)
         }
+      }
+      break
+    case 'tag':
+      const { element, depth, attrs } = elem.$
 
-        node = new Tag(elementName, attrMap, closing)
-        break
-    }
+      const attrMap = new Map
+      attrs.split(',').forEach(attr => {
+        const [key, value]  = attr.split(':')
+        attrMap.set(key, value)
+      })
 
-    if (elem.$$) {
-      node.children = roadrunnerToTemplate(elem.$$)
-    }
+      node = new Tag(element, attrMap)
+      break
+  }
 
-    return node
-  })
+  if (elem.$$ && name !== 'and') {
+    node.addChildren(roadrunnerListToTemplateList(elem.$$))
+  }
+
+  return node
+}
+export const roadrunnerListToTemplateList = (list) => {
+  return list.map(elem => roadrunnerToTemplate(elem))
 }
 
 export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
@@ -62,7 +72,7 @@ export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
         reject(err)
       }
 
-      const template = roadrunnerToTemplate(result.wrapper.expression[0].$$)
+      const template = roadrunnerListToTemplateList(result.wrapper.expression[0].$$)
       resolve(template[0])
     })
   })

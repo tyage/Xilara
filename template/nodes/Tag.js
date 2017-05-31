@@ -1,27 +1,22 @@
 import Node from './node'
 
 export default class Tag extends Node {
-  constructor(name, attrs, closing = false) {
+  constructor(name, attrs) {
     super()
 
     this.name = name
     this.attrs = attrs
-    this.closing = closing
   }
   toString() {
-    if (this.closing) {
-      return `</${this.name}>`
-    } else {
-      const attrs = Array.from(this.attrs.entries()).map(([k, v]) => {
-        if (v) {
-          return `${k}="${v}"`
-        } else {
-          return `${k}`
-        }
-      }).join(' ')
+    const attrs = Array.from(this.attrs.entries()).map(([k, v]) => {
+      if (v) {
+        return `${k}="${v}"`
+      } else {
+        return `${k}`
+      }
+    }).join(' ')
 
-      return `<${this.name} ${attrs}>`
-    }
+    return `<${this.name} ${attrs}>`
   }
   matchWith(html) {
     const nameMatch = html['#name'].toLowerCase() === this.name.toLowerCase()
