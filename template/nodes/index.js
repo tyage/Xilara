@@ -1,5 +1,4 @@
 export { default as Node } from './Node'
-export { default as Set } from './Set'
 export { default as Tag } from './Tag'
 export { default as Text } from './Text'
 export { default as Variant } from './Variant'

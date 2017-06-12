@@ -19,11 +19,13 @@ export default class Tag extends Node {
     return `<${this.name} ${attrs}>`
   }
   matchWith(html) {
+    // check tag name
     const nameMatch = html['#name'].toLowerCase() === this.name.toLowerCase()
     if (!nameMatch) {
       return false
     }
 
+    // check attrs
     // make attribute name lower case
     const originalHTMLAttrs = html.$ || {}
     const htmlAttrs = {}
@@ -34,13 +36,14 @@ export default class Tag extends Node {
 
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
-      if (htmlAttrs[name] !== v) {
+      if (v !== undefined && htmlAttrs[name] !== v) {
         return false
       }
 
       const index = notMatchedHTMLAttrs.indexOf(name)
       notMatchedHTMLAttrs.splice(index, 1)
     }
+
     return notMatchedHTMLAttrs.length === 0
   }
 }
