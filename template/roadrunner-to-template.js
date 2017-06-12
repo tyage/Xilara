@@ -20,15 +20,16 @@ export const roadrunnerToTemplate = (elem) => {
       node = new Text(elem._)
       break
     case 'and':
+      // return list of child elements
       const childElements = elem.$$
-      node = new Set()
-      let currentNode = node
+      const rootNode = new Node()
+      let currentNode = rootNode
       for (let i = 0; i < childElements.length; ++i) {
         const childElement = childElements[i]
         const childNode = roadrunnerToTemplate(childElement)
         if (childNode instanceof Tag) {
           if (childNode.name[0] === '/') {
-            currentNode = currentNode.parent || node
+            currentNode = currentNode.parent || rootNode
           } else {
             currentNode.addChild(childNode)
             currentNode = childNode
@@ -37,6 +38,7 @@ export const roadrunnerToTemplate = (elem) => {
           currentNode.addChild(childNode)
         }
       }
+      return rootNode.children
       break
     case 'tag':
       const { element, depth, attrs } = elem.$
@@ -51,14 +53,25 @@ export const roadrunnerToTemplate = (elem) => {
       break
   }
 
-  if (elem.$$ && name !== 'and') {
+  if (elem.$$) {
     node.addChildren(roadrunnerListToTemplateList(elem.$$))
   }
 
   return node
 }
 export const roadrunnerListToTemplateList = (list) => {
-  return list.map(elem => roadrunnerToTemplate(elem))
+  const templateList = []
+  list.forEach(elem => {
+    const template = roadrunnerToTemplate(elem)
+
+    // roadrunner may have set of elements as a element
+    if (Array.isArray(template)) {
+      template.forEach(t => templateList.push(t))
+    } else {
+      templateList.push(template)
+    }
+  })
+  return templateList
 }
 
 export const roadrunnerFileToTemplate = (roadrunnerXMLFile) => {
