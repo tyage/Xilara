@@ -7,6 +7,10 @@ export default class Node {
     throw new Error('not implemented yet')
   }
   addChild(child) {
+    if (child === null) {
+      return
+    }
+
     this.children.push(child)
     child.parent = this
   }

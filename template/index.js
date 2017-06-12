@@ -19,10 +19,11 @@ export const isHTMLMatchWithTemplate = (html, template) => {
     while (checkHTMLStack.length !== 0 && checkTemplateStack.length !== 0) {
       const html = checkHTMLStack.pop()
       const template = checkTemplateStack.pop()
-      console.log(checkTemplateStack.join(' '))
-      console.log(`check ${html['#name']} and ${template}`)
 
       if (!template.matchWith(html)) {
+        console.log(`check ${html['#name']} and ${template}`)
+        console.log(html)
+        console.log(template)
         return false
       }
 

@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { parseString } from 'xml2js'
-import { Node, Tag, Text, Variant, Optional } from './nodes'
+import { Node, Tag, Optional } from './nodes'
 
 export const roadrunnerToTemplate = (elem) => {
   const name = elem['#name']
@@ -13,12 +13,8 @@ export const roadrunnerToTemplate = (elem) => {
       node = new Loop()
       break
     case 'variant':
-      // 不要説ある
-      node = new Variant()
-      break
     case 'pcdata':
-      node = new Text(elem._)
-      break
+      return null
     case 'and':
       // return list of child elements
       const childElements = elem.$$
@@ -63,6 +59,9 @@ export const roadrunnerListToTemplateList = (list) => {
   const templateList = []
   list.forEach(elem => {
     const template = roadrunnerToTemplate(elem)
+    if (template === null) {
+      return
+    }
 
     // roadrunner may have set of elements as a element
     if (Array.isArray(template)) {
