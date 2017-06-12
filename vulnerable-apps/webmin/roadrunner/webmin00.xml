@@ -6,9 +6,9 @@
   <skipTags value=""/>
   <keepTags value="false"/>
   <attributeValues value="id,class"/>
-  <skipTrees value="script,style"/>
-  <variantTags value="a,font,b,i,span,sup"/>
-  <skipAttributes value="selected,bgcolor"/>
+  <skipTrees value=""/>
+  <variantTags value=""/>
+  <skipAttributes value=""/>
 </preferences>
 <expression>
   <and>
@@ -18,13 +18,24 @@
     <tag element="/link" depth="2" attrs="rel,href,type"/>
     <tag element="link" depth="2" attrs="rel,href,type"/>
     <tag element="/link" depth="2" attrs="rel,href,type"/>
+    <tag element="script" depth="2" attrs=""/>
+    <pcdata depth="3"><![CDATA[var rowsel = new Array();]]></pcdata>
+    <tag element="/script" depth="2" attrs=""/>
+    <tag element="script" depth="2" attrs="src,type"/>
+    <tag element="/script" depth="2" attrs="src,type"/>
+    <tag element="style" depth="2" attrs="type"/>
+    <pcdata depth="3"><![CDATA[textarea,pre { font-size:120%; }]]></pcdata>
+    <tag element="/style" depth="2" attrs="type"/>
     <tag element="meta" depth="2" attrs="http-equiv,content"/>
     <tag element="/meta" depth="2" attrs="http-equiv,content"/>
     <tag element="title" depth="2" attrs=""/>
     <pcdata depth="3"><![CDATA[Action Details]]></pcdata>
     <tag element="/title" depth="2" attrs=""/>
+    <tag element="script" depth="2" attrs="type"/>
+    <pcdata depth="3"><![CDATA[window.defaultStatus="admin logged into Webmin 1.678 on 063dc28141ec (Generic Linux 4.9)";]]></pcdata>
+    <tag element="/script" depth="2" attrs="type"/>
     <tag element="/head" depth="1" attrs=""/>
-    <tag element="body" depth="1" attrs="vlink,link,text"/>
+    <tag element="body" depth="1" attrs="vlink,bgcolor,link,text"/>
     <tag element="table" depth="2" attrs="width,class:header"/>
     <tag element="tr" depth="3" attrs=""/>
     <tag element="td" depth="4" attrs="width,valign,id:headln2l,align"/>
@@ -49,6 +60,67 @@
     <tag element="/input" depth="4" attrs="name,type,class:ui_hidden,value"/>
     <tag element="input" depth="4" attrs="name,type,class:ui_hidden,value"/>
     <tag element="/input" depth="4" attrs="name,type,class:ui_hidden,value"/>
+    <tag element="style" depth="4" attrs=""/>
+    <pcdata depth="5"><![CDATA[.opener_shown {display:inline}
+.opener_hidden {display:none}]]></pcdata>
+    <tag element="/style" depth="4" attrs=""/>
+    <tag element="script" depth="4" attrs=""/>
+    <pcdata depth="5"><![CDATA[// Open or close a hidden section
+function hidden_opener(divid, openerid)
+{
+var divobj = document.getElementById(divid);
+var openerobj = document.getElementById(openerid);
+if (divobj.className == 'opener_shown') {
+  divobj.className = 'opener_hidden';
+  openerobj.innerHTML = '<img border=0 src=/images/closed.gif>';
+  }
+else {
+  divobj.className = 'opener_shown';
+  openerobj.innerHTML = '<img border=0 src=/images/open.gif>';
+  }
+}
+
+// Show a tab
+function select_tab(name, tabname, form)
+{
+var tabnames = document[name+'_tabnames'];
+var tabtitles = document[name+'_tabtitles'];
+for(var i=0; i<tabnames.length; i++) {
+  var tabobj = document.getElementById('tab_'+tabnames[i]);
+  var divobj = document.getElementById('div_'+tabnames[i]);
+  var title = tabtitles[i];
+  if (tabnames[i] == tabname) {
+    // Selected table
+    tabobj.innerHTML = '<table cellpadding=0 cellspacing=0><tr>'+
+		       '<td valign=top class=\'tabSelected\'>'+
+		       '<img src=/images/lc2.gif alt=""></td>'+
+		       '<td class=\'tabSelected\' nowrap>'+
+		       '&nbsp;<b>'+title+'</b>&nbsp;</td>'+
+	               '<td valign=top class=\'tabSelected\'>'+
+		       '<img src=/images/rc2.gif alt=""></td>'+
+		       '</tr></table>';
+    divobj.className = 'opener_shown';
+    }
+  else {
+    // Non-selected tab
+    tabobj.innerHTML = '<table cellpadding=0 cellspacing=0><tr>'+
+		       '<td valign=top class=\'tabUnselected\'>'+
+		       '<img src=/images/lc1.gif alt=""></td>'+
+		       '<td class=\'tabUnselected\' nowrap>'+
+                       '&nbsp;<a href=\'\' onClick=\'return select_tab("'+
+		       name+'", "'+tabnames[i]+'")\'>'+title+'</a>&nbsp;</td>'+
+		       '<td valign=top class=\'tabUnselected\'>'+
+    		       '<img src=/images/rc1.gif alt=""></td>'+
+		       '</tr></table>';
+    divobj.className = 'opener_hidden';
+    }
+  }
+if (document.forms[0] && document.forms[0][name]) {
+  document.forms[0][name].value = tabname;
+  }
+return false;
+}]]></pcdata>
+    <tag element="/script" depth="4" attrs=""/>
     <tag element="table" depth="4" attrs="width,class:shrinkwrapper"/>
     <tag element="tr" depth="5" attrs=""/>
     <tag element="td" depth="6" attrs=""/>
@@ -268,7 +340,7 @@
     <tag element="td" depth="17" attrs=""/>
     <tag element="table" depth="18" attrs="width,class:ui_table sortable ui_columns"/>
     <tag element="thead" depth="19" attrs=""/>
-    <tag element="tr" depth="20" attrs="class:ui_columns_heads"/>
+    <tag element="tr" depth="20" attrs="bgcolor,class:ui_columns_heads"/>
     <tag element="td" depth="21" attrs="width"/>
     <tag element="b" depth="22" attrs=""/>
     <pcdata depth="23"><![CDATA[Parameter name]]></pcdata>
@@ -279,7 +351,7 @@
     <pcdata depth="23"><![CDATA[Parameter value]]></pcdata>
     <tag element="/b" depth="22" attrs=""/>
     <tag element="/td" depth="21" attrs=""/>
-    <tag element="/tr" depth="20" attrs="class:ui_columns_heads"/>
+    <tag element="/tr" depth="20" attrs="bgcolor,class:ui_columns_heads"/>
     <tag element="/thead" depth="19" attrs=""/>
     <tag element="tbody" depth="19" attrs=""/>
     <tag element="tr" depth="20" attrs="onmouseout,class:ui_columns_row row1,onmouseover"/>
@@ -557,6 +629,12 @@
     <tag element="/tr" depth="5" attrs=""/>
     <tag element="/table" depth="4" attrs="width,class:shrinkwrapper"/>
     <tag element="/form" depth="3" attrs="method,action,class:ui_form"/>
+    <tag element="script" depth="3" attrs="type"/>
+    <pcdata depth="4"><![CDATA[var opts = document.getElementsByClassName('ui_opt_textbox');
+for(var i=0; i<opts.length; i++) {
+  opts[i].disabled = document.getElementsByName(opts[i].name+'_def')[0].checked;
+}]]></pcdata>
+    <tag element="/script" depth="3" attrs="type"/>
     <tag element="/p" depth="2" attrs=""/>
     <tag element="p" depth="2" attrs=""/>
     <variant label="_S1_"><tag element="a" depth="3" attrs="href"/></variant>
@@ -574,7 +652,7 @@
     <tag element="br" depth="3" attrs=""/>
     <tag element="/br" depth="3" attrs=""/>
     <tag element="/p" depth="2" attrs=""/>
-    <tag element="/body" depth="1" attrs="vlink,link,text"/>
+    <tag element="/body" depth="1" attrs="vlink,bgcolor,link,text"/>
     <tag element="/html" depth="0" attrs=""/>
   </and>
 </expression>
