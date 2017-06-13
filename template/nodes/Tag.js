@@ -19,6 +19,10 @@ export default class Tag extends Node {
     return `<${this.name} ${attrs}>`
   }
   matchWith(html) {
+    if (!html) {
+      return false
+    }
+
     // check tag name
     const nameMatch = html['#name'].toLowerCase() === this.name.toLowerCase()
     if (!nameMatch) {
