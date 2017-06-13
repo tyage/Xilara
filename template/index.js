@@ -13,10 +13,15 @@ export const stringifyTemplate = (template, indent = 0) => {
 }
 
 const checkMatch = (htmlRoot, templateRoot) => {
-  const state = {
+  let state = {
     html: htmlRoot,
     template: templateRoot,
-    prevState: []
+    prevState: null
+  }
+  const setNextState = (nextState) => {
+    state = Object.assign({}, state, {
+      prevState: state
+    }, nextState)
   }
 
   while (true) {
@@ -31,8 +36,10 @@ const checkMatch = (htmlRoot, templateRoot) => {
         if (templateHasChild) {
           if (htmlHasChild) {
             // if has children, check children
-            state.html = state.html.children[0]
-            state.template = state.template.children[0]
+            setNextState({
+              html: state.html.children[0],
+              template: state.template.children[0]
+            })
             console.log('see children')
           } else {
             throw new Error('template has child but html has no child')
@@ -69,8 +76,10 @@ const checkMatch = (htmlRoot, templateRoot) => {
                   } else {
                     // next template found!
                     // html may be empty (if template is optional)
-                    state.template = t.nextNode()
-                    state.html = h.next
+                    setNextState({
+                      template: t.nextNode(),
+                      html: h.next
+                    })
                     console.log(`next node in parent ${state.template}`)
                     break
                   }
@@ -82,20 +91,101 @@ const checkMatch = (htmlRoot, templateRoot) => {
               if (nextHTML === null) {
                 throw new Error('no next html, but template has next')
               } else {
-                state.html = nextHTML
-                state.template = nextTemplate
+                setNextState({
+                  html: nextHTML,
+                  template: nextTemplate
+                })
                 console.log('next siblings node')
               }
             }
           }
         }
       } else {
-        throw new Error('backtrack not implemented yet')
+        while (true) {
+          if (state.template instanceof Optional && state.optionalState) {
+            const ignoreOption = state.template
+            state = state.prevState
+
+// TODO: REMOVE!!!! THIS IS DUPLICATED!!!
+// if no child found, check next element
+const nextHTML = state.html.next
+let nextTemplate = state.template.nextNode()
+if (nextTemplate === ignoreOption) {
+  nextTemplate = null
+}
+if (nextTemplate === null) {
+  if (nextHTML === null) {
+    // search next parent node
+    let t = state.template.parent
+    let h = state.html.parent
+    while (true) {
+      console.log(t.toString(), h.name)
+      if (t instanceof Optional) {
+        t = t.parent
+      }
+
+      if (t === templateRoot) {
+        if (h === htmlRoot) {
+          return true
+        } else {
+          throw new Error('all template checked but html remaining')
+        }
+      }
+
+      let nextT = t.nextNode()
+      if (nextT === ignoreOption) {
+        nextT = nextT.nextNode()
+      }
+
+      if (nextT === null) {
+        // TODO: check html
+        t = t.parent
+        h = h.parent
+      } else {
+        // next template found!
+        // html may be empty (if template is optional)
+        setNextState({
+          template: nextT,
+          html: h.next
+        })
+        console.log(`next node in parent ${state.template}`)
+        break
+      }
+    }
+  } else {
+    throw new Error('no next template, but html has next')
+  }
+} else {
+  if (nextHTML === null) {
+    throw new Error('no next html, but template has next')
+  } else {
+    setNextState({
+      html: nextHTML,
+      template: nextTemplate
+    })
+    console.log('next siblings node')
+  }
+}
+
+
+            break
+          }
+
+          state = state.prevState
+          if (state === null) {
+            return false
+          }
+        }
       }
     } else if (state.template instanceof Optional) {
-      // set optional exists
-      state.template = state.template.children[0]
-      console.log('optional node')
+      if (state.optionalState === undefined) {
+        // set optional exists
+        state.optionalState = true
+        setNextState({
+          template: state.template.children[0],
+        })
+        console.log('optional node')
+      }
     } else {
       throw new Error('not implemented yet')
     }
