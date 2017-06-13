@@ -37,7 +37,9 @@ export default class Tag extends Node {
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
       if (v !== undefined && htmlAttrs[name] !== v) {
-        return false
+        // XXX: dont check value now, just warning (for multiple attributes problem)
+        console.warn(`attr ${name} is not same: ${htmlAttrs[name]}, ${v}`)
+        // return false
       }
 
       const index = notMatchedHTMLAttrs.indexOf(name)
