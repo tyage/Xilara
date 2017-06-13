@@ -13,6 +13,7 @@ export const roadrunnerToTemplate = (elem) => {
       node = new Loop()
       break
     case 'variant':
+      return roadrunnerToTemplate(elem.$$[0])
     case 'pcdata':
       return null
     case 'and':

@@ -15,11 +15,13 @@ export const stringifyTemplate = (template, indent = 0) => {
 const checkMatch = (htmlRoot, templateRoot) => {
   const state = {
     html: htmlRoot,
-    template: templateRoot
+    template: templateRoot,
+    prevState: []
   }
 
   while (true) {
-    console.log(`html: <${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>, template: ${state.template}`)
+    const htmlStr = state.html ? `<${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>` : 'null'
+    console.log(`html: ${htmlStr}, template: ${state.template}`)
 
     if (state.template instanceof Tag) {
       if (state.template.matchWith(state.html)) {
@@ -31,6 +33,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
             // if has children, check children
             state.html = state.html.children[0]
             state.template = state.template.children[0]
+            console.log('see children')
           } else {
             throw new Error('template has child but html has no child')
           }
@@ -47,6 +50,10 @@ const checkMatch = (htmlRoot, templateRoot) => {
                 let t = state.template.parent
                 let h = state.html.parent
                 while (true) {
+                  if (t instanceof Optional) {
+                    t = t.parent
+                  }
+
                   if (t === templateRoot) {
                     if (h === htmlRoot) {
                       return true
@@ -61,9 +68,10 @@ const checkMatch = (htmlRoot, templateRoot) => {
                     h = h.parent
                   } else {
                     // next template found!
-                    // TODO: check html
+                    // html may be empty (if template is optional)
                     state.template = t.nextNode()
                     state.html = h.next
+                    console.log(`next node in parent ${state.template}`)
                     break
                   }
                 }
@@ -76,6 +84,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
               } else {
                 state.html = nextHTML
                 state.template = nextTemplate
+                console.log('next siblings node')
               }
             }
           }
@@ -83,6 +92,10 @@ const checkMatch = (htmlRoot, templateRoot) => {
       } else {
         throw new Error('backtrack not implemented yet')
       }
+    } else if (state.template instanceof Optional) {
+      // set optional exists
+      state.template = state.template.children[0]
+      console.log('optional node')
     } else {
       throw new Error('not implemented yet')
     }
