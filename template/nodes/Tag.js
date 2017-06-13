@@ -24,14 +24,14 @@ export default class Tag extends Node {
     }
 
     // check tag name
-    const nameMatch = html['#name'].toLowerCase() === this.name.toLowerCase()
+    const nameMatch = html.name.toLowerCase() === this.name.toLowerCase()
     if (!nameMatch) {
       return false
     }
 
     // check attrs
     // make attribute name lower case
-    const originalHTMLAttrs = html.$ || {}
+    const originalHTMLAttrs = html.attribs
     const htmlAttrs = {}
     Object.keys(originalHTMLAttrs).forEach(k => {
       htmlAttrs[k.toLowerCase()] = originalHTMLAttrs[k]

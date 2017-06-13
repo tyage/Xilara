@@ -1,4 +1,4 @@
-import { parseString } from 'xml2js'
+import { DomHandler, Parser } from 'htmlparser2'
 import { Node, Tag, Optional } from './nodes'
 
 export const stringifyTemplate = (template, indent = 0) => {
@@ -13,57 +13,33 @@ export const stringifyTemplate = (template, indent = 0) => {
 }
 
 const checkMatch = (htmlRoot, templateRoot) => {
-  const getNextHTML = (html) => {
-    if (html.list.length <= html.index + 1) {
-      return null
-    }
-    return {
-      list: html.list,
-      index: html.index + 1,
-      parent: html.parent
-    }
-  }
-  const getCurrentHTMLNode = (html) => {
-    return html.list[html.index]
-  }
-
   const state = {
-    html: {
-      list: [ htmlRoot ],
-      index: 0,
-      parent: null
-    },
+    html: htmlRoot,
     template: templateRoot
   }
 
   while (true) {
-    let htmlNode = getCurrentHTMLNode(state.html)
-    console.log(`html: ${htmlNode['#name']}, template: ${state.template}`)
+    console.log(`html: <${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>, template: ${state.template}`)
 
     if (state.template instanceof Tag) {
-      if (state.template.matchWith(htmlNode)) {
+      if (state.template.matchWith(state.html)) {
         // if match, step next
-        const htmlHasChild = htmlNode.$$ && htmlNode.$$.length > 0
+        const htmlHasChild = state.html.children.length > 0
         const templateHasChild = state.template.children.length > 0
         if (templateHasChild) {
           if (htmlHasChild) {
             // if has children, check children
-            state.html = {
-              list: htmlNode.$$,
-              index: 0,
-              parent: state.html
-            }
+            state.html = state.html.children[0]
             state.template = state.template.children[0]
           } else {
             throw new Error('template has child but html has no child')
           }
         } else {
           if (htmlHasChild) {
-            console.log(state.html)
             throw new Error('template has no child but html has child')
           } else {
             // if no child found, check next element
-            const nextHTML = getNextHTML(state.html)
+            const nextHTML = state.html.next
             const nextTemplate = state.template.nextNode()
             if (nextTemplate === null) {
               if (nextHTML === null) {
@@ -72,7 +48,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
                 let h = state.html.parent
                 while (true) {
                   if (t === templateRoot) {
-                    if (getCurrentHTMLNode(h) === htmlRoot) {
+                    if (h === htmlRoot) {
                       return true
                     } else {
                       throw new Error('all template checked but html remaining')
@@ -87,7 +63,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
                     // next template found!
                     // TODO: check html
                     state.template = t.nextNode()
-                    state.html = getNextHTML(h)
+                    state.html = h.next
                     break
                   }
                 }
@@ -95,8 +71,12 @@ const checkMatch = (htmlRoot, templateRoot) => {
                 throw new Error('no next template, but html has next')
               }
             } else {
-              state.html = nextHTML
-              state.template = nextTemplate
+              if (nextHTML === null) {
+                throw new Error('no next html, but template has next')
+              } else {
+                state.html = nextHTML
+                state.template = nextTemplate
+              }
             }
           }
         }
@@ -110,13 +90,19 @@ const checkMatch = (htmlRoot, templateRoot) => {
 }
 
 export const isHTMLMatchWithTemplate = (html, template) => {
-  return new Promise((resolve, reject) => {
-    parseString(html, {
-      explicitChildren: true,
-      preserveChildrenOrder: true,
-      strict: false
-    }, (err, result) => {
-      resolve(checkMatch(result.HTML, template))
+  const parseHTML= new Promise((resolve, reject) => {
+    const handler = new DomHandler((error, dom) => resolve(dom));
+    handler.ontext = () => {}
+    handler.oncomment = () => {}
+    handler.oncommentend = () => {}
+    const parser = new Parser(handler);
+    parser.write(html);
+    parser.done();
+  })
+  return parseHTML.then((dom) => {
+    return new Promise((resolve, reject) => {
+      // TODO: search html node
+      resolve(checkMatch(dom[1], template))
     })
   })
 }

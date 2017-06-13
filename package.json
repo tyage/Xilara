@@ -13,6 +13,7 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
+    "htmlparser2": "^3.9.2",
     "xml2js": "^0.4.17"
   }
 }
