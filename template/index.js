@@ -14,7 +14,7 @@ export const stringifyTemplate = (template, indent = 0) => {
 
 const checkMatch = (htmlRoot, templateRoot) => {
   const getNextHTML = (html) => {
-    if (html.list.length <= html.index) {
+    if (html.list.length <= html.index + 1) {
       return null
     }
     return {
@@ -48,7 +48,6 @@ const checkMatch = (htmlRoot, templateRoot) => {
         if (templateHasChild) {
           if (htmlHasChild) {
             // if has children, check children
-            console.log(`childlength: ${htmlNode.$$.length}`)
             state.html = {
               list: htmlNode.$$,
               index: 0,
@@ -69,11 +68,11 @@ const checkMatch = (htmlRoot, templateRoot) => {
             if (nextTemplate === null) {
               if (nextHTML === null) {
                 // search next parent node
-                let t = state.tempate.parent
+                let t = state.template.parent
                 let h = state.html.parent
                 while (true) {
                   if (t === templateRoot) {
-                    if (h === htmlRoot) {
+                    if (getCurrentHTMLNode(h) === htmlRoot) {
                       return true
                     } else {
                       throw new Error('all template checked but html remaining')

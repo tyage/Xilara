@@ -20,13 +20,13 @@ export default class Node {
     children.forEach(child => this.addChild(child))
   }
   nextNode() {
-    if (this.parent.children.length - 1 <= this.positon) {
+    if (this.parent.children.length <= this.position + 1) {
       return null
     }
     return this.parent.children[this.position + 1]
   }
   prevNode() {
-    if (this.position <= 0) {
+    if (this.position - 1 <= -1) {
       return null
     }
     return this.parent.children[this.position - 1]
