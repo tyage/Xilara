@@ -23,10 +23,51 @@ const checkMatch = (htmlRoot, templateRoot) => {
       prevState: state
     }, nextState)
   }
+  const ROOT_NODE_FOUND = Symbol()
+  const findNextNode = (html, template, ignoreOption) => {
+    // if template is root, stop seek
+    if (template.parent === null) {
+      if (html.parent !== null) {
+        throw new Error('all template checked but html remaining')
+      }
+
+      return ROOT_NODE_FOUND
+    }
+
+    // if no child found, check next element
+    const nextHTML = html.next
+    let nextTemplate = template.nextNode()
+    while (nextTemplate === ignoreOption) {
+      nextTemplate = nextTemplate.nextNode()
+    }
+
+    if (nextTemplate !== null) {
+      // if next element found, return it
+      if (nextHTML === null) {
+        throw new Error('no next html, but template has next')
+      }
+
+      return {
+        html: nextHTML,
+        template: nextTemplate
+      }
+    } else {
+      // if next element not found, search next node of parent
+      if (nextHTML !== null) {
+        throw new Error('no next template, but html has next')
+      }
+
+      let templateParent = template.parent
+      while (templateParent instanceof Optional) {
+        templateParent = templateParent.parent
+      }
+      return findNextNode(html.parent, templateParent, ignoreOption)
+    }
+  }
 
   while (true) {
     const htmlStr = state.html ? `<${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>` : 'null'
-    //console.log(`html: ${htmlStr}, template: ${state.template}`)
+    console.log(`html: ${htmlStr}, template: ${state.template}`)
 
     if (state.template instanceof Tag) {
       if (state.template.matchWith(state.html)) {
@@ -34,71 +75,28 @@ const checkMatch = (htmlRoot, templateRoot) => {
         const htmlHasChild = state.html.children.length > 0
         const templateHasChild = state.template.children.length > 0
         if (templateHasChild) {
-          if (htmlHasChild) {
-            // if has children, check children
-            setNextState({
-              html: state.html.children[0],
-              template: state.template.children[0]
-            })
-            //console.log('see children')
-          } else {
+          if (!htmlHasChild) {
             throw new Error('template has child but html has no child')
           }
+
+          // if has children, check children
+          setNextState({
+            html: state.html.children[0],
+            template: state.template.children[0]
+          })
         } else {
           if (htmlHasChild) {
             throw new Error('template has no child but html has child')
-          } else {
-            // if no child found, check next element
-            const nextHTML = state.html.next
-            const nextTemplate = state.template.nextNode()
-            if (nextTemplate === null) {
-              if (nextHTML === null) {
-                // search next parent node
-                let t = state.template.parent
-                let h = state.html.parent
-                while (true) {
-                  if (t instanceof Optional) {
-                    t = t.parent
-                  }
-
-                  if (t === templateRoot) {
-                    if (h === htmlRoot) {
-                      return true
-                    } else {
-                      throw new Error('all template checked but html remaining')
-                    }
-                  }
-
-                  if (t.nextNode() === null) {
-                    // TODO: check html
-                    t = t.parent
-                    h = h.parent
-                  } else {
-                    // next template found!
-                    // html may be empty (if template is optional)
-                    setNextState({
-                      template: t.nextNode(),
-                      html: h.next
-                    })
-                    //console.log(`next node in parent ${state.template}`)
-                    break
-                  }
-                }
-              } else {
-                throw new Error('no next template, but html has next')
-              }
-            } else {
-              if (nextHTML === null) {
-                throw new Error('no next html, but template has next')
-              } else {
-                setNextState({
-                  html: nextHTML,
-                  template: nextTemplate
-                })
-                //console.log('next siblings node')
-              }
-            }
           }
+
+          const result = findNextNode(state.html, state.template, undefined)
+          if (result === ROOT_NODE_FOUND) {
+            return true
+          }
+          setNextState({
+            html: result.html,
+            template: result.template
+          })
         }
       } else {
         while (true) {
@@ -106,67 +104,14 @@ const checkMatch = (htmlRoot, templateRoot) => {
             const ignoreOption = state.template
             state = state.prevState
 
-// TODO: REMOVE!!!! THIS IS DUPLICATED!!!
-// if no child found, check next element
-const nextHTML = state.html.next
-let nextTemplate = state.template.nextNode()
-if (nextTemplate === ignoreOption) {
-  nextTemplate = null
-}
-if (nextTemplate === null) {
-  if (nextHTML === null) {
-    // search next parent node
-    let t = state.template.parent
-    let h = state.html.parent
-    while (true) {
-      //console.log(t.toString(), h.name)
-      if (t instanceof Optional) {
-        t = t.parent
-      }
-
-      if (t === templateRoot) {
-        if (h === htmlRoot) {
-          return true
-        } else {
-          throw new Error('all template checked but html remaining')
-        }
-      }
-
-      let nextT = t.nextNode()
-      if (nextT === ignoreOption) {
-        nextT = nextT.nextNode()
-      }
-
-      if (nextT === null) {
-        // TODO: check html
-        t = t.parent
-        h = h.parent
-      } else {
-        // next template found!
-        // html may be empty (if template is optional)
-        setNextState({
-          template: nextT,
-          html: h.next
-        })
-        //console.log(`next node in parent ${state.template}`)
-        break
-      }
-    }
-  } else {
-    throw new Error('no next template, but html has next')
-  }
-} else {
-  if (nextHTML === null) {
-    throw new Error('no next html, but template has next')
-  } else {
-    setNextState({
-      html: nextHTML,
-      template: nextTemplate
-    })
-    //console.log('next siblings node')
-  }
-}
-
+            const result = findNextNode(state.html, state.template, ignoreOption)
+            if (result === ROOT_NODE_FOUND) {
+              return true
+            }
+            setNextState({
+              html: result.html,
+              template: result.template
+            })
 
             break
           }
