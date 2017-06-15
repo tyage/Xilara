@@ -6,7 +6,8 @@ import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../template'
 const safeHTMLs = [
   'vulnerable-apps/webmin/datasets/safe-1.html',
   'vulnerable-apps/webmin/datasets/safe-2.html',
-  'vulnerable-apps/webmin/datasets/safe-3.html'
+  'vulnerable-apps/webmin/datasets/safe-3.html',
+  'vulnerable-apps/webmin/datasets/validator.html',
 ]
 const xssedHTMLs = [
   'vulnerable-apps/webmin/datasets/xssed-1.html'

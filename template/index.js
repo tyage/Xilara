@@ -26,7 +26,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
 
   while (true) {
     const htmlStr = state.html ? `<${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>` : 'null'
-    console.log(`html: ${htmlStr}, template: ${state.template}`)
+    //console.log(`html: ${htmlStr}, template: ${state.template}`)
 
     if (state.template instanceof Tag) {
       if (state.template.matchWith(state.html)) {
@@ -40,7 +40,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
               html: state.html.children[0],
               template: state.template.children[0]
             })
-            console.log('see children')
+            //console.log('see children')
           } else {
             throw new Error('template has child but html has no child')
           }
@@ -80,7 +80,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
                       template: t.nextNode(),
                       html: h.next
                     })
-                    console.log(`next node in parent ${state.template}`)
+                    //console.log(`next node in parent ${state.template}`)
                     break
                   }
                 }
@@ -95,7 +95,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
                   html: nextHTML,
                   template: nextTemplate
                 })
-                console.log('next siblings node')
+                //console.log('next siblings node')
               }
             }
           }
@@ -119,7 +119,7 @@ if (nextTemplate === null) {
     let t = state.template.parent
     let h = state.html.parent
     while (true) {
-      console.log(t.toString(), h.name)
+      //console.log(t.toString(), h.name)
       if (t instanceof Optional) {
         t = t.parent
       }
@@ -148,7 +148,7 @@ if (nextTemplate === null) {
           template: nextT,
           html: h.next
         })
-        console.log(`next node in parent ${state.template}`)
+        //console.log(`next node in parent ${state.template}`)
         break
       }
     }
@@ -163,7 +163,7 @@ if (nextTemplate === null) {
       html: nextHTML,
       template: nextTemplate
     })
-    console.log('next siblings node')
+    //console.log('next siblings node')
   }
 }
 
@@ -184,7 +184,7 @@ if (nextTemplate === null) {
         setNextState({
           template: state.template.children[0],
         })
-        console.log('optional node')
+        //console.log('optional node')
       }
     } else {
       throw new Error('not implemented yet')
