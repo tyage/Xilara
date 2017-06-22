@@ -26,8 +26,8 @@ const checkMatch = (htmlRoot, templateRoot) => {
   const ROOT_NODE_FOUND = Symbol()
   const findNextNode = (html, template, ignoreOption) => {
     // if template is root, stop seek
-    if (template.parent === null) {
-      if (html.parent !== null) {
+    if (template === templateRoot) {
+      if (html !== htmlRoot) {
         throw new Error('all template checked but html remaining')
       }
 
@@ -44,7 +44,9 @@ const checkMatch = (htmlRoot, templateRoot) => {
     if (nextTemplate !== null) {
       // if next element found, return it
       if (nextHTML === null) {
-        throw new Error('no next html, but template has next')
+        if (!(nextTemplate instanceof Optional)) {
+          //throw new Error('no next html, but template has next')
+        }
       }
 
       return {
@@ -54,7 +56,8 @@ const checkMatch = (htmlRoot, templateRoot) => {
     } else {
       // if next element not found, search next node of parent
       if (nextHTML !== null) {
-        throw new Error('no next template, but html has next')
+        // it may be broken
+        // throw new Error('no next template, but html has next')
       }
 
       let templateParent = template.parent
