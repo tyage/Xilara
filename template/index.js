@@ -45,7 +45,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
       // if next element found, return it
       if (nextHTML === null) {
         if (!(nextTemplate instanceof Optional)) {
-          //throw new Error('no next html, but template has next')
+          throw new Error('no next html, but template has next')
         }
       }
 
@@ -70,11 +70,11 @@ const checkMatch = (htmlRoot, templateRoot) => {
 
   while (true) {
     const htmlStr = state.html ? `<${state.html.name} ${Object.keys(state.html.attribs).join(' ')}>` : 'null'
-    console.log(`html: ${htmlStr}, template: ${state.template}`)
+    //console.log(`html: ${htmlStr}, template: ${state.template}`)
 
     if (state.template instanceof Tag) {
       if (state.template.matchWith(state.html)) {
-        // if match, step next
+        // if html match, step next
         const htmlHasChild = state.html.children.length > 0
         const templateHasChild = state.template.children.length > 0
         if (templateHasChild) {
@@ -102,6 +102,7 @@ const checkMatch = (htmlRoot, templateRoot) => {
           })
         }
       } else {
+        // if html not match, back to previous state
         while (true) {
           if (state.template instanceof Optional && state.optionalState) {
             const ignoreOption = state.template
