@@ -1,4 +1,4 @@
-import Node from './node'
+import Node from './Node'
 
 export default class Tag extends Node {
   constructor(name, attrs) {
