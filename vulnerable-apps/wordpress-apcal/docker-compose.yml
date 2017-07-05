@@ -4,6 +4,8 @@ services:
 
   wordpress:
     image: wordpress
+    ports:
+      - 8000:80
     volumes:
       - "./appointment-calendar:/var/www/html/wp-content/plugins/appointment-calendar"
     environment:
@@ -19,12 +21,3 @@ services:
       - "../wordpress/wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
     environment:
       MYSQL_ROOT_PASSWORD: password
-
-  filter:
-    build: ../../filter
-    ports:
-      - 8000:8000
-    links:
-      - wordpress
-    environment:
-      APP_URL: "http://wordpress"
