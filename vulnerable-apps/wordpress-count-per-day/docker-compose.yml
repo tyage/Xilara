@@ -4,20 +4,21 @@ services:
 
   wordpress:
     image: wordpress
-    ports:
-      - 8000:80
+    depends_on:
+      - mysql
     volumes:
       - "./count-per-day:/var/www/html/wp-content/plugins/count-per-day"
     environment:
       WORDPRESS_DB_PASSWORD: password
-      WORDPRESS_DB_HOST: mysql:3306
+      WORDPRESS_DB_HOST: 127.0.0.1:53307
       WORDPRESS_DB_NAME: wordpress
-    links:
-      - mysql
+    network_mode: "host"
 
   mysql:
     image: mariadb
     volumes:
       - "../wordpress/wordpress.sql:/docker-entrypoint-initdb.d/wordpress.sql"
+    ports:
+      - 53307:3306
     environment:
       MYSQL_ROOT_PASSWORD: password
