@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html xmlns="http://www.w3.org/1999/xhtml" class="ie8 wp-toolbar"  lang="en-US">
+<![endif]-->
+<!--[if !(IE 8) ]><!-->
+<html xmlns="http://www.w3.org/1999/xhtml" class="wp-toolbar"  lang="en-US">
+<!--<![endif]-->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>CountPerDay &lsaquo; vulnerable-blog &#8212; WordPress</title>
+<script type="text/javascript">
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+var ajaxurl = '/wp-admin/admin-ajax.php',
+	pagenow = 'dashboard_page_cpd_metaboxes',
+	typenow = '',
+	adminpage = 'dashboard_page_cpd_metaboxes',
+	thousandsSeparator = ',',
+	decimalPoint = '.',
+	isRtl = 0;
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel='dns-prefetch' href='//s.w.org' />
+<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' href='http://10.228.76.209/wp-admin/load-styles.php?c=0&amp;dir=ltr&amp;load%5B%5D=dashicons,admin-bar,common,forms,admin-menu,dashboard,list-tables,edit,revisions,media,themes,about,nav-menus,widgets,site-icon,&amp;load%5B%5D=l10n,buttons,wp-auth-check&amp;ver=4.8' type='text/css' media='all' />
+<!--[if lte IE 7]>
+<link rel='stylesheet' id='ie-css'  href='http://10.228.76.209/wp-admin/css/ie.min.css?ver=4.8' type='text/css' media='all' />
+<![endif]-->
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.3\/svg\/","svgExt":".svg","source":{"concatemoji":"\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.8"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,56826,8203,55356,56819),0,0),c=j.toDataURL(),b===c&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,56128,56423,56128,56418,56128,56421,56128,56430,56128,56423,56128,56447),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57332,8203,56128,56423,8203,56128,56418,8203,56128,56421,8203,56128,56430,8203,56128,56423,8203,56128,56447),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55358,56794,8205,9794,65039),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55358,56794,8203,9794,65039),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var userSettings = {"url":"\/","uid":"1","time":"1499676443","secure":""};/* ]]> */
+</script>
+<script type='text/javascript' src='http://10.228.76.209/wp-admin/load-scripts.php?c=0&amp;load%5B%5D=jquery-core,jquery-migrate,utils&amp;ver=4.8'></script>
+<!--[if IE]><script type="text/javascript" src="/wp-content/plugins/count-per-day/js/excanvas.min.js"></script><![endif]-->
+
+<link rel="stylesheet" href="/wp-content/plugins/count-per-day/counter.css" type="text/css" />
+<link rel="stylesheet" href="/wp-includes/js/thickbox/thickbox.css" type="text/css" />
+	<link id="wp-admin-canonical" rel="canonical" href="http://10.228.76.209/wp-admin/index.php?page=cpd_metaboxes" />
+	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, document.getElementById( 'wp-admin-canonical' ).href + window.location.hash );
+		}
+	</script>
+<script type="text/javascript">var _wpColorScheme = {"icons":{"base":"#82878c","focus":"#00a0d2","current":"#fff"}};</script>
+<style type="text/css" media="print">#wpadminbar { display:none; }</style>
+</head>
+<body class="wp-admin wp-core-ui no-js  dashboard_page_cpd_metaboxes auto-fold admin-bar branch-4-8 version-4-8 admin-color-fresh locale-en-us no-customize-support no-svg">
+<script type="text/javascript">
+	document.body.className = document.body.className.replace('no-js','js');
+</script>
+
+	<!--[if lte IE 8]>
+		<script type="text/javascript">
+			document.body.className = document.body.className.replace( /(^|\s)(no-)?customize-support(?=\s|$)/, '' ) + ' no-customize-support';
+		</script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
+		<script type="text/javascript">
+			(function() {
+				var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
+
+						request = (function(){ var xhr = new XMLHttpRequest(); return ('withCredentials' in xhr); })();
+
+				b[c] = b[c].replace( rcs, ' ' );
+				// The customizer requires postMessage and CORS (if the site is cross domain)
+				b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
+			}());
+		</script>
+	<!--<![endif]-->
+
+<div id="wpwrap">
+
+<div id="adminmenumain" role="navigation" aria-label="Main menu">
+<a href="#wpbody-content" class="screen-reader-shortcut">Skip to main content</a>
+<a href="#wp-toolbar" class="screen-reader-shortcut">Skip to toolbar</a>
+<div id="adminmenuback"></div>
+<div id="adminmenuwrap">
+<ul id="adminmenu">
+
+
+	<li class="wp-first-item wp-has-submenu wp-has-current-submenu wp-menu-open menu-top menu-top-first menu-icon-dashboard menu-top-last" id="menu-dashboard">
+	<a href='index.php' class="wp-first-item wp-has-submenu wp-has-current-submenu wp-menu-open menu-top menu-top-first menu-icon-dashboard menu-top-last" ><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-dashboard'><br /></div><div class='wp-menu-name'>Dashboard</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Dashboard</li><li class="wp-first-item"><a href='index.php' class="wp-first-item">Home</a></li><li><a href='update-core.php'>Updates <span class='update-plugins count-1'><span class='update-count'>1</span></span></a></li><li class="current"><a href='index.php?page=cpd_metaboxes' class="current">Count per Day</a></li></ul></li>
+	<li class="wp-not-current-submenu wp-menu-separator" aria-hidden="true"><div class="separator"></div></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-post open-if-no-js menu-top-first" id="menu-posts">
+	<a href='edit.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-post open-if-no-js menu-top-first" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-post'><br /></div><div class='wp-menu-name'>Posts</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Posts</li><li class="wp-first-item"><a href='edit.php' class="wp-first-item">All Posts</a></li><li><a href='post-new.php'>Add New</a></li><li><a href='edit-tags.php?taxonomy=category'>Categories</a></li><li><a href='edit-tags.php?taxonomy=post_tag'>Tags</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-media" id="menu-media">
+	<a href='upload.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-media" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-media'><br /></div><div class='wp-menu-name'>Media</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Media</li><li class="wp-first-item"><a href='upload.php' class="wp-first-item">Library</a></li><li><a href='media-new.php'>Add New</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-page" id="menu-pages">
+	<a href='edit.php?post_type=page' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-page" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-page'><br /></div><div class='wp-menu-name'>Pages</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Pages</li><li class="wp-first-item"><a href='edit.php?post_type=page' class="wp-first-item">All Pages</a></li><li><a href='post-new.php?post_type=page'>Add New</a></li></ul></li>
+	<li class="wp-not-current-submenu menu-top menu-icon-comments menu-top-last" id="menu-comments">
+	<a href='edit-comments.php' class="wp-not-current-submenu menu-top menu-icon-comments menu-top-last" ><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-comments'><br /></div><div class='wp-menu-name'>Comments <span class="awaiting-mod count-0"><span class="pending-count">0</span></span></div></a></li>
+	<li class="wp-not-current-submenu wp-menu-separator" aria-hidden="true"><div class="separator"></div></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-appearance menu-top-first" id="menu-appearance">
+	<a href='themes.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-appearance menu-top-first" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-appearance'><br /></div><div class='wp-menu-name'>Appearance</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Appearance</li><li class="wp-first-item"><a href='themes.php' class="wp-first-item">Themes</a></li><li class="hide-if-no-customize"><a href='customize.php?return=%2Fwp-admin%2Findex.php%3Fpage%3Dcpd_metaboxes' class="hide-if-no-customize">Customize</a></li><li><a href='widgets.php'>Widgets</a></li><li><a href='nav-menus.php'>Menus</a></li><li class="hide-if-no-customize"><a href='customize.php?return=%2Fwp-admin%2Findex.php%3Fpage%3Dcpd_metaboxes&#038;autofocus%5Bcontrol%5D=header_image' class="hide-if-no-customize">Header</a></li><li class="hide-if-no-customize"><a href='customize.php?return=%2Fwp-admin%2Findex.php%3Fpage%3Dcpd_metaboxes&#038;autofocus%5Bcontrol%5D=background_image' class="hide-if-no-customize">Background</a></li><li><a href='themes.php?page=custom-header'>Header</a></li><li><a href='themes.php?page=custom-background'>Background</a></li><li><a href='theme-editor.php'>Editor</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-plugins" id="menu-plugins">
+	<a href='plugins.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-plugins" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-plugins'><br /></div><div class='wp-menu-name'>Plugins <span class='update-plugins count-1'><span class='plugin-count'>1</span></span></div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Plugins <span class='update-plugins count-1'><span class='plugin-count'>1</span></span></li><li class="wp-first-item"><a href='plugins.php' class="wp-first-item">Installed Plugins</a></li><li><a href='plugin-install.php'>Add New</a></li><li><a href='plugin-editor.php'>Editor</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-users" id="menu-users">
+	<a href='users.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-users" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-users'><br /></div><div class='wp-menu-name'>Users</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Users</li><li class="wp-first-item"><a href='users.php' class="wp-first-item">All Users</a></li><li><a href='user-new.php'>Add New</a></li><li><a href='profile.php'>Your Profile</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-tools" id="menu-tools">
+	<a href='tools.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-tools" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-tools'><br /></div><div class='wp-menu-name'>Tools</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Tools</li><li class="wp-first-item"><a href='tools.php' class="wp-first-item">Available Tools</a></li><li><a href='import.php'>Import</a></li><li><a href='export.php'>Export</a></li></ul></li>
+	<li class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-settings menu-top-last" id="menu-settings">
+	<a href='options-general.php' class="wp-has-submenu wp-not-current-submenu menu-top menu-icon-settings menu-top-last" aria-haspopup="true"><div class="wp-menu-arrow"><div></div></div><div class='wp-menu-image dashicons-before dashicons-admin-settings'><br /></div><div class='wp-menu-name'>Settings</div></a>
+	<ul class='wp-submenu wp-submenu-wrap'><li class='wp-submenu-head' aria-hidden='true'>Settings</li><li class="wp-first-item"><a href='options-general.php' class="wp-first-item">General</a></li><li><a href='options-writing.php'>Writing</a></li><li><a href='options-reading.php'>Reading</a></li><li><a href='options-discussion.php'>Discussion</a></li><li><a href='options-media.php'>Media</a></li><li><a href='options-permalink.php'>Permalinks</a></li><li><a href='options-general.php?page=count-per-day/counter-options.php'>Count per Day</a></li></ul></li><li id="collapse-menu" class="hide-if-no-js"><button type="button" id="collapse-button" aria-label="Collapse Main menu" aria-expanded="true"><span class="collapse-button-icon" aria-hidden="true"></span><span class="collapse-button-label">Collapse menu</span></button></li></ul>
+</div>
+</div>
+<div id="wpcontent">
+
+		<div id="wpadminbar" class="nojq nojs">
+						<div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Toolbar" tabindex="0">
+				<ul id="wp-admin-bar-root-default" class="ab-top-menu">
+		<li id="wp-admin-bar-menu-toggle"><a class="ab-item" href="#"><span class="ab-icon"></span><span class="screen-reader-text">Menu</span></a>		</li>
+		<li id="wp-admin-bar-wp-logo" class="menupop"><a class="ab-item" aria-haspopup="true" href="/wp-admin/about.php"><span class="ab-icon"></span><span class="screen-reader-text">About WordPress</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-wp-logo-default" class="ab-submenu">
+		<li id="wp-admin-bar-about"><a class="ab-item" href="/wp-admin/about.php">About WordPress</a>		</li></ul><ul id="wp-admin-bar-wp-logo-external" class="ab-sub-secondary ab-submenu">
+		<li id="wp-admin-bar-wporg"><a class="ab-item" href="https://wordpress.org/">WordPress.org</a>		</li>
+		<li id="wp-admin-bar-documentation"><a class="ab-item" href="https://codex.wordpress.org/">Documentation</a>		</li>
+		<li id="wp-admin-bar-support-forums"><a class="ab-item" href="https://wordpress.org/support/">Support Forums</a>		</li>
+		<li id="wp-admin-bar-feedback"><a class="ab-item" href="https://wordpress.org/support/forum/requests-and-feedback">Feedback</a>		</li></ul></div>		</li>
+		<li id="wp-admin-bar-site-name" class="menupop"><a class="ab-item" aria-haspopup="true" href="http://10.228.76.209/">vulnerable-blog</a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-site-name-default" class="ab-submenu">
+		<li id="wp-admin-bar-view-site"><a class="ab-item" href="http://10.228.76.209/">Visit Site</a>		</li></ul></div>		</li>
+		<li id="wp-admin-bar-updates"><a class="ab-item" href="/wp-admin/update-core.php" title="1 Plugin Update"><span class="ab-icon"></span><span class="ab-label">1</span><span class="screen-reader-text">1 Plugin Update</span></a>		</li>
+		<li id="wp-admin-bar-comments"><a class="ab-item" href="/wp-admin/edit-comments.php"><span class="ab-icon"></span><span class="ab-label awaiting-mod pending-count count-0" aria-hidden="true">0</span><span class="screen-reader-text">0 comments awaiting moderation</span></a>		</li>
+		<li id="wp-admin-bar-new-content" class="menupop"><a class="ab-item" aria-haspopup="true" href="/wp-admin/post-new.php"><span class="ab-icon"></span><span class="ab-label">New</span></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-new-content-default" class="ab-submenu">
+		<li id="wp-admin-bar-new-post"><a class="ab-item" href="/wp-admin/post-new.php">Post</a>		</li>
+		<li id="wp-admin-bar-new-media"><a class="ab-item" href="/wp-admin/media-new.php">Media</a>		</li>
+		<li id="wp-admin-bar-new-page"><a class="ab-item" href="/wp-admin/post-new.php?post_type=page">Page</a>		</li>
+		<li id="wp-admin-bar-new-user"><a class="ab-item" href="/wp-admin/user-new.php">User</a>		</li></ul></div>		</li></ul><ul id="wp-admin-bar-top-secondary" class="ab-top-secondary ab-top-menu">
+		<li id="wp-admin-bar-my-account" class="menupop with-avatar"><a class="ab-item" aria-haspopup="true" href="/wp-admin/profile.php">Howdy, <span class="display-name">admin</span><img alt='' src='http://1.gravatar.com/avatar/17f94cbe5ce6356ae6ea4c5f6c8f100d?s=26&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/17f94cbe5ce6356ae6ea4c5f6c8f100d?s=52&amp;d=mm&amp;r=g 2x' class='avatar avatar-26 photo' height='26' width='26' /></a><div class="ab-sub-wrapper"><ul id="wp-admin-bar-user-actions" class="ab-submenu">
+		<li id="wp-admin-bar-user-info"><a class="ab-item" tabindex="-1" href="/wp-admin/profile.php"><img alt='' src='http://1.gravatar.com/avatar/17f94cbe5ce6356ae6ea4c5f6c8f100d?s=64&#038;d=mm&#038;r=g' srcset='http://1.gravatar.com/avatar/17f94cbe5ce6356ae6ea4c5f6c8f100d?s=128&amp;d=mm&amp;r=g 2x' class='avatar avatar-64 photo' height='64' width='64' /><span class='display-name'>admin</span></a>		</li>
+		<li id="wp-admin-bar-edit-profile"><a class="ab-item" href="/wp-admin/profile.php">Edit My Profile</a>		</li>
+		<li id="wp-admin-bar-logout"><a class="ab-item" href="/wp-login.php?action=logout&#038;_wpnonce=b6650d1045">Log Out</a>		</li></ul></div>		</li></ul>			</div>
+						<a class="screen-reader-shortcut" href="/wp-login.php?action=logout&#038;_wpnonce=b6650d1045">Log Out</a>
+					</div>
+
+
+<div id="wpbody" role="main">
+
+<div id="wpbody-content" aria-label="Main content" tabindex="0">
+		<div id="screen-meta" class="metabox-prefs">
+
+			<div id="contextual-help-wrap" class="hidden no-sidebar" tabindex="-1" aria-label="Contextual Help Tab">
+				<div id="contextual-help-back"></div>
+				<div id="contextual-help-columns">
+					<div class="contextual-help-tabs">
+						<ul>
+												</ul>
+					</div>
+
+
+					<div class="contextual-help-tabs-wrap">
+											</div>
+				</div>
+			</div>
+		<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="Screen Options Tab">
+<form id='adv-settings' method='post'>
+		<fieldset class="metabox-prefs">
+		<legend>Boxes</legend>
+		<label for="reads_at_all-hide"><input class="hide-postbox-tog" name="reads_at_all-hide" type="checkbox" id="reads_at_all-hide" value="reads_at_all"  checked='checked' /><span class="cpd_icon cpd_summary">&nbsp;</span> Total visitors</label><label for="user_online-hide"><input class="hide-postbox-tog" name="user_online-hide" type="checkbox" id="user_online-hide" value="user_online"  checked='checked' /><span class="cpd_icon cpd_online">&nbsp;</span> Visitors online</label><label for="searches-hide"><input class="hide-postbox-tog" name="searches-hide" type="checkbox" id="searches-hide" value="searches"  checked='checked' /><span class="cpd_icon cpd_help">&nbsp;</span> Search strings</label><label for="cpd_info-hide"><input class="hide-postbox-tog" name="cpd_info-hide" type="checkbox" id="cpd_info-hide" value="cpd_info"  checked='checked' /><span class="cpd_icon cpd_help">&nbsp;</span> Plugin</label><label for="user_per_month-hide"><input class="hide-postbox-tog" name="user_per_month-hide" type="checkbox" id="user_per_month-hide" value="user_per_month"  checked='checked' /><span class="cpd_icon cpd_user">&nbsp;</span> Visitors per month</label><label for="browsers-hide"><input class="hide-postbox-tog" name="browsers-hide" type="checkbox" id="browsers-hide" value="browsers"  checked='checked' /><span class="cpd_icon cpd_computer">&nbsp;</span> Browsers</label><label for="reads_per_month-hide"><input class="hide-postbox-tog" name="reads_per_month-hide" type="checkbox" id="reads_per_month-hide" value="reads_per_month"  checked='checked' /><span class="cpd_icon cpd_reads">&nbsp;</span> Reads per month</label><label for="reads_per_post-hide"><input class="hide-postbox-tog" name="reads_per_post-hide" type="checkbox" id="reads_per_post-hide" value="reads_per_post"  checked='checked' /><span class="cpd_icon cpd_post">&nbsp;</span> Visitors per post</label><label for="referers-hide"><input class="hide-postbox-tog" name="referers-hide" type="checkbox" id="referers-hide" value="referers"  checked='checked' /><span class="cpd_icon cpd_referrer">&nbsp;</span> Referrer</label><label for="last_reads-hide"><input class="hide-postbox-tog" name="last_reads-hide" type="checkbox" id="last_reads-hide" value="last_reads"  checked='checked' /><span class="cpd_icon cpd_calendar">&nbsp;</span> Latest Counts</label><label for="day_reads-hide"><input class="hide-postbox-tog" name="day_reads-hide" type="checkbox" id="day_reads-hide" value="day_reads"  checked='checked' /><span class="cpd_icon cpd_day">&nbsp;</span> Visitors per day</label>		</fieldset>
+				<fieldset class='columns-prefs'>
+		<legend class="screen-layout">Layout</legend>				<label class="columns-prefs-1">
+					<input type='radio' name='screen_columns' value='1'
+						 />
+					1 column				</label>
+								<label class="columns-prefs-2">
+					<input type='radio' name='screen_columns' value='2'
+						 />
+					2 columns				</label>
+								<label class="columns-prefs-3">
+					<input type='radio' name='screen_columns' value='3'
+						 />
+					3 columns				</label>
+								<label class="columns-prefs-4">
+					<input type='radio' name='screen_columns' value='4'
+						 />
+					4 columns				</label>
+						</fieldset>
+
+<input type="hidden" id="screenoptionnonce" name="screenoptionnonce" value="fe87ada6dd" />
+</form>
+</div>		</div>
+				<div id="screen-meta-links">
+					<div id="screen-options-link-wrap" class="hide-if-no-js screen-meta-toggle">
+			<button type="button" id="show-settings-link" class="button show-settings" aria-controls="screen-options-wrap" aria-expanded="false">Screen Options</button>
+			</div>
+				</div>
+			<div id="cpd-metaboxes" class="wrap">
+		<h2><img src="/wp-content/plugins/count-per-day/img/cpd_logo.png" alt="Logo" class="cpd_logo" style="margin-left:8px" /> Count per Day - Statistics</h2>
+		<input type="hidden" id="_wpnonce" name="_wpnonce" value="8e16ce8f8f" /><input type="hidden" name="_wp_http_referer" value="/wp-admin/index.php?page=cpd_metaboxes" /><input type="hidden" id="closedpostboxesnonce" name="closedpostboxesnonce" value="b052dc11fb" /><input type="hidden" id="meta-box-order-nonce" name="meta-box-order-nonce" value="aae76c0930" />
+	<div id="cpd-flot-place">
+		<div id="cpd-flot-choice">
+			<div style="float:left">
+				<a href="index.php?page=cpd_metaboxes&amp;cpd_chart_start=2017-05-11" class="button">&lt;</a>
+				May 12, 2017			</div>
+			<div style="float:right">
+				July 10, 2017				<a href="index.php?page=cpd_metaboxes&amp;cpd_chart_start=2017-09-08" class="button">&gt;</a>
+			</div>
+		</div>
+		<div id="cpd-flot" style="height:200px"></div>
+	</div>
+
+	<script type="text/javascript">
+	//<![CDATA[
+	jQuery(function() {
+		var placeholder = jQuery("#cpd-flot");
+		var choiceContainer = jQuery("#cpd-flot-choice");
+		var colors = ['blue', 'red'];
+		var datasets = {
+			'reads': { data: [[gd(2017,5,12),0],[gd(2017,5,13),0],[gd(2017,5,14),0],[gd(2017,5,15),0],[gd(2017,5,16),0],[gd(2017,5,17),0],[gd(2017,5,18),0],[gd(2017,5,19),0],[gd(2017,5,20),0],[gd(2017,5,21),0],[gd(2017,5,22),0],[gd(2017,5,23),0],[gd(2017,5,24),0],[gd(2017,5,25),0],[gd(2017,5,26),0],[gd(2017,5,27),0],[gd(2017,5,28),0],[gd(2017,5,29),0],[gd(2017,5,30),0],[gd(2017,5,31),0],[gd(2017,6,1),0],[gd(2017,6,2),0],[gd(2017,6,3),0],[gd(2017,6,4),0],[gd(2017,6,5),0],[gd(2017,6,6),0],[gd(2017,6,7),0],[gd(2017,6,8),0],[gd(2017,6,9),0],[gd(2017,6,10),0],[gd(2017,6,11),0],[gd(2017,6,12),0],[gd(2017,6,13),0],[gd(2017,6,14),0],[gd(2017,6,15),0],[gd(2017,6,16),0],[gd(2017,6,17),0],[gd(2017,6,18),0],[gd(2017,6,19),0],[gd(2017,6,20),0],[gd(2017,6,21),0],[gd(2017,6,22),0],[gd(2017,6,23),0],[gd(2017,6,24),0],[gd(2017,6,25),0],[gd(2017,6,26),0],[gd(2017,6,27),0],[gd(2017,6,28),0],[gd(2017,6,29),0],[gd(2017,6,30),0],[gd(2017,7,1),0],[gd(2017,7,2),0],[gd(2017,7,3),0],[gd(2017,7,4),0],[gd(2017,7,5),0],[gd(2017,7,6),0],[gd(2017,7,7),0],[gd(2017,7,8),0],[gd(2017,7,9),0],[gd(2017,7,10),2]], label: 'Reads per day' },
+			'visitors' : { data: [[gd(2017,5,12),0],[gd(2017,5,13),0],[gd(2017,5,14),0],[gd(2017,5,15),0],[gd(2017,5,16),0],[gd(2017,5,17),0],[gd(2017,5,18),0],[gd(2017,5,19),0],[gd(2017,5,20),0],[gd(2017,5,21),0],[gd(2017,5,22),0],[gd(2017,5,23),0],[gd(2017,5,24),0],[gd(2017,5,25),0],[gd(2017,5,26),0],[gd(2017,5,27),0],[gd(2017,5,28),0],[gd(2017,5,29),0],[gd(2017,5,30),0],[gd(2017,5,31),0],[gd(2017,6,1),0],[gd(2017,6,2),0],[gd(2017,6,3),0],[gd(2017,6,4),0],[gd(2017,6,5),0],[gd(2017,6,6),0],[gd(2017,6,7),0],[gd(2017,6,8),0],[gd(2017,6,9),0],[gd(2017,6,10),0],[gd(2017,6,11),0],[gd(2017,6,12),0],[gd(2017,6,13),0],[gd(2017,6,14),0],[gd(2017,6,15),0],[gd(2017,6,16),0],[gd(2017,6,17),0],[gd(2017,6,18),0],[gd(2017,6,19),0],[gd(2017,6,20),0],[gd(2017,6,21),0],[gd(2017,6,22),0],[gd(2017,6,23),0],[gd(2017,6,24),0],[gd(2017,6,25),0],[gd(2017,6,26),0],[gd(2017,6,27),0],[gd(2017,6,28),0],[gd(2017,6,29),0],[gd(2017,6,30),0],[gd(2017,7,1),0],[gd(2017,7,2),0],[gd(2017,7,3),0],[gd(2017,7,4),0],[gd(2017,7,5),0],[gd(2017,7,6),0],[gd(2017,7,7),0],[gd(2017,7,8),0],[gd(2017,7,9),0],[gd(2017,7,10),2]], label: 'Visitors per day' }
+			};
+		// Checkboxen
+		var i = 0;
+		jQuery.each(datasets, function(key, val) {
+			val.color = i;
+			++i;
+			choiceContainer.append(
+				'<input type="checkbox" name="' + key + '" checked="checked" id="id' + key + '" \/> '
+				+ '<label style="padding-left:3px;margin-right:10px;border-left:14px solid ' + colors[val.color] + '" for="id' + key + '">' + val.label + '<\/label> ');
+		});
+		choiceContainer.find("input").click(plotAccordingToChoices);
+
+		function showTooltip(x, y, contents) {
+			jQuery('<div id="cpd-tooltip">' + contents + '<\/div>').css({ top:y-70, left:x-80 }).appendTo("body").fadeIn(200);
+		}
+
+		var previousPoint = null;
+		jQuery(placeholder).bind("plothover", function (event, pos, item) {
+			if (item) {
+				if (previousPoint != item.datapoint) {
+					previousPoint = item.datapoint;
+					jQuery("#cpd-tooltip").remove();
+					var dx = new Date(item.datapoint[0]);
+					var datum = dx.getDate() + '.' + (dx.getMonth() + 1) + '.' + dx.getFullYear();
+					showTooltip(item.pageX, item.pageY,
+						datum + '<br\/><b>' + item.datapoint[1] + '<\/b> ' + item.series.label);
+				}
+			}
+			else {
+				jQuery("#cpd-tooltip").remove();
+				previousPoint = null;
+			}
+		});
+
+	    function weekendAreas(axes) {
+	        var markings = [];
+	        var d = new Date(axes.xaxis.min);
+	        d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7));
+	        d.setUTCSeconds(0);
+	        d.setUTCMinutes(0);
+	        d.setUTCHours(0);
+	        var i = d.getTime();
+	        do {
+	            markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 } });
+	            i += 7 * 24 * 60 * 60 * 1000;
+	        } while (i < axes.xaxis.max);
+	        return markings;
+	    }
+
+		function plotAccordingToChoices() {
+			var data = [];
+			choiceContainer.find("input:checked").each(function () {
+				var key = jQuery(this).attr("name");
+				if (key && datasets[key])
+					data.push(datasets[key]);
+			});
+
+			if (data.length > 0)
+				jQuery.plot(jQuery(placeholder), data , {
+					xaxis: { mode: 'time', timeformat: '%d.%m.%y' },
+					legend: { show: false },
+					colors: colors,
+					lines: { fill: true	},
+					grid: { borderWidth: 1, borderColor: '#ccc', hoverable: true, markings: weekendAreas }
+				});
+		}
+
+		function gd(year, month, day) {
+		    return new Date(year, month - 1, day).getTime();
+		}
+
+		plotAccordingToChoices();
+	});
+	//]]>
+	</script>
+			<div id="dashboard-widgets" class="metabox-holder cpd-dashboard">
+			<div class="postbox-container" style="width:25%;"><div id="cpdrow1-sortables" class="meta-box-sortables"><div id="reads_at_all" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_summary">&nbsp;</span> Total visitors</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_summary">&nbsp;</span> Total visitors</span></h2>
+<div class="inside">
+	<ul>
+		<li>Total reads: <b><span>2</span></b></li>
+		<li>Reads today: <b>2</b></li>
+		<li>Reads yesterday: <b>0</b></li>
+		<li>Reads last week: <b>2</b></li>
+		<li>Reads July:<b>2</b></li>
+		<li>Total visitors: <b><span>2</span></b></li>
+		<li>Visitors currently online:<b><span>2</span></b></li>
+		<li>Visitors today: <b>2</b></li>
+		<li>Visitors yesterday: <b>0</b></li>
+		<li>Visitors last week: <b>2</b></li>
+		<li>Visitors July: <b>2</b></li>
+		<li>&Oslash; Visitors per day: <b><abbr title="last 7 days without today">0.00</abbr></b></li>
+		<li>Since: <b>July 10, 2017</b></li>
+		<li>Most visited day: <b class="cpd-r">July 10, 2017<br/>2 Reads</b></li>
+		<li>Most visited day: <b class="cpd-r">July 10, 2017<br/>2 Visitors</b></li>
+	</ul>
+	</div>
+</div>
+<div id="user_online" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_online">&nbsp;</span> Visitors online</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_online">&nbsp;</span> Visitors online</span></h2>
+<div class="inside">
+2</div>
+</div>
+<div id="searches" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_help">&nbsp;</span> Search strings</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_help">&nbsp;</span> Search strings</span></h2>
+<div class="inside">
+<small>The 20 most searched strings:</small><ul class="cpd_front_list"></ul><small>The search strings of the last 7 days:</small><ul class="cpd_front_list"></ul></div>
+</div>
+<div id="cpd_info" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_help">&nbsp;</span> Plugin</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_help">&nbsp;</span> Plugin</span></h2>
+<div class="inside">
+<p style="margin:0">Count per Day: <code>3.5.4</code><br/>Time for Count per Day: <code><span style="white-space:nowrap">2017-07-10 08:47</span></code>.<br />Bug? Problem? Question? Hint? Praise? Write a comment on the <a href="http://www.tomsdimension.de/wp-plugins/count-per-day">plugin page</a>.<br />License: <a href="http://www.tomsdimension.de/postcards">Postcardware :)</a><br /><a href="/wp-content/plugins/count-per-day/readme.txt?KeepThis=true&amp;TB_iframe=true" title="Count per Day - Readme.txt" class="thickbox"><strong>Readme.txt</strong></a></p></div>
+</div>
+</div></div>
+			<div class="postbox-container" style="width:25%;"><div id="cpdrow2-sortables" class="meta-box-sortables"><div id="user_per_month" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_user">&nbsp;</span> Visitors per month</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_user">&nbsp;</span> Visitors per month</span></h2>
+<div class="inside">
+<div id="cpd-flot-userpermonth" class="cpd-list-chart" style="width:100%;height:50px"></div>
+		<script type="text/javascript">
+		//<![CDATA[
+		if (jQuery("#cpd-flot-userpermonth").width() > 0)
+			jQuery(function(){jQuery.plot(jQuery("#cpd-flot-userpermonth"),[[[-1,2]]],{series:{lines:{fill:true,lineWidth:1}},colors:["red"],grid:{show:false}});});
+		//]]>
+		</script>
+		<ul class="cpd_front_list"><li>2017-07 <b>2</b></li>
+</ul></div>
+</div>
+<div id="browsers" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_computer">&nbsp;</span> Browsers</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_computer">&nbsp;</span> Browsers</span></h2>
+<div class="inside">
+<ul id="cpd_clients" class="cpd_front_list"><li class="cpd-client-logo cpd-client-chrome">Chrome <b>100 %</b></li><li class="cpd-client-logo cpd-client-edge">Edge <b>0 %</b></li><li class="cpd-client-logo cpd-client-firefox">Firefox <b>0 %</b></li><li class="cpd-client-logo cpd-client-msie">MSIE <b>0 %</b></li><li class="cpd-client-logo cpd-client-opera">Opera <b>0 %</b></li><li class="cpd-client-logo cpd-client-safari">Safari <b>0 %</b></li></ul><small>Counter starts on: July 10, 2017</small></div>
+</div>
+</div></div>
+			<div class="postbox-container" style="width:25%;"><div id="cpdrow3-sortables" class="meta-box-sortables"><div id="reads_per_month" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_reads">&nbsp;</span> Reads per month</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_reads">&nbsp;</span> Reads per month</span></h2>
+<div class="inside">
+<div id="cpd-flot-readspermonth" class="cpd-list-chart" style="width:100%;height:50px"></div>
+		<script type="text/javascript">
+		//<![CDATA[
+		if (jQuery("#cpd-flot-readspermonth").width() > 0)
+			jQuery(function(){jQuery.plot(jQuery("#cpd-flot-readspermonth"),[[[-1,2]]],{series:{lines:{fill:true,lineWidth:1}},colors:["red"],grid:{show:false}});});
+		//]]>
+		</script>
+		<ul class="cpd_front_list"><li>2017-07 <b>2</b></li>
+</ul></div>
+</div>
+<div id="reads_per_post" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_post">&nbsp;</span> Visitors per post</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_post">&nbsp;</span> Visitors per post</span></h2>
+<div class="inside">
+</div>
+</div>
+<div id="referers" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_referrer">&nbsp;</span> Referrer</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_referrer">&nbsp;</span> Referrer</span></h2>
+<div class="inside">
+<small>The 20 referrers in last 7 days:</small><ul id="cpd_referrers" class="cpd_front_list"><li><a href="http://example.com/">example.com/</a> <b>1</b></li></ul></div>
+</div>
+</div></div>
+			<div class="postbox-container" style="width:25%;"><div id="cpdrow4-sortables" class="meta-box-sortables"><div id="last_reads" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_calendar">&nbsp;</span> Latest Counts</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_calendar">&nbsp;</span> Latest Counts</span></h2>
+<div class="inside">
+<small>The 20 most visited posts in last 7 days:</small><ul class="cpd_front_list"><li><img src="/wp-content/plugins/count-per-day/img/cpd_trans.png" alt="" style="width:25px;height:12px;" /><a href="http://10.228.76.209">- Front page -</a> <b>2</b></li>
+</ul></div>
+</div>
+<div id="day_reads" class="postbox " >
+<button type="button" class="handlediv" aria-expanded="true"><span class="screen-reader-text">Toggle panel: <span class="cpd_icon cpd_day">&nbsp;</span> Visitors per day</span><span class="toggle-indicator" aria-hidden="true"></span></button><h2 class='hndle'><span><span class="cpd_icon cpd_day">&nbsp;</span> Visitors per day</span></h2>
+<div class="inside">
+<form action="" method="post">
+			  <input name="daytoshow" value="2017-07-10" size="11" />
+			  <input type="submit" name="showday" value="Show" class="button" /> <a href="?page=cpd_notes&amp;KeepThis=true&amp;TB_iframe=true" title="Count per Day - Notes" class="button thickbox">Notes</a> </form><ul class="cpd_front_list"><li><img src="/wp-content/plugins/count-per-day/img/cpd_trans.png" alt="" style="width:25px;height:12px;" /><a href="http://10.228.76.209">- Front page -</a> <b>2</b></li>
+</ul></div>
+</div>
+</div></div>
+			<br class="clear"/>
+		</div>
+	</div>
+	<script type="text/javascript">
+	//<![CDATA[
+	jQuery(document).ready( function() {
+		jQuery('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+		postboxes.add_postbox_toggles('dashboard_page_cpd_metaboxes');
+	});
+	//]]>
+	</script>
+
+<div class="clear"></div></div><!-- wpbody-content -->
+<div class="clear"></div></div><!-- wpbody -->
+<div class="clear"></div></div><!-- wpcontent -->
+
+<div id="wpfooter" role="contentinfo">
+		<p id="footer-left" class="alignleft">
+		<span id="footer-thankyou">Thank you for creating with <a href="https://wordpress.org/">WordPress</a>.</span>	</p>
+	<p id="footer-upgrade" class="alignright">
+		Version 4.8	</p>
+	<div class="clear"></div>
+</div>
+	<div id="wp-auth-check-wrap" class="hidden fallback">
+	<div id="wp-auth-check-bg"></div>
+	<div id="wp-auth-check">
+	<button type="button" class="wp-auth-check-close button-link"><span class="screen-reader-text">Close dialog</span></button>
+		<div class="wp-auth-fallback">
+		<p><b class="wp-auth-fallback-expired" tabindex="0">Session expired</b></p>
+		<p><a href="/wp-login.php" target="_blank">Please log in again.</a>
+		The login page will open in a new window. After logging in you can close it and return to this page.</p>
+	</div>
+	</div>
+	</div>
+
+<script type='text/javascript'>
+/* <![CDATA[ */
+var commonL10n = {"warnDelete":"You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete.","dismiss":"Dismiss this notice.","collapseMenu":"Collapse Main menu","expandMenu":"Expand Main menu"};var wpAjax = {"noPerm":"Sorry, you are not allowed to do that.","broken":"An unidentified error has occurred."};var postBoxL10n = {"postBoxEmptyString":"Drag boxes here"};var heartbeatSettings = {"nonce":"783c69772c"};var authcheckL10n = {"beforeunload":"Your session has expired. You can log in again from this page or go to the login page.","interval":"180"};var thickboxL10n = {"next":"Next >","prev":"< Prev","image":"Image","of":"of","close":"Close","noiframes":"This feature requires inline frames. You have iframes disabled or your browser does not support them.","loadingAnimation":"\/wp-includes\/js\/thickbox\/loadingAnimation.gif"};/* ]]> */
+</script>
+<script type='text/javascript' src='http://10.228.76.209/wp-admin/load-scripts.php?c=0&amp;load%5B%5D=hoverIntent,common,admin-bar,wp-ajax-response,jquery-color,wp-lists,jquery-ui-core,jquery-ui-widget,jquery-ui-mouse,jquery-ui-so&amp;load%5B%5D=rtable,postbox,svg-painter,heartbeat,wp-auth-check,thickbox&amp;ver=4.8'></script>
+<script type='text/javascript' src='/wp-content/plugins/count-per-day/js/jquery.flot.min.js?ver=4.8'></script>
+
+<div class="clear"></div></div><!-- wpwrap -->
+<script type="text/javascript">if(typeof wpOnload=='function')wpOnload();</script>
+</body>
+</html>
