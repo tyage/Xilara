@@ -79,7 +79,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
 
   while (true) {
     const htmlStr = state.nodes.html ? `<${state.nodes.html.name} ${Object.keys(state.nodes.html.attribs).join(' ')}>` : 'null'
-    console.log(`html: ${htmlStr}, template: ${state.nodes.template}`)
+    //console.log(`html: ${htmlStr}, template: ${state.nodes.template}`)
 
     if (state.nodes.template instanceof Tag) {
       if (state.nodes.template.matchWith(state.nodes.html)) {
@@ -130,10 +130,12 @@ export const checkMatch = (htmlRoot, templateRoot) => {
             break
           }
 
-          state.backtrackNodes()
-          if (state.nodes === null) {
+          // if backtracking is reached to root node, matching failed
+          if (state.nodes === state.rootNodes) {
             return false
           }
+
+          state.backtrackNodes()
         }
       }
     } else if (state.nodes.template instanceof Optional) {
