@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { parseString } from 'xml2js'
-import { Node, Tag, Optional } from './nodes'
+import { Node, Tag, Optional, Loop } from './nodes'
 
 export const roadrunnerToTemplate = (elem) => {
   const name = elem['#name']
