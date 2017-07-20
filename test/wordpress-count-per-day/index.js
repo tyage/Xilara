@@ -15,7 +15,7 @@ const xssedHTMLs = [
 
 const roadrunnerXMLFile = 'vulnerable-apps/wordpress-count-per-day/roadrunner/wordpress-count-per-day00.xml'
 
-describe('Webmin', () => {
+describe('Wordpress Count Per Day', () => {
   describe('safe HTML', () => {
     it('should match with template', () => {
       return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {

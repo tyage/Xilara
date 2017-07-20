@@ -8,6 +8,8 @@ class Nodes {
   }
 }
 
+const OPTIONAL_IS_EXISTS = Symbol()
+const OPTIONAL_IS_NOT_EXISTS = Symbol()
 class State {
   constructor({ rootNodes = null, nodes = null, optionalStates = new WeakMap() }) {
     this.rootNodes = rootNodes
@@ -26,7 +28,7 @@ class State {
 }
 
 const ROOT_NODE_FOUND = Symbol()
-const findNextNode = (html, template, state, ignoreOption) => {
+const findNextNode = (html, template, state) => {
   // if template is root, stop seek
   if (template === state.rootNodes.template) {
     if (html !== state.rootNodes.html) {
@@ -39,7 +41,7 @@ const findNextNode = (html, template, state, ignoreOption) => {
   // if no child found, check next element
   const nextHTML = html.next
   let nextTemplate = template.nextNode()
-  while (nextTemplate === ignoreOption) {
+  while (state.optionalStates.get(nextTemplate) === OPTIONAL_IS_NOT_EXISTS) {
     nextTemplate = nextTemplate.nextNode()
   }
 
@@ -66,7 +68,7 @@ const findNextNode = (html, template, state, ignoreOption) => {
     while (templateParent instanceof Optional) {
       templateParent = templateParent.parent
     }
-    return findNextNode(html.parent, templateParent, state, ignoreOption)
+    return findNextNode(html.parent, templateParent, state)
   }
 }
 
@@ -102,7 +104,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
           }
 
           // if template has no children, find next node of html and template
-          const result = findNextNode(state.nodes.html, state.nodes.template, state, undefined)
+          const result = findNextNode(state.nodes.html, state.nodes.template, state)
           if (result === ROOT_NODE_FOUND) {
             return true
           }
@@ -114,11 +116,11 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       } else {
         // if html not match, back to previous state
         while (true) {
-          if (state.nodes.template instanceof Optional && state.nodes.optionalState) {
-            const ignoreOption = state.nodes.template
+          if (state.nodes.template instanceof Optional && state.optionalStates.get(state.nodes.template) === OPTIONAL_IS_EXISTS) {
+            state.optionalStates.set(state.nodes.template, OPTIONAL_IS_NOT_EXISTS)
             state.backtrackNodes()
 
-            const result = findNextNode(state.nodes.html, state.nodes.template, state, ignoreOption)
+            const result = findNextNode(state.nodes.html, state.nodes.template, state)
             if (result === ROOT_NODE_FOUND) {
               return true
             }
@@ -139,9 +141,9 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         }
       }
     } else if (state.nodes.template instanceof Optional) {
-      if (state.nodes.optionalState === undefined) {
+      if (!state.optionalStates.has(state.nodes.template)) {
         // set optional exists
-        state.nodes.optionalState = true
+        state.optionalStates.set(state.nodes.template, OPTIONAL_IS_EXISTS)
         state.updateNodes(new Nodes({
           html: state.nodes.html,
           template: state.nodes.template.children[0],
