@@ -16,32 +16,26 @@ const xssedHTMLs = [
 const roadrunnerXMLFile = 'vulnerable-apps/webmin/roadrunner/webmin00.xml'
 
 describe('Webmin', () => {
-  describe('safe HTML', () => {
-    it('should match with template', () => {
-      return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-        const matches = safeHTMLs.map(htmlFile => {
+  safeHTMLs.map(htmlFile => {
+    describe(htmlFile, () => {
+      it('should match with template', () => {
+        return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
           const html = fs.readFileSync(htmlFile)
           return isHTMLMatchWithTemplate(html, template)
-        })
-        return Promise.all(matches)
-      }).then((matches) => {
-        matches.forEach(match => {
+        }).then((match) => {
           assert.equal(match, true)
         })
       })
     })
   })
 
-  describe('xssed HTML', () => {
-    it('should not match with template', () => {
-      return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-        const matches = xssedHTMLs.map(htmlFile => {
+  xssedHTMLs.map(htmlFile => {
+    describe(htmlFile, () => {
+      it('should not match with template', () => {
+        return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
           const html = fs.readFileSync(htmlFile)
           return isHTMLMatchWithTemplate(html, template)
-        })
-        return Promise.all(matches)
-      }).then((matches) => {
-        matches.forEach(match => {
+        }).then((match) => {
           assert.equal(match, false)
         })
       })
