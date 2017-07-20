@@ -11,10 +11,11 @@ class Nodes {
 const OPTIONAL_IS_EXISTS = Symbol()
 const OPTIONAL_IS_NOT_EXISTS = Symbol()
 class State {
-  constructor({ rootNodes = null, nodes = null, optionalStates = new WeakMap() }) {
+  constructor({ rootNodes = null, nodes = null, optionalStates = new WeakMap(), loopCounts = new WeakMap() }) {
     this.rootNodes = rootNodes
     this.nodes = nodes
     this.optionalStates = optionalStates
+    this.loopCounts = loopCounts
   }
 
   updateNodes(nextNodes) {
@@ -65,7 +66,8 @@ const findNextNode = (html, template, state) => {
     }
 
     let templateParent = template.parent
-    while (templateParent instanceof Optional) {
+    // skip parent Optional and Loop node
+    while (templateParent instanceof Optional || templateParent instanceof Loop) {
       templateParent = templateParent.parent
     }
     return findNextNode(html.parent, templateParent, state)
@@ -89,7 +91,10 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         const htmlHasChild = state.nodes.html.children.length > 0
         const templateHasChild = state.nodes.template.children.length > 0
         if (templateHasChild) {
-          if (!htmlHasChild) {
+          // if template has child and html has no child, throw error
+          // if template only has "Optional" child, it can be valid
+          const templateHasOnlyOptionalOrLoopChild = state.nodes.template.children.length === 1 && (state.nodes.template.children[0] instanceof Optional || state.nodes.template.children[0] instanceof Loop)
+          if (!htmlHasChild && !templateHasOnlyOptionalOrLoopChild) {
             throw new Error('template has child but html has no child')
           }
 
