@@ -122,11 +122,12 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       } else {
         // if html not match, back to previous state
         while (true) {
-          if (template instanceof Optional && state.optionalStates.get(template) === OPTIONAL_IS_EXISTS) {
-            state.optionalStates.set(template, OPTIONAL_IS_NOT_EXISTS)
+          if (state.nodes.template instanceof Optional && state.optionalStates.get(state.nodes.template) === OPTIONAL_IS_EXISTS) {
+            state.optionalStates.set(state.nodes.template, OPTIONAL_IS_NOT_EXISTS)
+
             state.backtrackNodes()
 
-            const result = findNextNode(html, template, state)
+            const result = findNextNode(state.nodes.html, state.nodes.template, state)
             if (result === ROOT_NODE_FOUND) {
               return true
             }
