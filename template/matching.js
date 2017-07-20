@@ -82,26 +82,27 @@ export const checkMatch = (htmlRoot, templateRoot) => {
   })
 
   while (true) {
-    const htmlStr = state.nodes.html ? `<${state.nodes.html.name} ${Object.keys(state.nodes.html.attribs).join(' ')}>` : 'null'
-    //console.log(`html: ${htmlStr}, template: ${state.nodes.template}`)
+    const {template, html} = state.nodes
+    const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
+    //console.log(`html: ${htmlStr}, template: ${template}`)
 
-    if (state.nodes.template instanceof Tag) {
-      if (state.nodes.template.matchWith(state.nodes.html)) {
+    if (template instanceof Tag) {
+      if (template.matchWith(html)) {
         // if html match with template, step next
-        const htmlHasChild = state.nodes.html.children.length > 0
-        const templateHasChild = state.nodes.template.children.length > 0
+        const htmlHasChild = html.children.length > 0
+        const templateHasChild = template.children.length > 0
         if (templateHasChild) {
           // if template has child and html has no child, throw error
-          // if template only has "Optional" child, it can be valid
-          const templateHasOnlyOptionalOrLoopChild = state.nodes.template.children.length === 1 && (state.nodes.template.children[0] instanceof Optional || state.nodes.template.children[0] instanceof Loop)
+          // if template only has "Optional" or "Loop" child, it can be valid
+          const templateHasOnlyOptionalOrLoopChild = template.children.length === 1 && (template.children[0] instanceof Optional || template.children[0] instanceof Loop)
           if (!htmlHasChild && !templateHasOnlyOptionalOrLoopChild) {
             throw new Error('template has child but html has no child')
           }
 
           // if template has children, check children
           state.updateNodes(new Nodes({
-            html: state.nodes.html.children[0],
-            template: state.nodes.template.children[0]
+            html: html.children[0],
+            template: template.children[0]
           }))
         } else {
           if (htmlHasChild) {
@@ -109,7 +110,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
           }
 
           // if template has no children, find next node of html and template
-          const result = findNextNode(state.nodes.html, state.nodes.template, state)
+          const result = findNextNode(html, template, state)
           if (result === ROOT_NODE_FOUND) {
             return true
           }
@@ -121,11 +122,11 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       } else {
         // if html not match, back to previous state
         while (true) {
-          if (state.nodes.template instanceof Optional && state.optionalStates.get(state.nodes.template) === OPTIONAL_IS_EXISTS) {
-            state.optionalStates.set(state.nodes.template, OPTIONAL_IS_NOT_EXISTS)
+          if (template instanceof Optional && state.optionalStates.get(template) === OPTIONAL_IS_EXISTS) {
+            state.optionalStates.set(template, OPTIONAL_IS_NOT_EXISTS)
             state.backtrackNodes()
 
-            const result = findNextNode(state.nodes.html, state.nodes.template, state)
+            const result = findNextNode(html, template, state)
             if (result === ROOT_NODE_FOUND) {
               return true
             }
@@ -145,13 +146,13 @@ export const checkMatch = (htmlRoot, templateRoot) => {
           state.backtrackNodes()
         }
       }
-    } else if (state.nodes.template instanceof Optional) {
-      if (!state.optionalStates.has(state.nodes.template)) {
+    } else if (template instanceof Optional) {
+      if (!state.optionalStates.has(template)) {
         // set optional exists
-        state.optionalStates.set(state.nodes.template, OPTIONAL_IS_EXISTS)
+        state.optionalStates.set(template, OPTIONAL_IS_EXISTS)
         state.updateNodes(new Nodes({
-          html: state.nodes.html,
-          template: state.nodes.template.children[0],
+          html: html,
+          template: template.children[0],
         }))
         //console.log('optional node')
       }
