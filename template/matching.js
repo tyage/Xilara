@@ -1,30 +1,26 @@
 import { Node, Tag, Optional, Loop } from './nodes'
 
 class Nodes {
-  constructor({ html, template, prevNodes = null }) {
+  constructor({ html, template }) {
     this.html = html
     this.template = template
-    this.prevNodes = prevNodes
   }
 }
 
+// search states
+const INITIAL_SEARCH_STATE = Symbol()
+const CALCULATE_MAX_LOOP_COUNT = Symbol()
+// optional states
 const OPTIONAL_IS_EXISTS = Symbol()
 const OPTIONAL_IS_NOT_EXISTS = Symbol()
 class State {
-  constructor({ rootNodes = null, nodes = null, optionalStates = new WeakMap(), loopCounts = new WeakMap() }) {
+  constructor({ rootNodes = null, nodes = null, optionalStates = new Map(), loopStates = new Map() }) {
     this.rootNodes = rootNodes
     this.nodes = nodes
+    this.searchState = INITIAL_SEARCH_STATE
     this.optionalStates = optionalStates
-    this.loopCounts = loopCounts
-  }
-
-  updateNodes(nextNodes) {
-    nextNodes.prevNodes = this.nodes
-    this.nodes = nextNodes
-  }
-
-  backtrackNodes() {
-    this.nodes = this.nodes.prevNodes
+    this.loopStates = loopStates
+    this.prevState = null
   }
 }
 
@@ -84,6 +80,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
   while (true) {
     const {template, html} = state.nodes
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
+    let nextState = null
     //console.log(`html: ${htmlStr}, template: ${template}`)
 
     if (template instanceof Tag) {
@@ -100,10 +97,12 @@ export const checkMatch = (htmlRoot, templateRoot) => {
           }
 
           // if template has children, check children
-          state.updateNodes(new Nodes({
-            html: html.children[0],
-            template: template.children[0]
-          }))
+          nextState = {
+            nodes: new Nodes({
+              html: html.children[0],
+              template: template.children[0]
+            })
+          }
         } else {
           if (htmlHasChild) {
             throw new Error('template has no child but html has child')
@@ -114,51 +113,66 @@ export const checkMatch = (htmlRoot, templateRoot) => {
           if (result === ROOT_NODE_FOUND) {
             return true
           }
-          state.updateNodes(new Nodes({
-            html: result.html,
-            template: result.template
-          }))
-        }
-      } else {
-        // if html not match, back to previous state
-        while (true) {
-          if (state.nodes.template instanceof Optional && state.optionalStates.get(state.nodes.template) === OPTIONAL_IS_EXISTS) {
-            state.optionalStates.set(state.nodes.template, OPTIONAL_IS_NOT_EXISTS)
-
-            state.backtrackNodes()
-
-            const result = findNextNode(state.nodes.html, state.nodes.template, state)
-            if (result === ROOT_NODE_FOUND) {
-              return true
-            }
-            state.updateNodes(new Nodes({
+          nextState = {
+            nodes: new Nodes({
               html: result.html,
               template: result.template
-            }))
-
-            break
+            })
           }
-
-          // if backtracking is reached to root node, matching failed
-          if (state.nodes === state.rootNodes) {
-            return false
-          }
-
-          state.backtrackNodes()
         }
       }
     } else if (template instanceof Optional) {
       if (!state.optionalStates.has(template)) {
         // set optional exists
+        // TODO: key should be tree path
         state.optionalStates.set(template, OPTIONAL_IS_EXISTS)
-        state.updateNodes(new Nodes({
-          html: html,
-          template: template.children[0],
-        }))
-        //console.log('optional node')
+        nextState = {
+          nodes: new Nodes({
+            html: html,
+            template: template.children[0]
+          })
+        }
+      } else {
+        throw new Error('Optional template should be skipped')
       }
+    } else if (template instanceof Loop) {
+      throw new Error('Loop is not implemented yet')
     } else {
       throw new Error('not implemented yet')
     }
+
+    if (nextState === null) {
+      // if next state not found, backtrack state
+      while (true) {
+        const {template, html} = state.nodes
+        if (template instanceof Optional && state.optionalStates.get(template) === OPTIONAL_IS_EXISTS) {
+          state = state.prevState
+          state.optionalStates.set(template, OPTIONAL_IS_NOT_EXISTS)
+          const result = findNextNode(state.nodes.html, state.nodes.template, state)
+          if (result === ROOT_NODE_FOUND) {
+            return true
+          }
+          nextState = {
+            nodes: new Nodes({
+              html: result.html,
+              template: result.template
+            })
+          }
+
+          break
+        }
+
+        // if backtracking is reached to root node, matching failed
+        if (state.nodes === state.rootNodes) {
+          return false
+        }
+
+        state = state.prevState
+      }
+    }
+
+    // update to next state
+    nextState.prevState = state
+    state = Object.assign({}, state, nextState)
   }
 }
