@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { parseString } from 'xml2js'
-import { Node, Tag, Optional, Loop } from './nodes'
+import { Node, Tag, Optional, Loop, Ignore } from './nodes'
 
 export const roadrunnerToTemplate = (elem) => {
   const name = elem['#name']
@@ -48,6 +48,10 @@ export const roadrunnerToTemplate = (elem) => {
 
       node = new Tag(element, attrMap)
       break
+    case 'subtree':
+      return new Ignore()
+    default:
+      return null
   }
 
   if (elem.$$) {

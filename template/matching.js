@@ -1,4 +1,4 @@
-import { Node, Tag, Optional, Loop } from './nodes'
+import { Node, Tag, Optional, Loop, Ignore } from './nodes'
 
 class Nodes {
   constructor({ html, template }) {
@@ -7,9 +7,6 @@ class Nodes {
   }
 }
 
-// search states
-const INITIAL_SEARCH_STATE = Symbol()
-const CALCULATE_MAX_LOOP_COUNT = Symbol()
 // optional states
 const OPTIONAL_IS_EXISTS = Symbol()
 const OPTIONAL_IS_NOT_EXISTS = Symbol()
@@ -17,7 +14,6 @@ class State {
   constructor({ rootNodes = null, nodes = null, optionalStates = new Map(), loopStates = new Map() }) {
     this.rootNodes = rootNodes
     this.nodes = nodes
-    this.searchState = INITIAL_SEARCH_STATE
     this.optionalStates = optionalStates
     this.loopStates = loopStates
     this.prevState = null
@@ -36,10 +32,18 @@ const findNextNode = (html, template, state) => {
   }
 
   // if no child found, check next element
-  const nextHTML = html.next
+  let nextHTML = html.next
   let nextTemplate = template.nextNode()
+
+  // skip if optional is not exists
   while (state.optionalStates.get(nextTemplate) === OPTIONAL_IS_NOT_EXISTS) {
     nextTemplate = nextTemplate.nextNode()
+  }
+
+  // if template is Ignore, should see parent (ignore siblings)
+  if (template instanceof Ignore) {
+    nextHTML = null
+    nextTemplate = null
   }
 
   if (nextTemplate !== null) {
@@ -81,7 +85,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     const {template, html} = state.nodes
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
     let nextState = null
-    //console.log(`html: ${htmlStr}, template: ${template}`)
+    console.log(`html: ${htmlStr}, template: ${template}`)
 
     if (template instanceof Tag) {
       if (template.matchWith(html)) {
@@ -136,7 +140,22 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         throw new Error('Optional template should be skipped')
       }
     } else if (template instanceof Loop) {
-      throw new Error('Loop is not implemented yet')
+      if (!state.loopStates.has(template)) {
+        // set loop count 1
+        state.loopStates.set(template, {
+          loopCount: 1,
+          isLoopCountIncremented: true
+        })
+        nextState = {
+          nodes: new Nodes({
+            html: html,
+            template: template.children[0]
+          })
+        }
+      }
+    } else if (template instanceof Ignore) {
+      // ignore all nodes include siblings
+      findNextNode(html, template, state)
     } else {
       throw new Error('not implemented yet')
     }
