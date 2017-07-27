@@ -40,6 +40,44 @@ const findNextNode = (html, template, state) => {
     nextTemplate = nextTemplate.nextNode()
   }
 
+  // if template is Loop
+  if (template instanceof Loop) {
+    if (nextTemplate === null) {
+      if (nextHTML === null) {
+        // no next template, no next html
+        return findNextNode(html.parent, template.parent)
+      } else {
+        if (state.loopStates.get(template).isLoopCountIncremented) {
+          return {
+            html: nextHTML,
+            template: template
+          }
+        } else {
+          // TODO: backtracking
+          throw new Error('no next template, but html has next, so backtracking is needed')
+        }
+      }
+    } else {
+      if (nextHTML === null) {
+        // TODO: backtracking
+        throw new Error('no next html, but template has next, so backtracking is needed')
+      } else {
+        if (state.loopStates.get(template).isLoopCountIncremented) {
+          // TODO: increase loop
+          return {
+            html: nextHTML,
+            template: template
+          }
+        } else {
+          return {
+            html: nextHTML,
+            template: nextTemplate
+          }
+        }
+      }
+    }
+  }
+
   // if template is Ignore, should see parent (ignore siblings)
   if (template instanceof Ignore) {
     nextHTML = null
@@ -67,7 +105,7 @@ const findNextNode = (html, template, state) => {
 
     let templateParent = template.parent
     // skip parent Optional and Loop node
-    while (templateParent instanceof Optional || templateParent instanceof Loop) {
+    while (templateParent instanceof Optional) {
       templateParent = templateParent.parent
     }
     return findNextNode(html.parent, templateParent, state)
@@ -140,6 +178,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         throw new Error('Optional template should be skipped')
       }
     } else if (template instanceof Loop) {
+      // TODO: implement if template has multiple node
       if (!state.loopStates.has(template)) {
         // set loop count 1
         state.loopStates.set(template, {
