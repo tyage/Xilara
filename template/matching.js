@@ -155,13 +155,20 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       }
     } else if (template instanceof Ignore) {
       // ignore all nodes include siblings
-      findNextNode(html, template, state)
+      const result = findNextNode(html, template, state)
+      nextState = {
+        nodes: new Nodes({
+          html: result.html,
+          template: result.template
+        })
+      }
     } else {
       throw new Error('not implemented yet')
     }
 
     if (nextState === null) {
       // if next state not found, backtrack state
+      console.log('backtracking start')
       while (true) {
         const {template, html} = state.nodes
         if (template instanceof Optional && state.optionalStates.get(template) === OPTIONAL_IS_EXISTS) {
