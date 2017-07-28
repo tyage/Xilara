@@ -119,23 +119,29 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       continue
     }
 
-    // check if children found in html?
-    if (html.children.length > 0) {
-      // add candidates of html children
-      const { all } = getFirstChildTemplateTags(template)
-      for (let templateCandidate of all) {
-        nextNodesQueue.push(new Nodes({
-          html: html.children[0],
-          template: templateCandidate
-        }))
+    // if template has Ignore children, dont consider children of html
+    // TODO: consider if children of template contains not only Ignore
+    const ignoreChildrenCheck = template.children.length > 0 && template.children[0] instanceof Ignore
+
+    if (!ignoreChildrenCheck) {
+      // check if children found in html?
+      if (html.children.length > 0) {
+        // add candidates of html children
+        const { all } = getFirstChildTemplateTags(template)
+        for (let templateCandidate of all) {
+          nextNodesQueue.push(new Nodes({
+            html: html.children[0],
+            template: templateCandidate
+          }))
+        }
+        continue
       }
-      continue
-    }
-    // check if template has no non-optional children
-    const { nonOptional: nonOptionalTemplateChild } = getFirstChildTemplateTags(template)
-    if (nonOptionalTemplateChild.length > 0) {
-      // if html has no children and template has a child, this candidate failed
-      continue
+      // check if template has no non-optional children
+      const { nonOptional: nonOptionalTemplateChild } = getFirstChildTemplateTags(template)
+      if (nonOptionalTemplateChild.length > 0) {
+        // if html has no children and template has a child, this candidate failed
+        continue
+      }
     }
 
     // check if next sibling found in html?
