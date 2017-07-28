@@ -241,3 +241,138 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     state = Object.assign({}, state, nextState)
   }
 }
+
+export const checkMatch = (htmlRoot, templateRoot) => {
+  const nextNodesQueue = [
+    new Nodes({ html: htmlRoot, template: templateRoot })
+  ]
+  while (nextNodesQueue.length > 0) {
+    const { template, html } = nextNodesQueue.pop()
+
+    // TODO: template should always be Tag
+    if (template instanceof Tag) {
+      if (!template.matchWith(html)) {
+        continue
+      }
+
+      // check if children found in html?
+      if (html.children.length > 0) {
+        if (template.children.length > 0) {
+          // add candidates of html children
+          // TODO: add all Tag template candidates
+          nextNodesQueue.push(new Nodes({
+            html: html.children[0],
+            template: template.children[0]
+          }))
+          continue
+        } else {
+          // if html has a child and template has no children, this candidate failed
+          continue
+        }
+      } else {
+        // check if template has no children
+        let templateHasChildren = false
+        for (child of template.children) {
+          if (!(child instanceof Optional)) {
+            templateHasChildren = true
+          }
+        }
+        if (templateHasChildren) {
+          // if html has no children and template has a child, this candidate failed
+          continue
+        }
+      }
+
+      // check if next sibling found in html?
+      if (html.next !== null) {
+        if (template.nextNode() !== null) {
+          nextNodesQueue.push(new Nodes({
+            html: html.next,
+            template: template.nextNode()
+          }))
+          continue
+        } else {
+          let parentTemplate = template.parent
+          while (parentTemplate instanceof Loop || parentTemplate instanceof Optional) {
+            if (parentTemplate instanceof Loop) {
+              // if template is children of loop, add loop and it's sibling as candidate
+              nextNodesQueue.push(new Nodes({
+                html: html.next,
+                template: parentTemplate
+              }))
+
+              if (parentTemplate.nextNode() !== null) {
+                nextNodesQueue.push(new Nodes({
+                  html: html.next,
+                  template: parentTemplate.nextNode()
+                }))
+                break
+              }
+            }
+            if (parentTemplate instanceof Optional) {
+              // if template is children of optional, add nextNode as candidate
+              if (parentTemplate.nextNode() !== null) {
+                nextNodesQueue.push(new Nodes({
+                  html: html.next,
+                  template: parentTemplate.nextNode()
+                }))
+                break
+              }
+            }
+
+            parentTemplate = template.parent
+          }
+
+          // if html has next and template has no next node, this candidate failed
+          continue
+        }
+      } else {
+        // check if template has no next node
+        // TODO: check if template has no optional next node
+        let templateHasNextNode = template.nextNode() !== null
+        let parentTemplate = template.parent
+        while (parentTemplate instanceof Optional || parentTemplate instanceof Loop) {
+          // TODO: check if parentTemplate has no optional next node
+          if (parentTemplate.nextNode() !== null) {
+            templateHasNextNode = true
+          }
+        }
+        if (templateHasNextNode) {
+          // if template has next node, this candidate failed
+          continue
+        }
+      }
+
+      // if html has no children and no next nodes, check next node of parent
+      let parentHTML = html.parent
+      let parentTemplate = template.parent
+      while (true) {
+        while (parentTemplate instanceof Optional || parentTemplate instanceof Loop) {
+          if (parentTemplate.nextNode() !== null) {
+            // if html has no next node and template has next node, this candidate failed
+          }
+          parentTemplate = parentTemplate.parent
+        }
+
+        if (parentHTML.next === null) {
+          break
+        }
+
+
+        parentHTML = html.parent
+        parentTemplate = template.parent
+      }
+      let parentTemplate = template.parent
+      while (parentTemplate instanceof Loop || parentTemplate instanceof Optional) {
+        if (parentTemplate.nextNode() !== null) {
+          break
+        }
+      }
+      nextNodesQueue.push(new Nodes({
+        html: html.parent,
+        template: template.parent
+      }))
+    }
+  }
+  return false
+}
