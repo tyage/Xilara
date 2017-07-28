@@ -46,8 +46,8 @@ const getNextTemplateTags = (template) => {
   const nonOptionalCandidates = []
 
   // search candidates in next node
-  let nextNode
-  while ((nextNode = template.nextNode()) !== null) {
+  let nextNode = template.nextNode()
+  while (nextNode !== null) {
     if (nextNode instanceof Tag) {
       nonOptionalCandidates.push(nextNode)
     } else if (nextNode instanceof Optional) {
@@ -66,6 +66,8 @@ const getNextTemplateTags = (template) => {
     if (nonOptionalCandidates.length > 0) {
       break
     }
+
+    nextNode = nextNode.nextNode()
   }
 
   // if only optional candidates found in next nodes, search next node in parent
@@ -96,7 +98,7 @@ const getParentTemplateTag = (template) => {
   let templateParent = template.parent
   while (!(templateParent instanceof Tag)) {
     // XXX: it may throw error
-    templateParent = template.parent
+    templateParent = templateParent.parent
   }
   return templateParent
 }
@@ -110,7 +112,6 @@ export const checkMatch = (htmlRoot, templateRoot) => {
 
     // logging
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
-    let nextState = null
     console.log(`html: ${htmlStr}, template: ${template}`)
 
     // if template not matched with html, this candidate failed
