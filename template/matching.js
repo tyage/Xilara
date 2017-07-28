@@ -28,7 +28,7 @@ const getFirstChildTemplateTags = (template) => {
     }
 
     // if non optional node exists, it is the last candidate
-    if (nonOptional.length > 0) {
+    if (nonOptionalCandidates.length > 0) {
       break
     }
   }
@@ -63,7 +63,7 @@ const getNextTemplateTags = (template) => {
     }
 
     // if non optional node exists, it is the last candidate
-    if (nonOptional.length > 0) {
+    if (nonOptionalCandidates.length > 0) {
       break
     }
   }
@@ -121,8 +121,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     // check if children found in html?
     if (html.children.length > 0) {
       // add candidates of html children
-      const { all } = getFirstTemplateTags(template)
-      for (templateCandidate of all) {
+      const { all } = getFirstChildTemplateTags(template)
+      for (let templateCandidate of all) {
         nextNodesQueue.push(new Nodes({
           html: html.children[0],
           template: templateCandidate
@@ -131,8 +131,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       continue
     }
     // check if template has no non-optional children
-    const { nonOptional } = getFirstTemplateTags(template)
-    if (nonOptional.length > 0) {
+    const { nonOptional: nonOptionalTemplateChild } = getFirstChildTemplateTags(template)
+    if (nonOptionalTemplateChild.length > 0) {
       // if html has no children and template has a child, this candidate failed
       continue
     }
@@ -140,7 +140,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     // check if next sibling found in html?
     if (html.next !== null) {
       const { all } = getNextTemplateTags(template)
-      for (templateCandidate of all) {
+      for (let templateCandidate of all) {
         nextNodesQueue.push(new Nodes({
           html: html.next,
           template: templateCandidate
@@ -149,8 +149,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       continue
     }
     // check if template has no non-optional next node
-    const { nonOptional } = getNextTemplateTags(template)
-    if (nonOptional.length > 0) {
+    const { nonOptional: nonOptionalTemplateNext } = getNextTemplateTags(template)
+    if (nonOptionalTemplateNext.length > 0) {
       // if template has next node, this candidate failed
       continue
     }
@@ -164,8 +164,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         break
       } else {
         // check if template has no non-optional next node
-        const { nonOptional } = getNextTemplateTags(templateParent)
-        if (nonOptional.length > 0) {
+        const { nonOptional: nonOptionalTemplateParentNext } = getNextTemplateTags(templateParent)
+        if (nonOptionalTemplateParentNext.length > 0) {
           searchParentFailed = true
           break
         }
@@ -191,7 +191,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
 
     // after searching parent which has next node, add candidates
     const { all } = getNextTemplateTags(templateParent)
-    for (templateCandidate of all) {
+    for (let templateCandidate of all) {
       nextNodesQueue.push(new Nodes({
         html: htmlParent.next,
         template: templateCandidate
