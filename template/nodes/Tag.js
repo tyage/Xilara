@@ -1,7 +1,7 @@
 import Node from './Node'
 
 export default class Tag extends Node {
-  constructor(name, attrs) {
+  constructor(name, attrs = new Map) {
     super()
 
     this.name = name

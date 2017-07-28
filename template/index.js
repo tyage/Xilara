@@ -24,8 +24,15 @@ export const isHTMLMatchWithTemplate = (html, template) => {
   })
   return parseHTML.then((dom) => {
     return new Promise((resolve, reject) => {
-      // TODO: search html node
-      resolve(checkMatch(dom[1], template))
+      // TODO: consider about there being multiple top level node
+      let firstHTML = null
+      for (let d of dom) {
+        if (d.type !== 'directive') {
+          firstHTML = d
+          break
+        }
+      }
+      resolve(checkMatch(firstHTML, template))
     })
   })
 }
