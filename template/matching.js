@@ -182,8 +182,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
         }
       }
 
-      htmlParent = html.parent
-      templateParent = getParentTemplateTag(template)
+      htmlParent = htmlParent.parent
+      templateParent = getParentTemplateTag(templateParent)
     }
     if (searchParentFailed) {
       continue
