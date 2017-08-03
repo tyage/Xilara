@@ -112,7 +112,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
 
     // logging
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
-    console.log(`html: ${htmlStr}, template: ${template}`)
+    //console.log(`html: ${htmlStr}, template: ${template}`)
 
     // if template not matched with html, this candidate failed
     if (!template.matchWith(html)) {

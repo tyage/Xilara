@@ -13,6 +13,8 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
+    "chrome-launcher": "^0.4.0",
+    "chrome-remote-interface": "^0.24.3",
     "htmlparser2": "^3.9.2",
     "xml2js": "^0.4.17"
   }

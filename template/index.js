@@ -27,9 +27,9 @@ export const isHTMLMatchWithTemplate = (html, template) => {
     handler.ontext = () => {}
     handler.oncomment = () => {}
     handler.oncommentend = () => {}
-    const parser = new Parser(handler);
-    parser.write(html);
-    parser.done();
+    const parser = new Parser(handler)
+    parser.write(html)
+    parser.done()
   })
   return parseHTML.then((dom) => {
     return new Promise((resolve, reject) => {
