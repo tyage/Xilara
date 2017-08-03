@@ -11,6 +11,15 @@ export const stringifyTemplate = (template, indent = 0) => {
 
   return elem + children
 }
+export const stringifyHTML = (html, indent = 0) => {
+  const elem = ' '.repeat(indent) + '- ' + html.name + '\n'
+
+  let children = ''
+  if (html.children.length > 0) {
+    children = html.children.map(e => stringifyHTML(e, indent + 1)).join('')
+  }
+  return elem + children
+}
 
 export const isHTMLMatchWithTemplate = (html, template) => {
   const parseHTML= new Promise((resolve, reject) => {
