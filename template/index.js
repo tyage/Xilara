@@ -1,5 +1,6 @@
 import { DomHandler, Parser } from 'htmlparser2'
 import { checkMatch } from './matching'
+import { formatHTMLByChrome } from './preprocessing'
 
 export const stringifyTemplate = (template, indent = 0) => {
   const elem = ' '.repeat(indent) + '- ' + template + '\n'
@@ -22,16 +23,17 @@ export const stringifyHTML = (html, indent = 0) => {
 }
 
 export const isHTMLMatchWithTemplate = (html, template) => {
-  const parseHTML= new Promise((resolve, reject) => {
-    const handler = new DomHandler((error, dom) => resolve(dom));
-    handler.ontext = () => {}
-    handler.oncomment = () => {}
-    handler.oncommentend = () => {}
-    const parser = new Parser(handler)
-    parser.write(html)
-    parser.done()
-  })
-  return parseHTML.then((dom) => {
+  return formatHTMLByChrome(html).then(formattedHTML => {
+    return new Promise((resolve, reject) => {
+      const handler = new DomHandler((error, dom) => resolve(dom));
+      handler.ontext = () => {}
+      handler.oncomment = () => {}
+      handler.oncommentend = () => {}
+      const parser = new Parser(handler)
+      parser.write(html)
+      parser.done()
+    })
+  }).then((dom) => {
     return new Promise((resolve, reject) => {
       // TODO: consider about there being multiple top level node
       let firstHTML = null
