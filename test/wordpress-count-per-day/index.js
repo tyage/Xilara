@@ -1,19 +1,19 @@
 import fs from 'fs'
 import assert from 'assert'
-import { roadrunnerFileToTemplate } from '../../template/roadrunner-to-template'
-import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../template'
+import { roadrunnerFileToTemplate } from '../../src/roadrunner-to-template'
+import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../src'
 
 const safeHTMLs = [
-  'vulnerable-apps/wordpress-count-per-day/datasets/safe-1.html',
-  'vulnerable-apps/wordpress-count-per-day/datasets/safe-2.html',
-  'vulnerable-apps/wordpress-count-per-day/datasets/safe-3.html',
-  'vulnerable-apps/wordpress-count-per-day/datasets/safe-4.html',
+  'data/wordpress-count-per-day/datasets/safe-1.html',
+  'data/wordpress-count-per-day/datasets/safe-2.html',
+  'data/wordpress-count-per-day/datasets/safe-3.html',
+  'data/wordpress-count-per-day/datasets/safe-4.html',
 ]
 const xssedHTMLs = [
-  'vulnerable-apps/wordpress-count-per-day/datasets/xssed-1.html'
+  'data/wordpress-count-per-day/datasets/xssed-1.html'
 ]
 
-const roadrunnerXMLFile = 'vulnerable-apps/wordpress-count-per-day/roadrunner/wordpress-count-per-day00.xml'
+const roadrunnerXMLFile = 'data/wordpress-count-per-day/roadrunner/wordpress-count-per-day00.xml'
 
 describe('Wordpress Count Per Day', () => {
   safeHTMLs.map(htmlFile => {

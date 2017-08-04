@@ -1,7 +1,7 @@
 import fs from 'fs'
 import assert from 'assert'
-import { isHTMLMatchWithTemplate } from '../template'
-import { Node, Tag, Optional, Loop, Ignore } from '../template/nodes'
+import { isHTMLMatchWithTemplate } from '../src'
+import { Node, Tag, Optional, Loop, Ignore } from '../src/nodes'
 
 const createTag = (name, attrs, children) => {
   const tag = new Tag(name, attrs || new Map())

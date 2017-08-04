@@ -1,25 +1,46 @@
 import fs from 'fs'
 import assert from 'assert'
-import { roadrunnerFileToTemplate } from '../../template/roadrunner-to-template'
-import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../template'
+import { roadrunnerFileToTemplate } from '../../src/roadrunner-to-template'
+import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../src'
+import { generateRoadRunnerTemplate } from '../../src/generate-roadrunner-template'
 
+const templateHTMLs = [
+  'data/webmin/datasets/safe-1.html',
+  'data/webmin/datasets/safe-2.html',
+  'data/webmin/datasets/safe-3.html',
+]
+const roadrunnerPreferenceFile = 'data/webmin/roadrunner/webmin.xml'
 const safeHTMLs = [
-  'vulnerable-apps/webmin/datasets/safe-1.html',
-  'vulnerable-apps/webmin/datasets/safe-2.html',
-  'vulnerable-apps/webmin/datasets/safe-3.html',
-  'vulnerable-apps/webmin/datasets/validator.html',
+  'data/webmin/datasets/safe-1.html',
+  'data/webmin/datasets/safe-2.html',
+  'data/webmin/datasets/safe-3.html',
+  'data/webmin/datasets/validator.html',
 ]
 const xssedHTMLs = [
-  'vulnerable-apps/webmin/datasets/xssed-1.html'
+  'data/webmin/datasets/xssed-1.html'
 ]
 
-const roadrunnerXMLFile = 'vulnerable-apps/webmin/roadrunner/webmin00.xml'
-
 describe('Webmin', () => {
+  let roadrunnerFile = null
+  before(function(done) {
+    this.timeout(10000)
+    generateRoadRunnerTemplate(templateHTMLs, roadrunnerPreferenceFile).then((file) => {
+      roadrunnerFile = file
+      done()
+    })
+  })
+
+  describe('roadrunner template file', () => {
+    it('should be created', () => {
+      console.log(roadrunnerFile)
+      assert(roadrunnerFile !== null)
+    })
+  })
+
   safeHTMLs.map(htmlFile => {
     describe(htmlFile, () => {
       it('should match with template', () => {
-        return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
+        return roadrunnerFileToTemplate(roadrunnerFile).then((template) => {
           const html = fs.readFileSync(htmlFile).toString()
           return isHTMLMatchWithTemplate(html, template)
         }).then((match) => {
@@ -32,7 +53,7 @@ describe('Webmin', () => {
   xssedHTMLs.map(htmlFile => {
     describe(htmlFile, () => {
       it('should not match with template', () => {
-        return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
+        return roadrunnerFileToTemplate(roadrunnerFile).then((template) => {
           const html = fs.readFileSync(htmlFile).toString()
           return isHTMLMatchWithTemplate(html, template)
         }).then((match) => {

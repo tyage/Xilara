@@ -26,6 +26,6 @@ export const generateRoadRunnerTemplate = async (htmlFiles, preferenceFile) => {
   })
 
   // move result to build dir
-  fs.renameSync(`${roadrunnerDir}/output/template/`, `${buildDir}/roadrunner`)
+  fs.renameSync(`${roadrunnerDir}/output/template`, `${buildDir}/roadrunner`)
   return `${buildDir}/roadrunner/template00.xml`
 }
