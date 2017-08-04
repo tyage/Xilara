@@ -30,7 +30,7 @@ export const isHTMLMatchWithTemplate = (html, template) => {
       handler.oncomment = () => {}
       handler.oncommentend = () => {}
       const parser = new Parser(handler)
-      parser.write(html)
+      parser.write(formattedHTML)
       parser.done()
     })
   }).then((dom) => {

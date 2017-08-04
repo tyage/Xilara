@@ -20,7 +20,7 @@ describe('Webmin', () => {
     describe(htmlFile, () => {
       it('should match with template', () => {
         return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-          const html = fs.readFileSync(htmlFile)
+          const html = fs.readFileSync(htmlFile).toString()
           return isHTMLMatchWithTemplate(html, template)
         }).then((match) => {
           assert.equal(match, true)
@@ -33,7 +33,7 @@ describe('Webmin', () => {
     describe(htmlFile, () => {
       it('should not match with template', () => {
         return roadrunnerFileToTemplate(roadrunnerXMLFile).then((template) => {
-          const html = fs.readFileSync(htmlFile)
+          const html = fs.readFileSync(htmlFile).toString()
           return isHTMLMatchWithTemplate(html, template)
         }).then((match) => {
           assert.equal(match, false)
