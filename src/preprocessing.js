@@ -29,7 +29,9 @@ const launchCDP = async () => {
 }
 
 export const exitChrome = () => {
-  chromeProcess.kill()
+  if (chromeProcess) {
+    chromeProcess.kill()
+  }
   chromeProcess = null
   CDP = null
 }
@@ -55,3 +57,7 @@ export const formatHTMLByChrome = async (html) => {
 
   return result.value
 }
+
+process.on('exit', () => {
+  exitChrome()
+})
