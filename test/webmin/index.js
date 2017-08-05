@@ -32,7 +32,6 @@ describe('Webmin', () => {
 
   describe('roadrunner template file', () => {
     it('should be created', () => {
-      console.log(roadrunnerFile)
       assert(roadrunnerFile !== null)
     })
   })
