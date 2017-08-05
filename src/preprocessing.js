@@ -1,37 +1,57 @@
 import { launch } from 'chrome-launcher';
 import chrome from 'chrome-remote-interface'
 
-const launchCDP = (chromeProcess) => {
-  return new Promise((resolve, reject) => {
-    chrome({
-      port: chromeProcess.port
-    }, async (client) => {
-        resolve(client)
+let chromeProcess = null
+const launchChrome = async () => {
+  if (chromeProcess === null) {
+    chromeProcess = await launch({
+      chromeFlags: ['--headless']
     })
+  }
+  return chromeProcess
+}
+
+let CDP = null
+const launchCDP = async () => {
+  const chromeProcess = await launchChrome()
+  return new Promise((resolve, reject) => {
+    if (CDP === null) {
+      chrome({
+        port: chromeProcess.port
+      }, async (client) => {
+        CDP = client
+        resolve(CDP)
+      })
+    } else {
+      resolve(CDP)
+    }
   })
+}
+
+export const exitChrome = () => {
+  chromeProcess.kill()
+  chromeProcess = null
+  CDP = null
 }
 
 export const formatHTMLByChrome = async (html) => {
-  const chromeProcess = await launch({
-    chromeFlags: ['--headless']
-  })
-  const { Runtime } = await launchCDP(chromeProcess)
+  const { Runtime } = await launchCDP()
   await Runtime.enable()
 
   const formatProgram = `
-const html = ${JSON.stringify(html)}
-const dom = (new DOMParser()).parseFromString(html, 'text/html')
-let result = ''
-for (child of dom.childNodes) {
-  if (child && child.outerHTML) {
-    result += child.outerHTML
+(() => {
+  const html = ${JSON.stringify(html)}
+  const dom = (new DOMParser()).parseFromString(html, 'text/html')
+  let result = ''
+  for (child of dom.childNodes) {
+    if (child && child.outerHTML) {
+      result += child.outerHTML
+    }
   }
-}
-result
+  return result
+})()
 `
   const { result } = await Runtime.evaluate({expression: formatProgram})
-
-  chromeProcess.kill()
 
   return result.value
 }
