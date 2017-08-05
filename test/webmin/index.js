@@ -9,7 +9,7 @@ const templateHTMLs = [
   'data/webmin/datasets/safe-2.html',
   'data/webmin/datasets/safe-3.html',
 ]
-const roadrunnerPreferenceFile = 'data/webmin/roadrunner/webmin.xml'
+const roadrunnerPreferenceFile = 'data/webmin/roadrunner/pref.xml'
 const safeHTMLs = [
   'data/webmin/datasets/safe-1.html',
   'data/webmin/datasets/safe-2.html',
