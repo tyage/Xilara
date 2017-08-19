@@ -42,8 +42,8 @@ export const roadrunnerToTemplate = (elem) => {
 
       const attrMap = new Map
       attrs.split(',').forEach(attr => {
-        const [key, value]  = attr.split(':')
-        attrMap.set(key, value)
+        const [key, ...value] = attr.split(':')
+        attrMap.set(key, value.length === 0 ? undefined : value.join(':'))
       })
 
       node = new Tag(element, attrMap)
