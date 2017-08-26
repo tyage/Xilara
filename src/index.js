@@ -1,6 +1,6 @@
 import { DomHandler, Parser } from 'htmlparser2'
 import { checkMatch } from './matching'
-import { formatHTMLByChrome } from './preprocessing'
+import { formatHTMLByChrome } from './html-format'
 
 export const stringifyTemplate = (template, indent = 0) => {
   const elem = ' '.repeat(indent) + '- ' + template + '\n'

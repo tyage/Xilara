@@ -24,7 +24,8 @@ describe('Wordpress Count Per Day', () => {
   let template = null
   before(function(done) {
     this.timeout(10000)
-    generateTemplate(templateHTMLs, roadrunnerPreferenceFile).then((t) => {
+    const htmls = templateHTMLs.map((htmlFile) => fs.readFileSync(htmlFile).toString())
+    generateTemplate(htmls, roadrunnerPreferenceFile).then((t) => {
       template = t
       done()
     })
