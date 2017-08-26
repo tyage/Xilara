@@ -22,28 +22,28 @@ const xssedHTMLs = [
 ]
 
 describe('Wordpress Count Per Day', () => {
-  let roadrunnerFile = null
+  let template = null
   before(function(done) {
     this.timeout(10000)
     generateRoadRunnerTemplate(templateHTMLs, roadrunnerPreferenceFile).then((file) => {
-      roadrunnerFile = file
+      return roadrunnerFileToTemplate(file)
+    }).then((t) => {
+      template = t
       done()
     })
   })
 
-  describe('roadrunner template file', () => {
+  describe('template', () => {
     it('should be created', () => {
-      assert(roadrunnerFile !== null)
+      assert(template !== null)
     })
   })
 
   safeHTMLs.map(htmlFile => {
     describe(htmlFile, () => {
       it('should match with template', () => {
-        return roadrunnerFileToTemplate(roadrunnerFile).then((template) => {
-          const html = fs.readFileSync(htmlFile).toString()
-          return isHTMLMatchWithTemplate(html, template)
-        }).then((match) => {
+        const html = fs.readFileSync(htmlFile).toString()
+        return isHTMLMatchWithTemplate(html, template).then((match) => {
           assert.equal(match, true)
         })
       })
@@ -53,10 +53,8 @@ describe('Wordpress Count Per Day', () => {
   xssedHTMLs.map(htmlFile => {
     describe(htmlFile, () => {
       it('should not match with template', () => {
-        return roadrunnerFileToTemplate(roadrunnerFile).then((template) => {
-          const html = fs.readFileSync(htmlFile).toString()
-          return isHTMLMatchWithTemplate(html, template)
-        }).then((match) => {
+        const html = fs.readFileSync(htmlFile).toString()
+        return isHTMLMatchWithTemplate(html, template).then((match) => {
           assert.equal(match, false)
         })
       })
