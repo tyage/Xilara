@@ -1,8 +1,7 @@
 import fs from 'fs'
 import assert from 'assert'
-import { roadrunnerFileToTemplate } from '../../src/roadrunner-to-template'
-import { stringifyTemplate, isHTMLMatchWithTemplate } from '../../src'
-import { generateRoadRunnerTemplate } from '../../src/generate-roadrunner-template'
+import { generateTemplate } from '../../src/roadrunner'
+import { isHTMLMatchWithTemplate } from '../../src'
 
 const templateHTMLs = [
   'data/webmin/datasets/safe-1.html',
@@ -24,9 +23,7 @@ describe('Webmin', () => {
   let template = null
   before(function(done) {
     this.timeout(10000)
-    generateRoadRunnerTemplate(templateHTMLs, roadrunnerPreferenceFile).then((file) => {
-      return roadrunnerFileToTemplate(file)
-    }).then((t) => {
+    generateTemplate(templateHTMLs, roadrunnerPreferenceFile).then((t) => {
       template = t
       done()
     })
