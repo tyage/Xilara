@@ -41,8 +41,8 @@ describe('Wordpress Count Per Day', () => {
     describe(htmlFile, () => {
       it('should match with template', () => {
         const html = fs.readFileSync(htmlFile).toString()
-        return isHTMLMatchWithTemplate(html, template).then((match) => {
-          assert.equal(match, true)
+        return isHTMLMatchWithTemplate(html, template).then(({ result }) => {
+          assert.equal(result, true)
         })
       })
     })
@@ -52,8 +52,8 @@ describe('Wordpress Count Per Day', () => {
     describe(htmlFile, () => {
       it('should not match with template', () => {
         const html = fs.readFileSync(htmlFile).toString()
-        return isHTMLMatchWithTemplate(html, template).then((match) => {
-          assert.equal(match, false)
+        return isHTMLMatchWithTemplate(html, template).then(({ result }) => {
+          assert.equal(result, false)
         })
       })
     })

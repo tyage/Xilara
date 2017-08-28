@@ -45,14 +45,14 @@ describe('HTML Tree', () => {
   matchedHTMLs.forEach(html => {
     describe(`matched HTML ${html}`, () => {
       it ('should match with template', () => {
-        return isHTMLMatchWithTemplate(html, template).then(match => assert.equal(match, true))
+        return isHTMLMatchWithTemplate(html, template).then(({ result }) => assert.equal(result, true))
       })
     })
   })
   notMatchedHTMLs.forEach(html => {
     describe(`not matched HTML ${html}`, () => {
       it ('should not match with template', () => {
-        return isHTMLMatchWithTemplate(html, template).then(match => assert.equal(match, false))
+        return isHTMLMatchWithTemplate(html, template).then(({ result }) => assert.equal(result, false))
       })
     })
   })

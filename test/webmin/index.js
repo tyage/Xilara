@@ -40,8 +40,8 @@ describe('Webmin', () => {
     describe(htmlFile, () => {
       it('should match with template', () => {
         const html = fs.readFileSync(htmlFile).toString()
-        return isHTMLMatchWithTemplate(html, template).then((match) => {
-          assert.equal(match, true)
+        return isHTMLMatchWithTemplate(html, template).then(({ result, matchMap }) => {
+          assert.equal(result, true)
         })
       })
     })
@@ -51,8 +51,8 @@ describe('Webmin', () => {
     describe(htmlFile, () => {
       it('should not match with template', () => {
         const html = fs.readFileSync(htmlFile).toString()
-        return isHTMLMatchWithTemplate(html, template).then((match) => {
-          assert.equal(match, false)
+        return isHTMLMatchWithTemplate(html, template).then(({ result }) => {
+          assert.equal(result, false)
         })
       })
     })

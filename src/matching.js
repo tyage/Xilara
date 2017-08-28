@@ -107,8 +107,10 @@ export const checkMatch = (htmlRoot, templateRoot) => {
   const nextNodesQueue = [
     new Nodes({ html: htmlRoot, template: templateRoot })
   ]
+  const matchMap = new Map()
   while (nextNodesQueue.length > 0) {
     const { template, html } = nextNodesQueue.pop()
+    matchMap.set(html, template)
 
     // logging
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
@@ -116,6 +118,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
 
     // if template not matched with html, this candidate failed
     if (!template.matchWith(html)) {
+      matchMap.delete(html)
       continue
     }
 
@@ -140,6 +143,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       const { nonOptional: nonOptionalTemplateChild } = getFirstChildTemplateTags(template)
       if (nonOptionalTemplateChild.length > 0) {
         // if html has no children and template has a child, this candidate failed
+        matchMap.delete(html)
         continue
       }
     }
@@ -159,6 +163,7 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     const { nonOptional: nonOptionalTemplateNext } = getNextTemplateTags(template)
     if (nonOptionalTemplateNext.length > 0) {
       // if template has next node, this candidate failed
+      matchMap.delete(html)
       continue
     }
 
@@ -182,7 +187,10 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       if (htmlParent === htmlRoot) {
         if (templateParent === templateParent) {
           // if reached to root element, matching completed
-          return true
+          return {
+            result: true,
+            matchMap
+          }
         } else {
           searchParentFailed = true
           break
@@ -192,7 +200,9 @@ export const checkMatch = (htmlRoot, templateRoot) => {
       htmlParent = htmlParent.parent
       templateParent = getParentTemplateTag(templateParent)
     }
+    // if parent of html not found, this candidate failed
     if (searchParentFailed) {
+      matchMap.delete(html)
       continue
     }
 
@@ -207,5 +217,8 @@ export const checkMatch = (htmlRoot, templateRoot) => {
   }
 
   // if all candidates failed, return false
-  return false
+  return {
+    result: false,
+    matchMap
+  }
 }
