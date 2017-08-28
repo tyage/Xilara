@@ -40,7 +40,7 @@ export default class Tag extends Node {
 
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
-      if (!this.attrMatchWith(v, htmlAttrs[name])) {
+      if (!this.attrMatchWith(k, htmlAttrs[name])) {
         console.log(`attr ${name} not matched ${JSON.stringify(htmlAttrs[name])} ${JSON.stringify(v)}`)
         return false
       }
@@ -51,12 +51,28 @@ export default class Tag extends Node {
 
     return notMatchedHTMLAttrs.length === 0
   }
-  attrMatchWith(templateAttrValue, htmlAttrValue) {
+  attrMatchWith(name, htmlAttrValue) {
+    const templateAttrValue = this.attrs.get(name)
     // if template attr has candidates of its value, templateAttrValue is Array
     if (templateAttrValue instanceof Array) {
       if (templateAttrValue.length === 0) {
         console.warn('template attr must have 1 or more values')
         return false
+      }
+
+      if (name.toLowerCase() === 'href') {
+        // if template has no "javascript:..." and html has, it is invalid
+        let templateAttrHasJavaScriptContext = false
+        for (let value of templateAttrValue) {
+          if (value.toLowerCase().startsWith('javascript:')) {
+            templateAttrHasJavaScriptContext = true
+            break
+          }
+        }
+        const htmlAttrHasJavaScriptContext = htmlAttrValue.toLowerCase().startsWith('javascript:')
+        if (!templateAttrHasJavaScriptContext && htmlAttrHasJavaScriptContext) {
+          return false
+        }
       }
 
       // if attr has multiple values, do not check value
