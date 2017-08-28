@@ -60,8 +60,8 @@ export default class Tag extends Node {
         return false
       }
 
+      // if template has no "javascript:..." and html has, it is invalid
       if (name.toLowerCase() === 'href') {
-        // if template has no "javascript:..." and html has, it is invalid
         let templateAttrHasJavaScriptContext = false
         for (let value of templateAttrValue) {
           if (value.toLowerCase().startsWith('javascript:')) {
