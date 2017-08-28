@@ -40,7 +40,7 @@ export default class Tag extends Node {
 
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
-      if (v !== undefined && htmlAttrs[name] !== v) {
+      if (!this.attrMatchWith(v, htmlAttrs[name])) {
         console.log(`attr ${name} not matched ${JSON.stringify(htmlAttrs[name])} ${JSON.stringify(v)}`)
         return false
       }
@@ -50,5 +50,32 @@ export default class Tag extends Node {
     }
 
     return notMatchedHTMLAttrs.length === 0
+  }
+  attrMatchWith(templateAttrValue, htmlAttrValue) {
+    // if template attr has candidates of its value, templateAttrValue is Array
+    if (templateAttrValue instanceof Array) {
+      if (templateAttrValue.length === 0) {
+        console.warn('template attr must have 1 or more values')
+        return false
+      }
+
+      // if attr has multiple values, do not check value
+      // if not, check value is matched
+      let attrHasUniqueValue = true
+      for (let value of templateAttrValue) {
+        if (value !== templateAttrValue[0]) {
+          attrHasUniqueValue = false
+          break
+        }
+      }
+
+      if (attrHasUniqueValue) {
+        return htmlAttrValue === templateAttrValue[0]
+      } else {
+        return true
+      }
+    } else {
+      return templateAttrValue === undefined || templateAttrValue === htmlAttrValue
+    }
   }
 }

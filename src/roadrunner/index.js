@@ -2,7 +2,7 @@ import fs from 'fs'
 import { runRoadrunner } from './runner'
 import { roadrunnerFileToTemplate } from './convert'
 import { formatHTMLByChrome } from '../html-format'
-import { extendTemplateWithAttributesValue } from '../extend'
+import { extendTemplateAttributesValue } from '../extend'
 
 export const generateTemplate = async (htmls, preferenceFile) => {
   const formattedHTMLs = await Promise.all(htmls.map(async (html) => {
@@ -12,5 +12,5 @@ export const generateTemplate = async (htmls, preferenceFile) => {
   const roadrunnerFile = await runRoadrunner(formattedHTMLs, preferenceFile)
 
   const template = await roadrunnerFileToTemplate(roadrunnerFile)
-  return extendTemplateWithAttributesValue(template, formattedHTMLs)
+  return extendTemplateAttributesValue(template, formattedHTMLs)
 }
