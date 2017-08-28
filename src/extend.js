@@ -1,9 +1,10 @@
 import { isHTMLMatchWithTemplate } from './'
 
-export const extendTemplateAttributesValue = (template, htmls) => {
-  htmls.map(async (html) => {
+export const extendTemplateAttributesValue = async (template, htmls) => {
+  const results = await Promise.all(htmls.map(async (html) => {
     return await isHTMLMatchWithTemplate(html, template)
-  }).map(({ result, matchMap }) => {
+  }))
+  results.map(({ result, matchMap }) => {
     if (!result) {
       console.warn('html not matched with template in extendTemplateAttributesValue')
       return

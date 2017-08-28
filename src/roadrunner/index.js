@@ -12,5 +12,5 @@ export const generateTemplate = async (htmls, preferenceFile) => {
   const roadrunnerFile = await runRoadrunner(formattedHTMLs, preferenceFile)
 
   const template = await roadrunnerFileToTemplate(roadrunnerFile)
-  return extendTemplateAttributesValue(template, formattedHTMLs)
+  return await extendTemplateAttributesValue(template, formattedHTMLs)
 }
