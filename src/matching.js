@@ -108,9 +108,16 @@ export const checkMatch = (htmlRoot, templateRoot) => {
     new Nodes({ html: htmlRoot, template: templateRoot })
   ]
   const matchMap = new Map()
+
   while (nextNodesQueue.length > 0) {
     const { template, html } = nextNodesQueue.pop()
-    matchMap.set(html, template)
+
+    if (template instanceof Tag && html) {
+      if (matchMap.has(html)) {
+        console.warn('html is already matched. why?')
+      }
+      matchMap.set(html, template)
+    }
 
     // logging
     const htmlStr = html ? `<${html.name} ${Object.keys(html.attribs).join(' ')}>` : 'null'
