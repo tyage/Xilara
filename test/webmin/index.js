@@ -7,12 +7,14 @@ const templateHTMLs = [
   'data/webmin/datasets/safe-1.html',
   'data/webmin/datasets/safe-2.html',
   'data/webmin/datasets/safe-3.html',
+  'data/webmin/datasets/safe-4.html',
 ]
 const roadrunnerPreferenceFile = 'data/webmin/roadrunner/pref.xml'
 const safeHTMLs = [
   'data/webmin/datasets/safe-1.html',
   'data/webmin/datasets/safe-2.html',
   'data/webmin/datasets/safe-3.html',
+  'data/webmin/datasets/safe-4.html',
   'data/webmin/datasets/validator.html',
 ]
 const xssedHTMLs = [
