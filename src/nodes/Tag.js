@@ -41,7 +41,7 @@ export default class Tag extends Node {
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
       if (!this.attrMatchWith(k, htmlAttrs[name])) {
-        console.log(`attr ${name} not matched ${JSON.stringify(htmlAttrs[name])} ${JSON.stringify(v)}`)
+        console.log(`attr ${name} does not match ${JSON.stringify(htmlAttrs[name])} ${JSON.stringify(v)}`)
         return false
       }
 
