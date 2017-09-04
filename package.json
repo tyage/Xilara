@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha --compilers js:babel-register --recursive"
+    "test": "mocha -s 0 --compilers js:babel-register --recursive"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
