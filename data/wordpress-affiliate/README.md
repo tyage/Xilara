@@ -15,5 +15,5 @@ $ docker exec -it wordpressaffiliate_wordpress_1 bash -c "echo \"define('WP_HOME
 ## PoC
 
 ```sh
-$ ./poc.sh localhost 8000
+$ node ./poc.js localhost 8000
 ```
