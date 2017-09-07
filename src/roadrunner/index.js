@@ -10,6 +10,7 @@ export const generateTemplate = async (htmls, preferenceFile) => {
   }))
 
   const roadrunnerFile = await runRoadrunner(formattedHTMLs, preferenceFile)
+  console.info(`roadrunner file was created at: ${roadrunnerFile}`)
 
   const template = await roadrunnerFileToTemplate(roadrunnerFile)
   return await extendTemplateAttributesValue(template, formattedHTMLs)
