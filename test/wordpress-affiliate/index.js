@@ -9,6 +9,7 @@ const templateHTMLs = [
   'data/wordpress-affiliate/datasets/safe-3.html',
   'data/wordpress-affiliate/datasets/safe-4.html',
   'data/wordpress-affiliate/datasets/safe-5.html',
+  'data/wordpress-affiliate/datasets/safe-6.html',
 ]
 const roadrunnerPreferenceFile = 'data/wordpress-affiliate/roadrunner/pref.xml'
 const safeHTMLs = [
@@ -17,6 +18,7 @@ const safeHTMLs = [
   'data/wordpress-affiliate/datasets/safe-3.html',
   'data/wordpress-affiliate/datasets/safe-4.html',
   'data/wordpress-affiliate/datasets/safe-5.html',
+  'data/wordpress-affiliate/datasets/safe-6.html',
 ]
 const xssedHTMLs = [
   'data/wordpress-affiliate/datasets/xssed-1.html'

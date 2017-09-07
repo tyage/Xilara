@@ -17,6 +17,7 @@ Collect http://localhost:8000/wp-admin/admin.php?page=affiliate-wp-referrals
 - [safe-3](datasets/safe-3.html): two referrals
 - [safe-4](datasets/safe-4.html): three referrals
 - [safe-5](datasets/safe-5.html): with filter
+- [safe-6](datasets/safe-6.html): with another cookie
 
 ## Collect XSSed
 
