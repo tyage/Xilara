@@ -1,5 +1,5 @@
 ```sh
-$ wget https://downloads.wordpress.org/plugin/count-per-day.3.5.4.zip && unzip count-per-day.3.5.4.zip && rm count-per-day.3.5.4.zip
+$ unzip count-per-day.3.5.4.zip
 $ docker-compose up
 ```
 
