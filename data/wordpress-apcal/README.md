@@ -1,5 +1,6 @@
 ```sh
 $ git lfs install
+$ unzip appointment-calendar.2.7.4.zip
 $ docker-compose up
 ```
 

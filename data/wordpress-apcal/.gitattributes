@@ -1,1 +1,1 @@
-appointment-calendar/** filter=lfs diff=lfs merge=lfs -text
+appointment-calendar.2.7.4.zip filter=lfs diff=lfs merge=lfs -text
