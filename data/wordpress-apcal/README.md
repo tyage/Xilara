@@ -1,5 +1,5 @@
 ```sh
-$ wget https://downloads.wordpress.org/plugin/appointment-calendar.2.7.4.zip && unzip appointment-calendar.2.7.4.zip && rm appointment-calendar.2.7.4.zip
+$ git lfs install
 $ docker-compose up
 ```
 
