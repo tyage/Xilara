@@ -1,4 +1,4 @@
-# xss-auditor
+# Xilara - Xss audItor using htmL templAte restoRAtion
 
 ```sh
 $ git submodule init

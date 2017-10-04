@@ -1,5 +1,5 @@
 {
-  "name": "xss-auditor",
+  "name": "Xilara",
   "version": "1.0.0",
   "description": "",
   "main": "collect.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/tyage/xss-auditor.git"
+    "url": "git+ssh://git@github.com/tyage/Xilara.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tyage/xss-auditor/issues"
+    "url": "https://github.com/tyage/Xilara/issues"
   },
-  "homepage": "https://github.com/tyage/xss-auditor#readme",
+  "homepage": "https://github.com/tyage/Xilara#readme",
   "dependencies": {
     "domelementtype": "^1.3.0",
     "htmlparser2": "^3.9.2",
