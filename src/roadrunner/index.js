@@ -4,7 +4,7 @@ import { roadrunnerFileToTemplate } from './convert'
 import { formatHTMLByChrome } from '../html-format'
 import { extendTemplateAttributesValue } from '../extend'
 
-export const generateTemplateFromRoadrunnerFile = async (roadrunnerFile) => {
+export const generateTemplateFromRoadrunnerFile = async (roadrunnerFile, formattedHTMLs) => {
   const template = await roadrunnerFileToTemplate(roadrunnerFile)
   return await extendTemplateAttributesValue(template, formattedHTMLs)
 }
@@ -16,5 +16,5 @@ export const generateTemplate = async (htmls, preferenceFile) => {
   const roadrunnerFile = await runRoadrunner(formattedHTMLs, preferenceFile)
   console.info(`roadrunner file was created at: ${roadrunnerFile}`)
 
-  return await generateTemplateFromRoadrunnerFile(roadrunnerFile)
+  return await generateTemplateFromRoadrunnerFile(roadrunnerFile, formattedHTMLs)
 }
