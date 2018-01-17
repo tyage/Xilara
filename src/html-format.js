@@ -42,7 +42,7 @@ export const formatHTMLByChrome = async (html) => {
 
   const formatProgram = `
 (() => {
-  const html = ${JSON.stringify(html)}
+  const html = atob('${(new Buffer(html)).toString('base64')}')
   const dom = (new DOMParser()).parseFromString(html, 'text/html')
   let result = ''
   for (child of dom.childNodes) {
