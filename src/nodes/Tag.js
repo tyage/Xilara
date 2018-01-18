@@ -55,6 +55,11 @@ export default class Tag extends Node {
     const templateAttrValue = this.attrs.get(name)
     // if template attr has candidates of its value, templateAttrValue is Array
     if (templateAttrValue instanceof Array) {
+      // if there is no html attr, return false
+      if (!htmlAttrValue) {
+        return false
+      }
+
       if (templateAttrValue.length === 0) {
         console.warn('template attr must have 1 or more values')
         return false
