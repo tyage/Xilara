@@ -56,7 +56,7 @@ export default class Tag extends Node {
     // if template attr has candidates of its value, templateAttrValue is Array
     if (templateAttrValue instanceof Array) {
       // if there is no html attr, return false
-      if (!htmlAttrValue) {
+      if (htmlAttrValue === undefined) {
         return false
       }
 
