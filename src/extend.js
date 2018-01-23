@@ -1,8 +1,8 @@
-import { isHTMLMatchWithTemplate } from './'
+import { isFormattedHTMLMatchWithTemplate } from './'
 
 export const extendTemplateAttributesValue = async (template, htmls) => {
   const results = await Promise.all(htmls.map(async (html) => {
-    return await isHTMLMatchWithTemplate(html, template)
+    return await isFormattedHTMLMatchWithTemplate(html, template)
   }))
   results.map(({ result, matchMap }) => {
     if (!result) {

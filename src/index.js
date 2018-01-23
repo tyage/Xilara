@@ -22,8 +22,12 @@ export const stringifyHTML = (html, indent = 0) => {
   return elem + children
 }
 
-export const isHTMLMatchWithTemplate = (html, template) => {
-  return formatHTMLByChrome(html).then(formattedHTML => {
+export const isHTMLMatchWithTemplate = async (html, template) => {
+  const formattedHTML = await formatHTMLByChrome(html)
+  return await isFormattedHTMLMatchWithTemplate(formattedHTML)
+}
+export const isFormattedHTMLMatchWithTemplate = async (formattedHTML, template) => {
+  const parseHTML = async (formattedHTML) => {
     return new Promise((resolve, reject) => {
       const handler = new DomHandler((error, dom) => resolve(dom));
       handler.ontext = () => {}
@@ -33,7 +37,8 @@ export const isHTMLMatchWithTemplate = (html, template) => {
       parser.write(formattedHTML)
       parser.done()
     })
-  }).then((dom) => {
+  }
+  const getMatchingResult = (dom, template) => {
     return new Promise((resolve, reject) => {
       // TODO: consider about there being multiple top level node
       let firstHTML = null
@@ -46,4 +51,7 @@ export const isHTMLMatchWithTemplate = (html, template) => {
       resolve(checkMatch(firstHTML, template))
     })
   })
+
+  const dom = await parseHTML(formattedHTML)
+  return await getMatchingResult(dom)
 }
