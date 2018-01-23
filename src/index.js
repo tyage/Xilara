@@ -53,5 +53,5 @@ export const isFormattedHTMLMatchWithTemplate = async (formattedHTML, template) 
   }
 
   const dom = await parseHTML(formattedHTML)
-  return await getMatchingResult(dom)
+  return await getMatchingResult(dom, template)
 }
