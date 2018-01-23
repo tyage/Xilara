@@ -43,8 +43,8 @@ export const roadrunnerToTemplate = (elem) => {
       const attrMap = new Map
       attrs.split(',').forEach(attr => {
         let [key, ...value] = attr.split(':')
-        // XXX: xml: の時は, xml:をつけた属性名にする
-        if (key === 'xml') {
+        // XXX: xml:, xmlns: から始まる時は, namespaceをつけた属性名にする
+        if (['xml', 'xmlns'].includes(key)) {
           key = `${key}:${value[0]}`
           value = value.slice(1)
         }
