@@ -24,7 +24,7 @@ export const stringifyHTML = (html, indent = 0) => {
 
 export const isHTMLMatchWithTemplate = async (html, template) => {
   const formattedHTML = await formatHTMLByChrome(html)
-  return await isFormattedHTMLMatchWithTemplate(formattedHTML)
+  return await isFormattedHTMLMatchWithTemplate(formattedHTML, template)
 }
 export const isFormattedHTMLMatchWithTemplate = async (formattedHTML, template) => {
   const parseHTML = async (formattedHTML) => {
