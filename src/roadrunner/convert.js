@@ -42,7 +42,12 @@ export const roadrunnerToTemplate = (elem) => {
 
       const attrMap = new Map
       attrs.split(',').forEach(attr => {
-        const [key, ...value] = attr.split(':')
+        let [key, ...value] = attr.split(':')
+        // XXX: xml: の時は, xml:をつけた属性名にする
+        if (key === 'xml') {
+          key = `${key}:${value[0]}`
+          value = value.slice(1)
+        }
         attrMap.set(key, value.length === 0 ? undefined : value.join(':'))
       })
 
