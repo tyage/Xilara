@@ -40,7 +40,7 @@ export default class Tag extends Node {
 
     for (const [k, v] of this.attrs.entries()) {
       const name = k.toLowerCase()
-      if (['id', 'class'].includes(name) && !this.attrMatchWith(k, htmlAttrs[name])) {
+      if (!this.attrMatchWith(k, htmlAttrs[name])) {
         console.log(`attr ${name} does not match ${JSON.stringify(htmlAttrs[name])} ${JSON.stringify(v)}`)
         return false
       }
@@ -52,51 +52,54 @@ export default class Tag extends Node {
     return notMatchedHTMLAttrs.length === 0
   }
   attrMatchWith(name, htmlAttrValue) {
-    const templateAttrValue = this.attrs.get(name)
-    // if template attr has candidates of its value, templateAttrValue is Array
-    if (templateAttrValue instanceof Array) {
-      // if there is no html attr, return false
-      if (htmlAttrValue === undefined) {
-        return false
-      }
+    const shouldCheckValue = ['id', 'class'].includes(name)
+    let templateAttrValue = this.attrs.get(name)
 
-      if (templateAttrValue.length === 0) {
-        console.warn('template attr must have 1 or more values')
-        return false
-      }
+    if (templateAttrValue === undefined) {
+      return true;
+    }
+    if (!(templateAttrValue instanceof Array)) {
+      templateAttrValue = [templateAttrValue];
+    }
+    if (templateAttrValue.length === 0) {
+      console.warn('template attr must have 1 or more values')
+      return false
+    }
+    // if there is no html attr, return false
+    if (htmlAttrValue === undefined) {
+      return false
+    }
 
-      // if template has no "javascript:..." and html has, it is invalid
-      if (name.toLowerCase() === 'href') {
-        let templateAttrHasJavaScriptContext = false
-        for (let value of templateAttrValue) {
-          if (value.toLowerCase().startsWith('javascript:')) {
-            templateAttrHasJavaScriptContext = true
-            break
-          }
-        }
-        const htmlAttrHasJavaScriptContext = htmlAttrValue.toLowerCase().startsWith('javascript:')
-        if (!templateAttrHasJavaScriptContext && htmlAttrHasJavaScriptContext) {
-          return false
-        }
-      }
-
-      // if attr has multiple values, do not check value
-      // if not, check value is matched
-      let attrHasUniqueValue = true
+    // if template has no "javascript:..." and html has, it is invalid
+    if (name.toLowerCase() === 'href') {
+      let templateAttrHasJavaScriptContext = false
       for (let value of templateAttrValue) {
-        if (value !== templateAttrValue[0]) {
-          attrHasUniqueValue = false
+        if (value.toLowerCase().startsWith('javascript:')) {
+          templateAttrHasJavaScriptContext = true
           break
         }
       }
-
-      if (attrHasUniqueValue) {
-        return htmlAttrValue === templateAttrValue[0]
-      } else {
-        return true
+      const htmlAttrHasJavaScriptContext = htmlAttrValue.toLowerCase().startsWith('javascript:')
+      if (!templateAttrHasJavaScriptContext && htmlAttrHasJavaScriptContext) {
+        return false
       }
+    }
+
+    // if attr has multiple values, do not check value
+    // if not, check value is matched
+    let attrHasUniqueValue = true
+    for (let value of templateAttrValue) {
+      if (value !== templateAttrValue[0]) {
+        attrHasUniqueValue = false
+        break
+      }
+    }
+
+    // check value of only id, class attributes
+    if (shouldCheckValue && attrHasUniqueValue) {
+      return htmlAttrValue === templateAttrValue[0]
     } else {
-      return templateAttrValue === undefined || templateAttrValue === htmlAttrValue
+      return true
     }
   }
 }
