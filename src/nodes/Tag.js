@@ -85,21 +85,21 @@ export default class Tag extends Node {
       }
     }
 
-    // if attr has multiple values, do not check value
-    // if not, check value is matched
-    let attrHasUniqueValue = true
-    for (let value of templateAttrValue) {
-      if (value !== templateAttrValue[0]) {
-        attrHasUniqueValue = false
-        break
+    // check value of only id, class attributes
+    // if template has fixed value
+    if (shouldCheckValue) {
+      let attrHasUniqueValue = true
+      for (let value of templateAttrValue) {
+        if (value !== templateAttrValue[0]) {
+          attrHasUniqueValue = false
+          break
+        }
+      }
+      if (attrHasUniqueValue && htmlAttrValue !== templateAttrValue[0]) {
+        return false
       }
     }
 
-    // check value of only id, class attributes
-    if (shouldCheckValue && attrHasUniqueValue) {
-      return htmlAttrValue === templateAttrValue[0]
-    } else {
-      return true
-    }
+    return true;
   }
 }
